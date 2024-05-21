@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react";
 import { Document, Head, Page, Spacer, useValue } from "@htmldocs/react";
 import clsx from "clsx";
