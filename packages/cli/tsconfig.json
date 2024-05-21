@@ -1,9 +1,11 @@
 {
     "extends": "@htmldocs/typescript-config/base.json",
     "compilerOptions": {
-      "outDir": "dist"
+      "outDir": "dist",
+      "module": "esnext",
+      "moduleResolution": "bundler"
     },
-    "include": ["index.ts"],
+    "include": ["src/**/*", "index.ts"],
     "exclude": ["node_modules", "dist"]
   }
   

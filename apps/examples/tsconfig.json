@@ -1,19 +1,9 @@
 {
-  "extends": "@htmldocs/typescript-config/nextjs.json",
-  "compilerOptions": {
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "include": [
-    "next-env.d.ts",
-    "next.config.js",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "tailwind.config.js"
-  ],
-  "exclude": ["node_modules"]
-}
+    "extends": "@htmldocs/typescript-config/react-library.json",
+    "compilerOptions": {
+      "outDir": "dist"
+    },
+    "include": ["src/**/*", "index.ts"],
+    "exclude": ["node_modules", "dist"]
+  }
+  
