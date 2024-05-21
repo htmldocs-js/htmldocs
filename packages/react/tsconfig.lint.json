@@ -1,0 +1,8 @@
+{
+  "extends": "@htmldocs/typescript-config/react-library.json",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "include": ["components", "index.ts"],
+  "exclude": ["node_modules", "dist"]
+}
