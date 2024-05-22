@@ -19,6 +19,7 @@
   "devDependencies": {
     "@htmldocs/eslint-config": "workspace:*",
     "@htmldocs/typescript-config": "workspace:*",
+    "@htmldocs/render": "workspace:*",
     "@types/babel__generator": "^7.6.8",
     "@types/babel__traverse": "^7.20.5",
     "@types/eslint": "^8.56.5",
@@ -27,7 +28,9 @@
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
-    "eslint": "^8.57.0"
+    "eslint": "^8.57.0",
+    "source-map-js": "^1.2.0",
+    "stacktrace-parser": "^0.1.10"
   },
   "dependencies": {
     "@babel/generator": "^7.24.5",

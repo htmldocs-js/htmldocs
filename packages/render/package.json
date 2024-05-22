@@ -1,0 +1,43 @@
+{
+    "name": "@htmldocs/render",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "files": [
+      "dist/**"
+    ],
+    "exports": {
+      ".": {
+        "import": {
+          "types": "./dist/index.d.mts",
+          "default": "./dist/index.mjs"
+        },
+        "require": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/index.js"
+        }
+      }
+    },
+    "peerDependencies": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0"
+    },
+    "scripts": {
+      "lint": "eslint . --max-warnings 0",
+      "build": "tsup"
+    },
+    "devDependencies": {
+      "@htmldocs/eslint-config": "workspace:*",
+      "@htmldocs/typescript-config": "workspace:*",
+      "@types/eslint": "^8.56.5",
+      "@types/node": "^20.11.24",
+      "@types/react": "^18.2.61",
+      "@types/react-dom": "^18.2.19",
+      "eslint": "^8.57.0",
+      "tsup": "^8.0.2",
+      "typescript": "^5.3.3"
+    }
+  }
+  

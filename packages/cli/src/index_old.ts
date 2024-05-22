@@ -12,7 +12,7 @@ const postCssPlugin = require('esbuild-style-plugin');
 
 program
   .option('-i, --input-dir <type>', 'Input directory', './src') // Default input directory to ./src
-  .option('-o, --output-dir <type>', 'Output directory', './.dist') // Default output directory to .lib
+  .option('-o, --output-dir <type>', 'Output directory', './dist') // Default output directory to ./dist
   .option('-f, --file <type>', 'Read data context from JSON file', './src/data.json')
   .option('-d, --data <data>', 'Pass context data directly as a JSON string')
   .option('-s, --serve', 'Serve the application in development mode');
@@ -21,7 +21,7 @@ program.parse(process.argv);
 
 const options = program.opts();
 
-const entryPoints = glob.sync(`${options.inputDir}/index.tsx`);
+const entryPoints = glob.sync(`${options.inputDir}/App.tsx`);
 const OUTPUT_FOLDER_NAME = options.outputDir;
 
 async function esbuild(): Promise<void> {
