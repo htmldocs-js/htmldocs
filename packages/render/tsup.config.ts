@@ -1,10 +1,10 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.tsx"],
-  format: ["cjs"],
+  entry: ["src/index.ts"],
+  format: ["esm", "cjs"],
   dts: true,
   clean: true,
-  external: ["@htmldocs/render"]
+  external: ["react", "react-dom"],
 });
 
