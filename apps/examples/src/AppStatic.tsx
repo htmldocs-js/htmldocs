@@ -186,7 +186,7 @@ function App() {
           </div>
         </div>
         <div id="footer">
-          <div className="pb-4 border-b">
+          <div className="flex flex-col pb-4 border-b">
             <p className="text-sm font-medium">Thank you for your business!</p>
             <p className="flex items-center gap-2">
               <svg
@@ -203,9 +203,9 @@ function App() {
                   fill="#8B919E"
                 />
               </svg>
-              <p className="text-sm text-gray-500">
+              <span className="text-sm text-gray-500">
                 Please pay within 15 days of receiving this invoice.
-              </p>
+              </span>
             </p>
           </div>
           <Spacer height={36} />
