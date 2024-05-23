@@ -11,6 +11,7 @@ import { improveErrorWithSourceMap } from "./utils/improveErrorWithSourceMap";
 import { ErrorObject } from "./utils/types/errorObject";
 import { renderAsync } from "@htmldocs/render";
 import { renderResolver } from "./renderResolverEsbuildPlugin";
+import postCssPlugin from 'esbuild-style-plugin';
 
 export interface DocumentComponent {
   (props: Record<string, unknown> | Record<string, never>): React.ReactNode;
@@ -209,6 +210,24 @@ export const renderDocumentByPath = async (
   }
 };
 
+export const renderCSSBundle = async () => {
+  const cssSrcPath = path.resolve(__dirname, "../src/css/index.css");
+  const outputDirPath = path.resolve(process.cwd(), options.outputDir);
+  await es.build({
+    entryPoints: [cssSrcPath],
+    outdir: outputDirPath,
+    bundle: true,
+    minify: true,
+    plugins: [
+      postCssPlugin({
+        postcss: {
+          plugins: [require('tailwindcss'), require('autoprefixer')],
+        },
+      })
+    ]
+  })
+};
+
 (async () => {
   try {
     const documentPath = options.inputFile;
@@ -223,6 +242,9 @@ export const renderDocumentByPath = async (
       const outputFilePath = path.join(options.outputDir, "output.html");
       await fs.promises.writeFile(outputFilePath, result.markup, "utf-8");
     }
+
+    // Render CSS bundle
+    await renderCSSBundle();
   } catch (error) {
     console.error("An unexpected error occurred:", error);
   }
