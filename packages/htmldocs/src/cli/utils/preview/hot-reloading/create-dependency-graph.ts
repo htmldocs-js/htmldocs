@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { existsSync, promises as fs, statSync } from 'node:fs';
-import { getImportedModules } from './getImportedModules';
-import { isRunningBuilt } from '../startDevServer';
+import { getImportedModules } from './get-imported-modules';
+import { isRunningBuilt } from '../start-dev-server';
 
 interface Module {
   path: string;

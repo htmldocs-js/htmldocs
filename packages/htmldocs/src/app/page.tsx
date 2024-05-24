@@ -1,6 +1,11 @@
+import path from "node:path";
+import fs from "node:fs";
 import { Sidebar } from "./components/sidebar";
+import { documentsDirectoryAbsolutePath } from "../utils/documents-directory-absolute-path";
 
 export default function Home() {
+  const baseDocumentsDirectoryName = path.basename(documentsDirectoryAbsolutePath);
+
   return (
     <main className="flex min-h-screen flex-col">
       <div className="flex flex-grow bg-background">
