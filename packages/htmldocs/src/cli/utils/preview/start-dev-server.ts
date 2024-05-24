@@ -6,9 +6,9 @@ import ora from 'ora';
 import logSymbols from 'log-symbols';
 import chalk from 'chalk';
 import packageJson from '../../../../package.json';
-import { closeOraOnSIGINT } from '../closeOraOnSIGINT';
-import { serveStaticFile } from './serveStaticFile';
-import { getEnvVariablesForPreviewApp } from './getEnvVariablesForPreviewApp';
+import { closeOraOnSIGINT } from '../close-ora-on-sigint';
+import { serveStaticFile } from './serve-static-file';
+import { getEnvVariablesForPreviewApp } from './get-env-variables-for-preview-app';
 
 let devServer: http.Server | undefined;
 

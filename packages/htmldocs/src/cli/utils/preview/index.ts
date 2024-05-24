@@ -1,2 +1,2 @@
-export * from './startDevServer';
-export * from './hot-reloading/setupHotreloading';
+export * from './start-dev-server';
+export * from './hot-reloading/setup-hot-reloading';
