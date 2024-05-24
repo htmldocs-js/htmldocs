@@ -2,6 +2,11 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Next.js",
   "compilerOptions": {
+    "paths": {
+      "~/*": [
+        "./src/app/*"
+      ]
+    },
     "composite": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -28,7 +33,7 @@
     "resolveJsonModule": true,
     "outDir": "dist"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "postcss.config.js", "tailwind.config.js"],
   "exclude": [
     "tsconfig.export.json",
     ".next",
