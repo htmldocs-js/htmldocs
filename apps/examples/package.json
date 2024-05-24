@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "build": "htmldocs -i ./src/AppStatic.tsx"
+    "dev": "htmldocs dev"
   },
   "dependencies": {
     "@formatjs/intl": "^2.10.4",
     "@htmldocs/react": "workspace:*",
-    "@htmldocs/render": "workspace:^",
+    "@htmldocs/render": "workspace:*",
+    "htmldocs": "workspace:*",
     "@react-email/components": "0.0.18",
     "clsx": "^2.1.1",
     "react": "^18.2.0",
