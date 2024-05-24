@@ -19,6 +19,7 @@ export type DocumentRenderingResult =
 export const renderDocumentByPath = async (
   documentPath: string,
 ): Promise<DocumentRenderingResult> => {
+  console.log('rendering', documentPath);
   const result = await getDocumentComponent(documentPath);
 
   if ('error' in result) {

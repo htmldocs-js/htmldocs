@@ -5,7 +5,7 @@ import { cn } from "~/lib/utils";
 import { ThemeProvider } from "~/components/theme-provider";
 import { getDocumentsDirectoryMetadata } from '~/actions/get-documents-directory-metadata';
 import { documentsDirectoryAbsolutePath } from '../utils/documents-directory-absolute-path';
-import { DocumentsProvider } from '../contexts/documents';
+import { DocumentsProvider } from '~/contexts/documents';
 
 const fontSans = FontSans({
   subsets: ["latin"],

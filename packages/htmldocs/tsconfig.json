@@ -33,7 +33,7 @@
     "resolveJsonModule": true,
     "outDir": "dist"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "postcss.config.js", "tailwind.config.js", "src/utils/get-document-component.tsz"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "postcss.config.js", "tailwind.config.js", "src/utils/get-document-component.tsx"],
   "exclude": [
     "tsconfig.export.json",
     ".next",
