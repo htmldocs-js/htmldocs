@@ -4,13 +4,13 @@ import {
   getDocumentsDirectoryMetadata,
   type DocumentsDirectory,
 } from "~/actions/get-documents-directory-metadata";
-import { useHotreload } from "../hooks/use-hot-reload";
+import { useHotreload } from "~/hooks/use-hot-reload";
 import {
   documentsDirRelativePath,
   documentsDirectoryAbsolutePath,
   normalizePath,
   pathSeparator,
-} from "../utils/documents-directory-absolute-path";
+} from "../../utils/documents-directory-absolute-path";
 import {
   renderDocumentByPath,
   type DocumentRenderingResult,
@@ -53,8 +53,6 @@ export const DocumentsProvider = (props: {
   const [renderingResultPerDocumentPath, setRenderingResultPerDocumentPath] =
     useState<Record<string, DocumentRenderingResult>>({});
 
-  console.log("documentsDirectoryMetadata", documentsDirectoryMetadata);
-
   if (process.env.NEXT_PUBLIC_IS_BUILDING !== "true") {
     // this will not change on runtime so it doesn't violate
     // the rules of hooks
@@ -94,6 +92,7 @@ export const DocumentsProvider = (props: {
           renderingResultPerDocumentPath[pathForChangedDocument];
 
         if (typeof lastResult !== "undefined") {
+          console.log("pathForChangedDocument", pathForChangedDocument);
           const renderingResult = await renderDocumentByPath(
             pathForChangedDocument
           );

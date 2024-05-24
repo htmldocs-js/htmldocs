@@ -1,10 +1,22 @@
-import path from "node:path";
-import fs from "node:fs";
+import { getDocumentPathFromSlug } from "~/actions/get-document-path-from-slug";
+import { renderDocumentByPath } from "~/actions/render-document-by-path";
 import { Sidebar } from "./components/sidebar";
-import { documentsDirectoryAbsolutePath } from "../utils/documents-directory-absolute-path";
+import { redirect } from "next/navigation";
+import Preview from "./components/preview";
 
-export default function Home() {
-  const baseDocumentsDirectoryName = path.basename(documentsDirectoryAbsolutePath);
+const Home = async () => {
+  let emailPath: string;
+  try {
+    emailPath = await getDocumentPathFromSlug("AppStatic");
+  } catch (exception) {
+    if (exception instanceof Error) {
+      console.warn(exception.message);
+      redirect('/');
+    }
+    throw exception;
+  }
+
+  const emailRenderingResult = await renderDocumentByPath(emailPath);
 
   return (
     <main className="flex min-h-screen flex-col">
@@ -12,12 +24,17 @@ export default function Home() {
         <div className="grid lg:grid-cols-5 flex-grow">
           <Sidebar className="hidden lg:block" />
           <div className="col-span-3 lg:col-span-4 lg:border-l flex-grow">
-            <div className="h-full px-4 py-6 lg:px-8">
-              <h1 className="text-2xl font-bold">HTML Docs</h1>
-            </div>
+            <Preview
+              slug="AppStatic"
+              documentPath={emailPath}
+              renderingResult={emailRenderingResult}
+            />
           </div>
         </div>
       </div>
     </main>
   );
 }
+
+export default Home;
+
