@@ -10,7 +10,7 @@ import { improveErrorWithSourceMap } from "./improve-error-with-sourcemap";
 import { ErrorObject } from "./types/error-object";
 import { renderAsync } from "@htmldocs/render";
 import { renderResolver } from "./render-resolver-esbuild-plugin";
-import postCssPlugin from 'esbuild-style-plugin';
+import postCssPlugin from "esbuild-style-plugin";
 
 export interface DocumentComponent {
   (props: Record<string, unknown> | Record<string, never>): React.ReactNode;
@@ -22,6 +22,7 @@ export const getDocumentComponent = async (
 ): Promise<
   | {
       documentComponent: any;
+      documentCss: string | undefined;
       renderAsync: typeof renderAsync;
       sourceMapToOriginalFile: RawSourceMap;
     }
@@ -40,10 +41,18 @@ export const getDocumentComponent = async (
       define: {
         "process.env.NODE_ENV": '"development"',
       },
-      plugins: [renderResolver([documentPath])],
+      plugins: [
+        renderResolver([documentPath]),
+        postCssPlugin({
+          postcss: {
+            plugins: [require("tailwindcss"), require("autoprefixer")],
+          },
+        }),
+      ],
       loader: {
         ".ts": "ts",
         ".tsx": "tsx",
+        ".css": "css",
       },
       outdir: "stdout", // stub for esbuild, won't actually write to this folder
       sourcemap: "external",
@@ -62,9 +71,33 @@ export const getDocumentComponent = async (
     process.exit(1);
   }
 
-  const sourceMapFile = outputFiles[0]!;
-  const bundledDocumentFile = outputFiles[1]!;
+  let sourceMapFile: OutputFile | undefined;
+  let bundledDocumentFile: OutputFile | undefined;
+  let cssFile: OutputFile | undefined;
+
+  for (const file of outputFiles) {
+    if (file.path.endsWith(".map")) {
+      sourceMapFile = file;
+    } else if (file.path.endsWith(".js")) {
+      bundledDocumentFile = file;
+    } else if (file.path.endsWith(".css")) {
+      cssFile = file;
+    }
+  }
+
+  if (!sourceMapFile || !bundledDocumentFile) {
+    console.error({
+      error: {
+        message: "Expected output files not found",
+        stack: new Error().stack,
+        name: "Error",
+      },
+    });
+    process.exit(1);
+  }
+
   const builtDocumentCode = bundledDocumentFile.text;
+  const documentCss = cssFile?.text;
 
   const fakeContext = {
     ...global,
@@ -112,7 +145,7 @@ export const getDocumentComponent = async (
   // because it will have a path like <tsconfigLocation>/stdout/email.js.map
   sourceMapToDocument.sourceRoot = path.resolve(sourceMapFile.path, "../..");
   sourceMapToDocument.sources = sourceMapToDocument.sources.map((source) =>
-    path.resolve(sourceMapFile.path, "..", source)
+    path.resolve(sourceMapFile!.path, "..", source)
   );
   try {
     vm.runInNewContext(builtDocumentCode, fakeContext, {
@@ -146,6 +179,7 @@ export const getDocumentComponent = async (
 
   return {
     documentComponent: fakeContext.module.exports.default as DocumentComponent,
+    documentCss: documentCss,
     renderAsync: fakeContext.module.exports.renderAsync as typeof renderAsync,
     sourceMapToOriginalFile: sourceMapToDocument,
   };
@@ -201,23 +235,23 @@ export const renderDocumentByPath = async (
   }
 };
 
-export const renderCSSBundle = async () => {
-  const cssSrcPath = path.resolve(__dirname, "../src/css/index.css");
-  const outputDirPath = path.resolve(process.cwd(), options.outputDir);
-  await es.build({
-    entryPoints: [cssSrcPath],
-    outdir: outputDirPath,
-    bundle: true,
-    minify: true,
-    plugins: [
-      postCssPlugin({
-        postcss: {
-          plugins: [require('tailwindcss'), require('autoprefixer')],
-        },
-      })
-    ]
-  })
-};
+// export const renderCSSBundle = async () => {
+//   const cssSrcPath = path.resolve(__dirname, "../src/css/index.css");
+//   const outputDirPath = path.resolve(process.cwd(), options.outputDir);
+//   await es.build({
+//     entryPoints: [cssSrcPath],
+//     outdir: outputDirPath,
+//     bundle: true,
+//     minify: true,
+//     plugins: [
+//       postCssPlugin({
+//         postcss: {
+//           plugins: [require('tailwindcss'), require('autoprefixer')],
+//         },
+//       })
+//     ]
+//   })
+// };
 
 // (async () => {
 //   try {

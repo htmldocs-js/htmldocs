@@ -53,6 +53,9 @@ export const DocumentsProvider = (props: {
   const [renderingResultPerDocumentPath, setRenderingResultPerDocumentPath] =
     useState<Record<string, DocumentRenderingResult>>({});
 
+  console.log("documentsDirectoryMetadata", documentsDirectoryMetadata);
+  console.log("renderingResultPerDocumentPath", renderingResultPerDocumentPath);
+
   if (process.env.NEXT_PUBLIC_IS_BUILDING !== "true") {
     // this will not change on runtime so it doesn't violate
     // the rules of hooks

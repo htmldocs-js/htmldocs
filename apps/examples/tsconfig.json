@@ -1,7 +1,12 @@
 {
     "extends": "@htmldocs/typescript-config/react-library.json",
     "compilerOptions": {
-      "outDir": "dist"
+      "outDir": "dist",
+      "paths": {
+        "~/*": [
+          "./"
+        ]
+      }
     },
     "include": ["src/**/*", "documents/**/*", "index.ts"],
     "exclude": ["node_modules", "dist"]

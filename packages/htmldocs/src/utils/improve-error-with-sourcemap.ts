@@ -5,7 +5,6 @@ import type { ErrorObject } from './types/error-object';
 
 export const improveErrorWithSourceMap = (
   error: Error,
-
   originalFilePath: string,
   sourceMapToOriginalFile: RawSourceMap,
 ): ErrorObject => {
@@ -16,7 +15,7 @@ export const improveErrorWithSourceMap = (
 
   const getStackLineFromMethodNameAndSource = (
     methodName: string,
-    source: string,
+    source: string | null | undefined,
     line: number | undefined | null,
     column: number | undefined | null,
   ) => {
@@ -24,7 +23,7 @@ export const improveErrorWithSourceMap = (
       column || line
         ? `${line ?? ''}${line && column ? ':' : ''}${column ?? ''}`
         : undefined;
-    const sourceToDisplay = path.relative(sourceRoot, source);
+    const sourceToDisplay = source ? path.relative(sourceRoot, source) : 'unknown source';
     return methodName === '<unknown>'
       ? ` at ${sourceToDisplay}${columnAndLine ? `:${columnAndLine}` : ''}`
       : ` at ${methodName} (${sourceToDisplay}${
