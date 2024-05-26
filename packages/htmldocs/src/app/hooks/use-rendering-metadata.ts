@@ -19,7 +19,7 @@ export const useRenderingMetadata = (
   initialRenderingMetadata?: DocumentRenderingResult,
 ): RenderedDocumentMetadata | undefined => {
   useEffect(() => {
-    if ('markup' in renderingResult) {
+    if (renderingResult && 'markup' in renderingResult) {
       lastRenderingMetadataPerDocumentPath[documentPath] = renderingResult;
     } else if (
       typeof initialRenderingMetadata !== 'undefined' &&
@@ -30,7 +30,7 @@ export const useRenderingMetadata = (
     }
   }, [renderingResult, documentPath, initialRenderingMetadata]);
 
-  return 'error' in renderingResult
+  return renderingResult && 'error' in renderingResult
     ? lastRenderingMetadataPerDocumentPath[documentPath]
     : renderingResult;
 };

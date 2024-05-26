@@ -28,6 +28,7 @@ export const renderDocumentByPath = async (
 
   const {
     documentComponent: Document,
+    documentCss,
     renderAsync,
     sourceMapToOriginalFile,
   } = result;
@@ -35,7 +36,7 @@ export const renderDocumentByPath = async (
   const previewProps = Document.PreviewProps || {};
   const DocumentComponent = Document as React.FC;
   try {
-    const markup = await renderAsync(<DocumentComponent {...previewProps} />);
+    const markup = await renderAsync(<DocumentComponent {...previewProps} />, documentCss);
 
     const reactMarkup = await fs.promises.readFile(documentPath, 'utf-8');
 

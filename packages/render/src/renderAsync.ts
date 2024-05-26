@@ -1,3 +1,5 @@
+import path from "node:path";
+import fs from "node:fs";
 import type {
   PipeableStream,
   ReactDOMServerReadableStream,
@@ -49,7 +51,7 @@ const readStream = async (
   return result;
 };
 
-export const renderAsync = async (component: React.ReactElement) => {
+export const renderAsync = async (component: React.ReactElement, documentCss?: string) => {
   const reactDOMServer = await import("react-dom/server");
 
   let html!: string;
@@ -71,11 +73,19 @@ export const renderAsync = async (component: React.ReactElement) => {
     });
   }
 
+  let css = '';
+  if (process.env.NEXT_PUBLIC_CLI_PACKAGE_LOCATION) {
+    const cssFilePath = path.join(process.env.NEXT_PUBLIC_CLI_PACKAGE_LOCATION!, 'cli/index.css');
+    css = await fs.promises.readFile(cssFilePath, 'utf-8');
+  }
+
+
   const document = dedent(`
       <!DOCTYPE html>
       <html>
         <head>
-          <link rel="stylesheet" href="index.css">
+          ${documentCss ? `<style>${documentCss}</style>` : ""}
+          ${css ? `<style>${css}</style>` : ""}
         </head>
         <body>
           ${html}
