@@ -32,7 +32,7 @@ const Preview = ({
   return (
     <div className="relative h-full">
       <iframe
-        className="w-full bg-white h-[calc(100vh_-_140px)] lg:h-[calc(100vh_-_70px)]"
+        className="w-full bg-white"
         srcDoc={renderedDocumentMetadata?.markup}
         title={slug}
       />

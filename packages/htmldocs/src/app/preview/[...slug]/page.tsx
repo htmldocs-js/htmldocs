@@ -67,7 +67,7 @@ This is most likely not an issue with the preview server. Maybe there was a typo
 };
 
 export function generateMetadata({ params }: { params: PreviewParams }) {
-  return { title: `${path.basename(params.slug.join('/'))} — React Document` };
+  return { title: `${path.basename(params.slug.join('/'))} — htmldocs` };
 }
 
 export default Page;

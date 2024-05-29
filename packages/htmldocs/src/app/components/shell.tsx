@@ -3,6 +3,7 @@ import * as React from 'react';
 import { cn } from '~/lib/utils';
 import { Sidebar } from './sidebar';
 import { Topbar } from './topbar';
+import { Logo } from './logo';
 
 type RootProps = React.ComponentPropsWithoutRef<'div'>;
 
@@ -24,10 +25,10 @@ export const Shell = ({
   const [triggerTransition, setTriggerTransition] = React.useState(false);
 
   return (
-    <div className="flex bg-black text-white flex-col h-screen overflow-x-hidden">
+    <div className="flex bg-background text-white flex-col h-screen overflow-x-hidden">
       <div className="flex lg:hidden items-center px-6 justify-between h-[70px] border-b border-slate-6">
         <div className="h-[70px] flex items-center">
-          htmldocs
+          <Logo />
         </div>
 
         <button
@@ -58,7 +59,7 @@ export const Shell = ({
       <div className="flex bg-slate-2">
         <Sidebar
           className={cn(
-            'w-screen max-w-full bg-black h-screen lg:h-auto z-50 lg:z-auto lg:max-w-[275px] fixed top-[70px] lg:top-0 left-0',
+            'w-screen max-w-full bg-background h-screen lg:h-auto z-50 lg:z-auto lg:max-w-[275px] fixed top-[70px] lg:top-0 left-0',
             {
               'translate-x-0 lg:-translate-x-full': sidebarToggled,
               '-translate-x-full lg:translate-x-0': !sidebarToggled,
@@ -104,7 +105,7 @@ export const Shell = ({
             />
           ) : null}
 
-          <div className="h-[calc(100vh_-_70px)] overflow-auto mx-auto">
+          <div className="overflow-auto mx-auto">
             {children}
           </div>
         </main>

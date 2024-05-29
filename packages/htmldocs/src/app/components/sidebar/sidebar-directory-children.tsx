@@ -1,15 +1,17 @@
-import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
-import * as Collapsible from '@radix-ui/react-collapsible';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import type { DocumentsDirectory } from '~/actions/get-documents-directory-metadata';
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { CollapsibleContent } from "~/components/ui/collapsible";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import type { DocumentsDirectory } from "~/actions/get-documents-directory-metadata";
 import {
   documentsDirectoryAbsolutePath,
   pathSeparator,
-} from '../../../utils/documents-directory-absolute-path';
-import { cn } from '~/lib/utils';
-import { IconFile } from '../icons/icon-file';
-import { SidebarDirectory } from './sidebar-directory';
+} from "../../../utils/documents-directory-absolute-path";
+import { cn } from "~/lib/utils";
+// import { IconFile } from "../icons/icon-file";
+import { File } from "@phosphor-icons/react";
+import { SidebarDirectory } from "./sidebar-directory";
+import clsx from "clsx";
 
 export const SidebarDirectoryChildren = (props: {
   documentsDirectoryMetadata: DocumentsDirectory;
@@ -20,22 +22,23 @@ export const SidebarDirectoryChildren = (props: {
   const searchParams = useSearchParams();
   const directoryPathRelativeToDocumentsDirectory =
     props.documentsDirectoryMetadata.absolutePath
-      .replace(`${documentsDirectoryAbsolutePath}${pathSeparator}`, '')
-      .replace(documentsDirectoryAbsolutePath, '')
+      .replace(`${documentsDirectoryAbsolutePath}${pathSeparator}`, "")
+      .replace(documentsDirectoryAbsolutePath, "")
       .trim();
   const isBaseDocumentsDirectory =
-    props.documentsDirectoryMetadata.absolutePath === documentsDirectoryAbsolutePath;
+    props.documentsDirectoryMetadata.absolutePath ===
+    documentsDirectoryAbsolutePath;
 
   return (
     <AnimatePresence initial={false}>
       {props.open ? (
-        <Collapsible.Content
+        <CollapsibleContent
           asChild
           className="relative data-[root=true]:mt-2 overflow-y-hidden pl-1"
           forceMount
         >
           <motion.div
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             initial={{ opacity: 0, height: 0 }}
           >
@@ -53,21 +56,21 @@ export const SidebarDirectoryChildren = (props: {
                       documentsDirectoryMetadata={subDirectory}
                       key={subDirectory.absolutePath}
                     />
-                  ),
+                  )
                 )}
 
                 {props.documentsDirectoryMetadata.documentFilenames.map(
                   (documentFilename, index) => {
                     const documentSlug = `${directoryPathRelativeToDocumentsDirectory}${
-                      !isBaseDocumentsDirectory ? pathSeparator : ''
+                      !isBaseDocumentsDirectory ? pathSeparator : ""
                     }${documentFilename}`;
                     const removeExtensionFrom = (path: string) => {
                       if (
-                        path.split('.').pop() === 'tsx' ||
-                        path.split('.').pop() === 'jsx' ||
-                        path.split('.').pop() === 'js'
+                        path.split(".").pop() === "tsx" ||
+                        path.split(".").pop() === "jsx" ||
+                        path.split(".").pop() === "js"
                       ) {
-                        return path.split('.').slice(0, -1).join('.');
+                        return path.split(".").slice(0, -1).join(".");
                       }
 
                       return path;
@@ -88,12 +91,12 @@ export const SidebarDirectoryChildren = (props: {
                         <motion.span
                           animate={{ x: 0, opacity: 1 }}
                           className={cn(
-                            'text-[14px] flex items-center align-middle pl-3 h-8 max-w-full rounded-md text-slate-11 relative transition-colors',
+                            "group text-[14px] flex items-center align-middle pl-3 h-8 max-w-full rounded-md text-slate-11 relative transition-colors",
                             {
-                              'text-cyan-11': isCurrentPage,
-                              'hover:text-slate-12':
+                              "text-cyan-11": isCurrentPage,
+                              "hover:text-slate-12":
                                 props.currentDocumentOpenSlug !== documentSlug,
-                            },
+                            }
                           )}
                           initial={{ x: -10 + -index * 1.5, opacity: 0 }}
                           transition={{
@@ -103,8 +106,8 @@ export const SidebarDirectoryChildren = (props: {
                         >
                           {isCurrentPage ? (
                             <motion.span
-                              animate={{ opacity: 1 }}
-                              className="absolute left-0 right-0 top-0 bottom-0 rounded-md bg-cyan-5 opacity-0"
+                              animate={{ opacity: 0.1 }}
+                              className="absolute left-0 right-0 top-0 bottom-0 rounded-radius bg-accent opacity-0 -z-10"
                               exit={{ opacity: 0 }}
                               initial={{ opacity: 0 }}
                             >
@@ -113,21 +116,25 @@ export const SidebarDirectoryChildren = (props: {
                               )}
                             </motion.span>
                           ) : null}
-                          <IconFile
-                            className="absolute left-4 w-[24px] h-[24px]"
-                            height="24"
-                            width="24"
+                          <File
+                            className={clsx("absolute left-4 w-[20px] h-[20px] transition ease-in-out group-hover:text-foreground", isCurrentPage ? "text-accent-foreground group-hover:text-accent-foreground" : "text-muted-foreground")}
+                            height="20"
+                            width="20"
                           />
-                          <span className="truncate pl-8">{documentFilename}</span>
+                          <span
+                            className={clsx("truncate pl-8 font-medium transition ease-in-out group-hover:text-foreground", isCurrentPage ? "text-accent-foreground group-hover:text-accent-foreground" : "text-muted-foreground")}
+                          >
+                            {documentFilename}
+                          </span>
                         </motion.span>
                       </Link>
                     );
-                  },
+                  }
                 )}
               </LayoutGroup>
             </div>
           </motion.div>
-        </Collapsible.Content>
+        </CollapsibleContent>
       ) : null}
     </AnimatePresence>
   );
