@@ -106,23 +106,23 @@ export const SidebarDirectoryChildren = (props: {
                         >
                           {isCurrentPage ? (
                             <motion.span
-                              animate={{ opacity: 0.1 }}
-                              className="absolute left-0 right-0 top-0 bottom-0 rounded-radius bg-accent opacity-0 -z-10"
+                              animate={{ opacity: 1.0 }}
+                              className="absolute left-0 right-0 top-0 bottom-0 rounded-radius bg-emerald-400/10 opacity-0 -z-10"
                               exit={{ opacity: 0 }}
                               initial={{ opacity: 0 }}
                             >
                               {!props.isRoot && (
-                                <div className="bg-cyan-11 w-px absolute top-1 left-1.5 h-6" />
+                                <div className="bg-emerald-400/20 w-px absolute top-1 left-1.5 h-6" />
                               )}
                             </motion.span>
                           ) : null}
                           <File
-                            className={clsx("absolute left-4 w-[20px] h-[20px] transition ease-in-out group-hover:text-foreground", isCurrentPage ? "text-accent-foreground group-hover:text-accent-foreground" : "text-muted-foreground")}
+                            className={clsx("absolute left-4 w-[20px] h-[20px] transition ease-in-out group-hover:text-foreground", isCurrentPage ? "text-emerald-600 group-hover:text-emerald-600 dark:text-emerald-500 dark:group-hover:text-emerald-500" : "text-muted-foreground")}
                             height="20"
                             width="20"
                           />
                           <span
-                            className={clsx("truncate pl-8 font-medium transition ease-in-out group-hover:text-foreground", isCurrentPage ? "text-accent-foreground group-hover:text-accent-foreground" : "text-muted-foreground")}
+                            className={clsx("truncate pl-8 font-medium transition ease-in-out group-hover:text-foreground", isCurrentPage ? "text-emerald-600 group-hover:text-emerald-600 dark:text-emerald-500 dark:group-hover:text-emerald-500" : "text-muted-foreground")}
                           >
                             {documentFilename}
                           </span>
