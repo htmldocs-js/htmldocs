@@ -5,6 +5,9 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 import { cn } from '~/lib/utils';
 import { SidebarDirectoryChildren } from './sidebar-directory-children';
 import { useDocuments } from '~/contexts/documents';
+import { Logo } from '../logo';
+import ThemeToggle from '../theme-toggle';
+import { Button } from '../ui/button';
 
 interface SidebarProps {
   className?: string;
@@ -24,8 +27,9 @@ export const Sidebar = ({
       className={cn('border-r flex flex-col border-slate-6', className)}
       style={{ ...style }}
     >
-      <div className="p-4 h-[70px] flex-shrink items-center hidden lg:flex">
-        htmldocs
+      <div className="p-4 h-[70px] w-full flex-shrink items-center justify-between hidden lg:flex">
+        <Logo />
+        <ThemeToggle />
       </div>
       <nav className="p-4 flex-grow lg:pt-0 pl-0 w-screen h-[calc(100vh_-_70px)] lg:w-full lg:min-w-[275px] lg:max-w-[275px] flex flex-col overflow-y-auto">
         <Collapsible.Root>

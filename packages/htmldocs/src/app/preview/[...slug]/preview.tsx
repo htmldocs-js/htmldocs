@@ -90,7 +90,7 @@ const Preview = ({
           <>
             {activeView === 'desktop' && (
               <iframe
-                className="w-full bg-white h-[calc(100vh_-_140px)] lg:h-[calc(100vh_-_70px)]"
+                className="w-full bg-white h-[calc(100vh_-_70px)]"
                 srcDoc={renderedDocumentMetadata.markup}
                 title={slug}
               />
@@ -98,7 +98,7 @@ const Preview = ({
 
             {activeView === 'mobile' && (
               <iframe
-                className="w-[360px] bg-white h-[calc(100vh_-_140px)] lg:h-[calc(100vh_-_70px)] mx-auto"
+                className="w-[360px] bg-white h-[calc(100vh_-_70px)] mx-auto"
                 srcDoc={renderedDocumentMetadata.markup}
                 title={slug}
               />

@@ -1,16 +1,15 @@
-'use client';
-import * as Collapsible from '@radix-ui/react-collapsible';
-import * as React from 'react';
-import { cn } from '~/lib/utils';
+"use client";
+import { Collapsible, CollapsibleTrigger } from "~/components/ui/collapsible";
+import * as React from "react";
+import { cn } from "~/lib/utils";
 import {
   documentsDirectoryAbsolutePath,
   pathSeparator,
-} from '../../../utils/documents-directory-absolute-path';
-import { type DocumentsDirectory } from '~/actions/get-documents-directory-metadata';
-import { IconFolder } from '../icons/icon-folder';
-import { IconFolderOpen } from '../icons/icon-folder-open';
-import { IconArrowDown } from '../icons/icon-arrow-down';
-import { SidebarDirectoryChildren } from './sidebar-directory-children';
+} from "../../../utils/documents-directory-absolute-path";
+import { type DocumentsDirectory } from "~/actions/get-documents-directory-metadata";
+import { Folder, FolderOpen } from "@phosphor-icons/react";
+import { IconArrowDown } from "../icons/icon-arrow-down";
+import { SidebarDirectoryChildren } from "./sidebar-directory-children";
 
 interface SidebarDirectoryProps {
   documentsDirectoryMetadata: DocumentsDirectory;
@@ -29,11 +28,13 @@ export const SidebarDirectory = ({
     directoryMetadata.absolutePath === documentsDirectoryAbsolutePath;
   const directoryPathRelativeToBaseDocumentsDirectory =
     directoryMetadata.absolutePath
-      .replace(`${documentsDirectoryAbsolutePath}${pathSeparator}`, '')
-      .replace(documentsDirectoryAbsolutePath, '')
+      .replace(`${documentsDirectoryAbsolutePath}${pathSeparator}`, "")
+      .replace(documentsDirectoryAbsolutePath, "")
       .trim();
   const doesDirectoryContainCurrentDocumentOpen = currentDocumentOpenSlug
-    ? currentDocumentOpenSlug.includes(directoryPathRelativeToBaseDocumentsDirectory)
+    ? currentDocumentOpenSlug.includes(
+        directoryPathRelativeToBaseDocumentsDirectory
+      )
     : false;
 
   const isEmpty =
@@ -43,12 +44,12 @@ export const SidebarDirectory = ({
   const [open, setOpen] = React.useState(
     persistedOpenDirectories.has(directoryMetadata.absolutePath) ||
       isBaseDocumentsDirectory ||
-      doesDirectoryContainCurrentDocumentOpen,
+      doesDirectoryContainCurrentDocumentOpen
   );
 
   return (
-    <Collapsible.Root
-      className={cn('group', className)}
+    <Collapsible
+      className={cn(className)}
       data-root={isBaseDocumentsDirectory}
       onOpenChange={(isOpening) => {
         if (isOpening) {
@@ -61,21 +62,21 @@ export const SidebarDirectory = ({
       }}
       open={open}
     >
-      <Collapsible.Trigger
+      <CollapsibleTrigger
         className={cn(
-          'text-[14px] flex items-center font-medium gap-2 justify-between w-full my-1',
+          "text-[14px] flex items-center font-medium gap-2 justify-between w-full my-1",
           {
-            'cursor-pointer': !isEmpty,
-          },
+            "cursor-pointer": !isEmpty,
+          }
         )}
       >
-        <div className="flex items-center text-slate-11 transition ease-in-out duration-200 hover:text-slate-12 gap-1">
+        <div className="flex gap-2 items-center text-muted-foreground group">
           {open ? (
-            <IconFolderOpen height="24" width="24" />
+            <FolderOpen height="20" width="20" className="transition ease-in-out group-hover:text-foreground" />
           ) : (
-            <IconFolder height="24" width="24" />
+            <Folder height="20" width="20" className="transition ease-in-out group-hover:text-foreground" />
           )}
-          <h3 className="transition ease-in-out duration-200 hover:text-slate-12">
+          <h3 className="transition ease-in-out group-hover:text-foreground">
             {directoryMetadata.directoryName}
           </h3>
         </div>
@@ -85,7 +86,7 @@ export const SidebarDirectory = ({
             data-open={open}
           />
         ) : null}
-      </Collapsible.Trigger>
+      </CollapsibleTrigger>
 
       {isEmpty ? (
         <SidebarDirectoryChildren
@@ -94,6 +95,6 @@ export const SidebarDirectory = ({
           open={open}
         />
       ) : null}
-    </Collapsible.Root>
+    </Collapsible>
   );
 };

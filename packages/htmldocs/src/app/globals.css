@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
 
-    --primary: 240 5.9% 10%;
+    --primary: 161 92% 25%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 240 4.8% 95.9%;
@@ -32,11 +32,11 @@
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem;
   }
 
   .dark, [data-theme='dark'] {
-    --background: 240 10% 3.9%;
+    --background: 0 0% 7.1%;
     --foreground: 0 0% 98%;
 
     --card: 240 10% 3.9%;
@@ -45,8 +45,8 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 161 92% 25%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
