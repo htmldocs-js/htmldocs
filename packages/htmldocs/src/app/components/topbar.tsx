@@ -38,6 +38,9 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
           {currentDocumentOpenSlug.split(pathSeparator).pop()}
         </h2>
       </div>
+      <Button variant="default">
+        Download
+      </Button>
     </header>
   );
 };

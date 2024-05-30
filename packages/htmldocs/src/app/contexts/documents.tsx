@@ -73,6 +73,9 @@ export const DocumentsProvider = (props: {
       }
 
       for await (const change of changes) {
+        if (!change.filename.match(/\.(js|jsx|ts|tsx)$/)) {
+          return;
+        }
         const normalizedDocumentsDirRelativePath = normalizePath(
           documentsDirRelativePath
         );

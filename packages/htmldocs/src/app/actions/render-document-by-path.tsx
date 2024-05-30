@@ -1,4 +1,5 @@
 'use server';
+import React from 'react';
 import fs from 'node:fs';
 import { getDocumentComponent } from '../../utils/get-document-component';
 import type { ErrorObject } from '../../utils/types/error-object';
@@ -19,7 +20,6 @@ export type DocumentRenderingResult =
 export const renderDocumentByPath = async (
   documentPath: string,
 ): Promise<DocumentRenderingResult> => {
-  console.log('rendering', documentPath);
   const result = await getDocumentComponent(documentPath);
 
   if ('error' in result) {

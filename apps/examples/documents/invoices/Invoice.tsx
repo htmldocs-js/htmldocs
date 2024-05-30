@@ -1,4 +1,5 @@
-import { Document, Head, Page, Spacer } from "@htmldocs/react";
+import React from "react";
+import { Document, Head, JSONValue, Page, Spacer } from "@htmldocs/react";
 import clsx from "clsx";
 import { createIntl, createIntlCache } from "@formatjs/intl";
 import "~/index.css";
@@ -16,7 +17,53 @@ const intl = createIntl(
 const tableHeaderStyle =
   "text-sm font-medium text-gray-900 py-2 whitespace-nowrap";
 
-function App() {
+interface BilledTo {
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+}
+
+interface YourCompany {
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  taxId: string;
+  phone: string;
+  email: string;
+}
+
+interface Service {
+  name: string;
+  description?: string;
+  quantity: number;
+  rate: number;
+}
+
+export interface InvoiceProps {
+  billedTo: BilledTo;
+  yourCompany: YourCompany;
+  services: Service[];
+}
+
+function Invoice({
+  billedTo,
+  yourCompany,
+  services,
+}: InvoiceProps) {
+  const issueDate = new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+  // 7 days from now
+  const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+  
+  const subtotal = services.reduce((acc, service) => acc + service.quantity * service.rate, 0);
+  const taxRate = 0.12;
+  const tax = subtotal * taxRate;
+  const total = subtotal + tax;
+
   return (
     <Document size="A4" orientation="portrait" margin="0.5in">
       <Head>
@@ -55,31 +102,31 @@ function App() {
               <div>
                 <h2 className="text-sm font-medium">Issued</h2>
                 <p className="text-sm text-gray-500 font-medium">
-                  01 Aug, 2023
+                  {issueDate}
                 </p>
               </div>
               <div>
                 <h2 className="text-sm font-medium mt-2">Due</h2>
                 <p className="text-sm text-gray-500 font-medium">
-                  15 Aug, 2023
+                  {dueDate}
                 </p>
               </div>
             </div>
             <div className="flex-1 flex flex-col p-4">
               <h2 className="text-sm font-medium">Billed To</h2>
-              <p className="text-sm text-gray-500 font-medium">John Doe</p>
-              <p className="text-sm text-gray-500">123 Apple St.</p>
-              <p className="text-sm text-gray-500">New York, NY 10001</p>
-              <p className="text-sm text-gray-500">+0 (000) 123-4567</p>
+              <p className="text-sm text-gray-500 font-medium">{billedTo.name}</p>
+              <p className="text-sm text-gray-500">{billedTo.address}</p>
+              <p className="text-sm text-gray-500">{billedTo.city}, {billedTo.state} {billedTo.zip}</p>
+              <p className="text-sm text-gray-500">{billedTo.phone}</p>
             </div>
             <div className="flex-1 flex flex-col p-4 pr-0">
               <h2 className="text-sm font-medium">From</h2>
               <p className="text-sm text-gray-500 font-semibold">
-                Your Company
+                {yourCompany.name}
               </p>
-              <p className="text-sm text-gray-500">456 Banana Rd.</p>
-              <p className="text-sm text-gray-500">San Francisco, CA 94107</p>
-              <p className="text-sm text-gray-500">TAX ID 00XXXXX1234X0XX</p>
+              <p className="text-sm text-gray-500">{yourCompany.address}</p>
+              <p className="text-sm text-gray-500">{yourCompany.city}, {yourCompany.state} {yourCompany.zip}</p>
+              <p className="text-sm text-gray-500">TAX ID {yourCompany.taxId}</p>
             </div>
           </div>
           <Spacer height={32} />
@@ -115,19 +162,9 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  <TableRow
-                    service={{ name: "Design", description: "Description" }}
-                    quantity={1}
-                    rate={1000}
-                  />
-                  <TableRow
-                    service={{
-                      name: "Development",
-                      description: "Description",
-                    }}
-                    quantity={2}
-                    rate={1500}
-                  />
+                  {services.map((service) => (
+                    <TableRow service={service} />
+                  ))}
                   <tr className="border-b"></tr>
                   <tr className="h-12">
                     <td className="w-full"></td>
@@ -136,7 +173,7 @@ function App() {
                     </td>
                     <td className="border-b"></td>
                     <td className="text-right text-sm text-gray-900 whitespace-nowrap border-b">
-                      {intl.formatNumber(2500, {
+                      {intl.formatNumber(subtotal, {
                         style: "currency",
                         currency: "USD",
                       })}
@@ -145,11 +182,11 @@ function App() {
                   <tr className="h-12">
                     <td className="w-full"></td>
                     <td className="text-left font-medium text-sm whitespace-nowrap border-b">
-                      Tax (0%)
+                      Tax ({taxRate * 100}%)
                     </td>
                     <td className="border-b"></td>
                     <td className="text-right text-sm text-gray-900 whitespace-nowrap border-b">
-                      {intl.formatNumber(0, {
+                      {intl.formatNumber(tax, {
                         style: "currency",
                         currency: "USD",
                       })}
@@ -162,7 +199,7 @@ function App() {
                     </td>
                     <td className="border-b"></td>
                     <td className="text-right text-sm text-gray-900 whitespace-nowrap border-b">
-                      {intl.formatNumber(400, {
+                      {intl.formatNumber(total, {
                         style: "currency",
                         currency: "USD",
                       })}
@@ -175,7 +212,7 @@ function App() {
                     </td>
                     <td className="border-y-2 border-purple-700"></td>
                     <td className="text-right font-medium text-sm whitespace-nowrap border-y-2 border-purple-700">
-                      {intl.formatNumber(400, {
+                      {intl.formatNumber(total, {
                         style: "currency",
                         currency: "USD",
                       })}
@@ -187,7 +224,7 @@ function App() {
           </div>
         </div>
         <div id="footer">
-          <div className="flex flex-col pb-4 border-b">
+          <div className="pb-4 border-b">
             <p className="text-sm font-medium">Thank you for your business!</p>
             <p className="flex items-center gap-2">
               <svg
@@ -204,17 +241,17 @@ function App() {
                   fill="#8B919E"
                 />
               </svg>
-              <span className="text-sm text-gray-500">
-                Please pay within 15 days of receiving this invoice.
-              </span>
+              <p className="text-sm text-gray-500">
+                Please pay within 7 days of receiving this invoice.
+              </p>
             </p>
           </div>
           <Spacer height={36} />
           <div className="flex justify-between text-sm text-gray-500">
-            Digital product designer, IN
+            {yourCompany.name} © {new Date().getFullYear()}
             <div className="flex items-center gap-8">
-              <p className="text-sm">+91 00000 00000</p>
-              <p className="text-sm">hello@email.com</p>
+              <p className="text-sm">{yourCompany.phone}</p>
+              <p className="text-sm">{yourCompany.email}</p>
             </div>
           </div>
         </div>
@@ -223,19 +260,12 @@ function App() {
   );
 }
 
-interface Service {
-  name: string;
-  description?: string;
-}
-
 interface TableRowProps {
   service: Service;
-  quantity: number;
-  rate: number;
 }
 
-const TableRow = ({ service, quantity, rate }: TableRowProps) => {
-  const total = quantity * rate;
+const TableRow = ({ service }: TableRowProps) => {
+  const total = service.quantity * service.rate;
   const cellStyle = "text-sm text-gray-900 font-light py-4 whitespace-nowrap";
   const detailStyle =
     "whitespace-nowrap align-top overflow-hidden overflow-ellipsis";
@@ -248,9 +278,9 @@ const TableRow = ({ service, quantity, rate }: TableRowProps) => {
           <span className="text-gray-500">{service.description}</span>
         </div>
       </td>
-      <td className={clsx(cellStyle, detailStyle, "text-left")}>{quantity}</td>
+      <td className={clsx(cellStyle, detailStyle, "text-left")}>{service.quantity}</td>
       <td className={clsx(cellStyle, detailStyle, "text-right")}>
-        {intl.formatNumber(rate, { style: "currency", currency: "USD" })}
+        {intl.formatNumber(service.rate, { style: "currency", currency: "USD" })}
       </td>
       <td className={clsx(cellStyle, detailStyle, "text-right")}>
         {intl.formatNumber(total, { style: "currency", currency: "USD" })}
@@ -259,4 +289,39 @@ const TableRow = ({ service, quantity, rate }: TableRowProps) => {
   );
 };
 
-export default App;
+Invoice.PreviewProps = {
+  billedTo: {
+    name: "John Doe",
+    address: "123 Elm Street",
+    city: "Anytown",
+    state: "CA",
+    zip: "12345",
+    phone: "123-456-7890"
+  },
+  yourCompany: {
+    name: "Your Company",
+    address: "456 Banana Rd.",
+    city: "San Francisco",
+    state: "CA",
+    zip: "94107",
+    taxId: "00XXXXX1234X0XX",
+    phone: "123-456-7890",
+    email: "hello@email.com"
+  },
+  services: [
+    {
+      name: "Design",
+      description: "Description",
+      quantity: 1,
+      rate: 1000
+    },
+    {
+      name: "Development",
+      description: "Description",
+      quantity: 2,
+      rate: 1500
+    }
+  ]
+};
+
+export default Invoice;
