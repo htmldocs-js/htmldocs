@@ -264,5 +264,5 @@ const TableRow = ({ service, quantity, rate }: TableRowProps) => {
 
 export default App;
 
-export interface ComponentProps_aef47f16 {
+export interface ComponentProps_0fc8d19c {
 }

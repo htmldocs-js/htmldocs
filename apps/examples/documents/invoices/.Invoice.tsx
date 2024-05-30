@@ -325,7 +325,7 @@ Invoice.PreviewProps = {
 };
 
 export default Invoice;
-export interface ComponentProps_0e39c573 {
+export interface ComponentProps_9cee6712 {
   billedTo: BilledTo;
   yourCompany: YourCompany;
   services: Service[];
