@@ -123,8 +123,8 @@ export const Logo = ({
           y2="11.5238"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#01543A" />
-          <stop offset="1" stop-color="#086548" />
+          <stop stopColor="#01543A" />
+          <stop offset="1" stopColor="#086548" />
         </linearGradient>
         <linearGradient
           id={`paint1_linear_2071_2955_${idSuffix}`}
@@ -145,8 +145,8 @@ export const Logo = ({
           y2="3.22669"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#057A55" />
-          <stop offset="1" stop-color="#1D9A72" />
+          <stop stopColor="#057A55" />
+          <stop offset="1" stopColor="#1D9A72" />
         </linearGradient>
         <linearGradient
           id={`paint3_linear_2071_2955_${idSuffix}`}

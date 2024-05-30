@@ -11,6 +11,7 @@ import { ErrorObject } from "./types/error-object";
 import { renderAsync } from "@htmldocs/render";
 import { renderResolver } from "./render-resolver-esbuild-plugin";
 import postCssPlugin from "esbuild-style-plugin";
+import { propsToSchemaPlugin } from "./props-to-schema-esbuild-plugin";
 
 export interface DocumentComponent {
   (props: Record<string, unknown> | Record<string, never>): React.ReactNode;
@@ -43,6 +44,7 @@ export const getDocumentComponent = async (
       },
       plugins: [
         renderResolver([documentPath]),
+        propsToSchemaPlugin([documentPath]),
         postCssPlugin({
           postcss: {
             plugins: [require("tailwindcss"), require("autoprefixer")],
@@ -215,6 +217,7 @@ export const renderDocumentByPath = async (
   const DocumentComponent = Document as React.FC;
   try {
     const markup = await renderAsync(<DocumentComponent {...previewProps} />);
+    console.log("document component prop types", DocumentComponent.propTypes)
 
     const reactMarkup = await fs.promises.readFile(documentPath, "utf-8");
 

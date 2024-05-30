@@ -10,11 +10,12 @@
     "@formatjs/intl": "^2.10.4",
     "@htmldocs/react": "workspace:*",
     "@htmldocs/render": "workspace:*",
-    "htmldocs": "workspace:*",
     "@react-email/components": "0.0.18",
     "clsx": "^2.1.1",
+    "htmldocs": "workspace:*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "ts-json-schema-generator": "^2.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.61",

@@ -1,7 +1,8 @@
 import React from "react";
-import { Document, Head, Page, Spacer, useValue } from "@htmldocs/react";
+import { Document, Head, JSONValue, Page, Spacer } from "@htmldocs/react";
 import clsx from "clsx";
 import { createIntl, createIntlCache } from "@formatjs/intl";
+import "~/index.css";
 
 const cache = createIntlCache();
 
@@ -43,15 +44,21 @@ interface Service {
   rate: number;
 }
 
-function App() {
+export interface InvoiceProps {
+  billedTo: BilledTo;
+  yourCompany: YourCompany;
+  services: Service[];
+}
+
+function Invoice({
+  billedTo,
+  yourCompany,
+  services,
+}: InvoiceProps) {
   const issueDate = new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
   // 7 days from now
   const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
   
-  const billedTo = useValue<BilledTo>("billedTo");
-  const yourCompany = useValue<YourCompany>("yourCompany");
-  const services = useValue<Service[]>("services");
-
   const subtotal = services.reduce((acc, service) => acc + service.quantity * service.rate, 0);
   const taxRate = 0.12;
   const tax = subtotal * taxRate;
@@ -228,8 +235,8 @@ function App() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M2 0C0.895431 0 0 0.89543 0 2V8C0 9.10457 0.89543 10 2 10H8C9.10457 10 10 9.10457 10 8V2C10 0.895431 9.10457 0 8 0H2ZM4.72221 2.95508C4.72221 2.7825 4.58145 2.64014 4.41071 2.66555C3.33092 2.82592 2.5 3.80797 2.5 4.99549V7.01758C2.5 7.19016 2.63992 7.33008 2.8125 7.33008H4.40971C4.58229 7.33008 4.72221 7.19016 4.72221 7.01758V5.6021C4.72221 5.42952 4.58229 5.2896 4.40971 5.2896H3.61115V4.95345C3.61115 4.41687 3.95035 3.96422 4.41422 3.82285C4.57924 3.77249 4.72221 3.63715 4.72221 3.4645V2.95508ZM7.5 2.95508C7.5 2.7825 7.35924 2.64014 7.18849 2.66555C6.1087 2.82592 5.27779 3.80797 5.27779 4.99549V7.01758C5.27779 7.19016 5.41771 7.33008 5.59029 7.33008H7.1875C7.36008 7.33008 7.5 7.19016 7.5 7.01758V5.6021C7.5 5.42952 7.36008 5.2896 7.1875 5.2896H6.38885V4.95345C6.38885 4.41695 6.72813 3.96422 7.19193 3.82285C7.35703 3.77249 7.5 3.63715 7.5 3.4645V2.95508Z"
                   fill="#8B919E"
                 />
@@ -282,4 +289,50 @@ const TableRow = ({ service }: TableRowProps) => {
   );
 };
 
-export default App;
+Invoice.PreviewProps = {
+  billedTo: {
+    name: "John Doe",
+    address: "123 Elm Street",
+    city: "Anytown",
+    state: "CA",
+    zip: "12345",
+    phone: "123-456-7890"
+  },
+  yourCompany: {
+    name: "Your Company",
+    address: "456 Banana Rd.",
+    city: "San Francisco",
+    state: "CA",
+    zip: "94107",
+    taxId: "00XXXXX1234X0XX",
+    phone: "123-456-7890",
+    email: "hello@email.com"
+  },
+  services: [
+    {
+      name: "Design",
+      description: "Description",
+      quantity: 1,
+      rate: 1000
+    },
+    {
+      name: "Development",
+      description: "Description",
+      quantity: 2,
+      rate: 1500
+    }
+  ]
+};
+
+export default Invoice;
+export interface ComponentProps_10348274 {
+  billedTo: BilledTo;
+  yourCompany: YourCompany;
+  services: Service[];
+}
+
+export interface ComponentProps_74fca573 {
+  billedTo: BilledTo;
+  yourCompany: YourCompany;
+  services: Service[];
+}
