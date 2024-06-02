@@ -147,9 +147,6 @@ importers:
       esbuild:
         specifier: ^0.21.3
         version: 0.21.3
-      esbuild-plugin-inline-image:
-        specifier: ^0.0.9
-        version: 0.0.9
       esbuild-plugin-tsc:
         specifier: ^0.4.0
         version: 0.4.0(typescript@5.4.5)
@@ -4043,10 +4040,6 @@ packages:
       is-date-object: 1.0.5
       is-symbol: 1.0.4
     dev: true
-
-  /esbuild-plugin-inline-image@0.0.9:
-    resolution: {integrity: sha512-pw3ZgN2phh32Z7BpKrhRDtmI+iVCl+Gc0BLOT9croXg1MnMjRuN7aXhIQirhLeK39erkIwfFlhy6xieroBGc1Q==}
-    dev: false
 
   /esbuild-plugin-tsc@0.4.0(typescript@5.4.5):
     resolution: {integrity: sha512-q9gWIovt1nkwchMLc2zhyksaiHOv3kDK4b0AUol8lkMCRhJ1zavgfb2fad6BKp7FT9rh/OHmEBXVjczLoi/0yw==}

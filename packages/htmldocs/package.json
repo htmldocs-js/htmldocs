@@ -34,7 +34,6 @@
     "cva": "1.0.0-beta.1",
     "debounce": "^2.0.0",
     "esbuild": "^0.21.3",
-    "esbuild-plugin-inline-image": "^0.0.9",
     "esbuild-plugin-tsc": "^0.4.0",
     "esbuild-style-plugin": "^1.6.3",
     "framer-motion": "^11.2.6",
