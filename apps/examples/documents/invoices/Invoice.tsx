@@ -104,7 +104,7 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
               <p className="text-gray-500">#AB2324-01</p>
             </div>
             <div id="header_right">
-              <img src="../../static/logo.svg" alt="Company Logo" />
+              <img src="/static/logo.svg" alt="Company Logo" />
             </div>
           </div>
           <Spacer height={48} />

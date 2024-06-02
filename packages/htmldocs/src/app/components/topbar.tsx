@@ -27,7 +27,7 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
 
   const renderAndDownloadPDF = async () => {
     setIsDownloading(true);
-    const pdfBuffer = await renderDocumentToPDF(documentPath);
+    const pdfBuffer = await renderDocumentToPDF(window.location.href);
     if (pdfBuffer instanceof Error) {
       console.error("Error downloading document:", pdfBuffer.message);
       setIsDownloading(false);

@@ -28,7 +28,7 @@ const DocumentsContext = createContext<
         documentPath: string,
         serverDocumentRenderedResult: DocumentRenderingResult
       ) => DocumentRenderingResult;
-      renderDocumentToPDF: (documentPath: string) => Promise<Buffer | Error>;
+      renderDocumentToPDF: (url: string) => Promise<Buffer | Error>;
     }
   | undefined
 >(undefined);
@@ -140,7 +140,7 @@ export const DocumentsProvider = (props: {
 
           return serverDocumentRenderedResult;
         },
-        renderDocumentToPDF: renderDocumentToPDF,
+        renderDocumentToPDF,
       }}
     >
       {props.children}

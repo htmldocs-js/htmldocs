@@ -76,7 +76,7 @@ export const Shell = ({
 
           <main
             className={cn(
-              "absolute will-change-width h-screen w-[100vw] right-0",
+              "absolute flex flex-col will-change-width h-screen w-[100vw] right-0",
               {
                 "lg:translate-x-0 lg:w-[calc(100vw)]": sidebarToggled,
                 "lg:translate-x-0 lg:w-[calc(100vw-275px)]": !sidebarToggled,
@@ -109,7 +109,7 @@ export const Shell = ({
               />
             ) : null}
 
-            <div className="overflow-auto mx-auto">{children}</div>
+            <div className="w-full h-full overflow-auto mx-auto">{children}</div>
           </main>
         </div>
       </div>

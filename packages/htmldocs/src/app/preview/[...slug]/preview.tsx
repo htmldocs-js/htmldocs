@@ -91,7 +91,7 @@ const Preview = ({
           <>
             {activeView === 'desktop' && (
               <iframe
-                className="w-full bg-white h-[calc(100vh_-_70px)]"
+                className="w-full h-full bg-white h-[calc(100vh_-_70px)]"
                 srcDoc={renderedDocumentMetadata.markup}
                 title={slug}
               />
