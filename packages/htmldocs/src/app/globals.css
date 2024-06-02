@@ -74,3 +74,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+.print-hide {
+  display: block;
+}
+
+.print-show {
+  display: none;
+}
+
+@media print {
+  .print-hide {
+    display: none;
+  }
+  .print-show {
+    display: block;
+  }
+}

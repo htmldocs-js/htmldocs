@@ -1,11 +1,13 @@
 @page { margin: 0 }
+body { margin: 0 }
 main { margin: 0 }
 .sheet {
   margin: 0;
-  overflow: hidden;
   position: relative;
   box-sizing: border-box;
   page-break-after: always;
+  overflow: visible;
+  height: auto !important;
 }
 
 /** Paper sizes **/

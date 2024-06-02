@@ -2,6 +2,8 @@ import React from "react";
 import { Document, Head, JSONValue, Page, Spacer } from "@htmldocs/react";
 import clsx from "clsx";
 import { createIntl, createIntlCache } from "@formatjs/intl";
+// @ts-ignore
+// import LogoSVG from "../static/logo.svg";
 import "~/index.css";
 
 const cache = createIntlCache();
@@ -50,16 +52,25 @@ export interface InvoiceProps {
   services: Service[];
 }
 
-function Invoice({
-  billedTo,
-  yourCompany,
-  services,
-}: InvoiceProps) {
-  const issueDate = new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
+  const issueDate = new Date().toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
   // 7 days from now
-  const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-  
-  const subtotal = services.reduce((acc, service) => acc + service.quantity * service.rate, 0);
+  const dueDate = new Date(
+    Date.now() + 7 * 24 * 60 * 60 * 1000
+  ).toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
+  const subtotal = services.reduce(
+    (acc, service) => acc + service.quantity * service.rate,
+    0
+  );
   const taxRate = 0.12;
   const tax = subtotal * taxRate;
   const total = subtotal + tax;
@@ -93,7 +104,7 @@ function Invoice({
               <p className="text-gray-500">#AB2324-01</p>
             </div>
             <div id="header_right">
-              <img src="logo.svg" alt="Company Logo" />
+              <img src="../../static/logo.svg" alt="Company Logo" />
             </div>
           </div>
           <Spacer height={48} />
@@ -101,22 +112,22 @@ function Invoice({
             <div className="flex-1 flex flex-col justify-between p-4 pl-0">
               <div>
                 <h2 className="text-sm font-medium">Issued</h2>
-                <p className="text-sm text-gray-500 font-medium">
-                  {issueDate}
-                </p>
+                <p className="text-sm text-gray-500 font-medium">{issueDate}</p>
               </div>
               <div>
                 <h2 className="text-sm font-medium mt-2">Due</h2>
-                <p className="text-sm text-gray-500 font-medium">
-                  {dueDate}
-                </p>
+                <p className="text-sm text-gray-500 font-medium">{dueDate}</p>
               </div>
             </div>
             <div className="flex-1 flex flex-col p-4">
               <h2 className="text-sm font-medium">Billed To</h2>
-              <p className="text-sm text-gray-500 font-medium">{billedTo.name}</p>
+              <p className="text-sm text-gray-500 font-medium">
+                {billedTo.name}
+              </p>
               <p className="text-sm text-gray-500">{billedTo.address}</p>
-              <p className="text-sm text-gray-500">{billedTo.city}, {billedTo.state} {billedTo.zip}</p>
+              <p className="text-sm text-gray-500">
+                {billedTo.city}, {billedTo.state} {billedTo.zip}
+              </p>
               <p className="text-sm text-gray-500">{billedTo.phone}</p>
             </div>
             <div className="flex-1 flex flex-col p-4 pr-0">
@@ -125,8 +136,12 @@ function Invoice({
                 {yourCompany.name}
               </p>
               <p className="text-sm text-gray-500">{yourCompany.address}</p>
-              <p className="text-sm text-gray-500">{yourCompany.city}, {yourCompany.state} {yourCompany.zip}</p>
-              <p className="text-sm text-gray-500">TAX ID {yourCompany.taxId}</p>
+              <p className="text-sm text-gray-500">
+                {yourCompany.city}, {yourCompany.state} {yourCompany.zip}
+              </p>
+              <p className="text-sm text-gray-500">
+                TAX ID {yourCompany.taxId}
+              </p>
             </div>
           </div>
           <Spacer height={32} />
@@ -224,7 +239,7 @@ function Invoice({
           </div>
         </div>
         <div id="footer">
-          <div className="pb-4 border-b">
+          <div className="flex flex-col pb-4 border-b">
             <p className="text-sm font-medium">Thank you for your business!</p>
             <p className="flex items-center gap-2">
               <svg
@@ -241,9 +256,9 @@ function Invoice({
                   fill="#8B919E"
                 />
               </svg>
-              <p className="text-sm text-gray-500">
-                Please pay within 7 days of receiving this invoice.
-              </p>
+              <span className="text-sm text-gray-500">
+                Please pay within 15 days of receiving this invoice.
+              </span>
             </p>
           </div>
           <Spacer height={36} />
@@ -278,9 +293,14 @@ const TableRow = ({ service }: TableRowProps) => {
           <span className="text-gray-500">{service.description}</span>
         </div>
       </td>
-      <td className={clsx(cellStyle, detailStyle, "text-left")}>{service.quantity}</td>
+      <td className={clsx(cellStyle, detailStyle, "text-left")}>
+        {service.quantity}
+      </td>
       <td className={clsx(cellStyle, detailStyle, "text-right")}>
-        {intl.formatNumber(service.rate, { style: "currency", currency: "USD" })}
+        {intl.formatNumber(service.rate, {
+          style: "currency",
+          currency: "USD",
+        })}
       </td>
       <td className={clsx(cellStyle, detailStyle, "text-right")}>
         {intl.formatNumber(total, { style: "currency", currency: "USD" })}
@@ -296,7 +316,7 @@ Invoice.PreviewProps = {
     city: "Anytown",
     state: "CA",
     zip: "12345",
-    phone: "123-456-7890"
+    phone: "123-456-7890",
   },
   yourCompany: {
     name: "Your Company",
@@ -306,22 +326,22 @@ Invoice.PreviewProps = {
     zip: "94107",
     taxId: "00XXXXX1234X0XX",
     phone: "123-456-7890",
-    email: "hello@email.com"
+    email: "hello@email.com",
   },
   services: [
     {
       name: "Design",
       description: "Description",
       quantity: 1,
-      rate: 1000
+      rate: 1000,
     },
     {
       name: "Development",
       description: "Description",
-      quantity: 2,
-      rate: 1500
-    }
-  ]
+      quantity: 3,
+      rate: 1200,
+    },
+  ],
 };
 
 export default Invoice;

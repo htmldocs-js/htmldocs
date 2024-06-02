@@ -10,6 +10,7 @@ import { improveErrorWithSourceMap } from "./improve-error-with-sourcemap";
 import { ErrorObject } from "./types/error-object";
 import { renderAsync } from "@htmldocs/render";
 import { htmldocsPlugin } from "./htmldocs-esbuild-plugin";
+import inlineImage from "esbuild-plugin-inline-image";
 import postCssPlugin from "esbuild-style-plugin";
 
 export interface DocumentComponent {
@@ -42,6 +43,7 @@ export const getDocumentComponent = async (
         "process.env.NODE_ENV": '"development"',
       },
       plugins: [
+        inlineImage(),
         htmldocsPlugin([documentPath]),
         postCssPlugin({
           postcss: {
