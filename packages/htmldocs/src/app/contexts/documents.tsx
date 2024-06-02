@@ -16,6 +16,7 @@ import {
   type DocumentRenderingResult,
 } from "~/actions/render-document-by-path";
 import { getDocumentPathFromSlug } from "~/actions/get-document-path-from-slug";
+import { renderDocumentToPDF } from "~/actions/render-document-to-pdf";
 
 const DocumentsContext = createContext<
   | {
@@ -27,6 +28,7 @@ const DocumentsContext = createContext<
         documentPath: string,
         serverDocumentRenderedResult: DocumentRenderingResult
       ) => DocumentRenderingResult;
+      renderDocumentToPDF: (documentPath: string) => Promise<Buffer | Error>;
     }
   | undefined
 >(undefined);
@@ -138,6 +140,7 @@ export const DocumentsProvider = (props: {
 
           return serverDocumentRenderedResult;
         },
+        renderDocumentToPDF: renderDocumentToPDF,
       }}
     >
       {props.children}

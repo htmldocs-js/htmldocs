@@ -83,6 +83,8 @@ async function generateAndWriteSchema(contents: string, filePath: string): Promi
   };
 
   const schema = tsj.createGenerator(config).createSchema(config.type);
+  fs.unlinkSync(tempFilePath);
+  
   const schemaString = JSON.stringify(schema, null, 2);
 
   if (!fs.existsSync(DOCUMENT_SCHEMAS_DIR)) {

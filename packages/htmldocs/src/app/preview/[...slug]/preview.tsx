@@ -74,6 +74,7 @@ const Preview = ({
 
   return (
     <Shell
+      documentPath={documentPath}
       activeView={hasNoErrors ? activeView : undefined}
       currentDocumentOpenSlug={slug}
       markup={renderedDocumentMetadata?.markup}

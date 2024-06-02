@@ -3,8 +3,10 @@ import * as React from "react";
 import { Sidebar } from "@phosphor-icons/react";
 import { pathSeparator } from "../../utils/documents-directory-absolute-path";
 import { Button } from "./ui/button";
+import { useDocuments } from "~/contexts/documents";
 
 interface TopbarProps {
+  documentPath: string;
   currentDocumentOpenSlug: string;
   activeView?: string;
   markup?: string;
@@ -13,12 +15,38 @@ interface TopbarProps {
 }
 
 export const Topbar: React.FC<Readonly<TopbarProps>> = ({
+  documentPath,
   currentDocumentOpenSlug,
   markup,
   activeView,
   setActiveView,
   onToggleSidebar,
 }) => {
+  const { renderDocumentToPDF } = useDocuments();
+  const [isDownloading, setIsDownloading] = React.useState(false);
+
+  const renderAndDownloadPDF = async () => {
+    setIsDownloading(true);
+    const pdfBuffer = await renderDocumentToPDF(documentPath);
+    if (pdfBuffer instanceof Error) {
+      console.error("Error downloading document:", pdfBuffer.message);
+      setIsDownloading(false);
+    } else {
+      // Ensure the buffer is in the correct type
+      const buffer = new Uint8Array(pdfBuffer);
+      const blob = new Blob([buffer], { type: "application/pdf" });
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = downloadUrl;
+      a.download = "document.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(downloadUrl);
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <header className="flex relative items-center px-4 justify-between h-[70px] hidden lg:flex border-b border-border">
       <Button
@@ -38,9 +66,14 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
           {currentDocumentOpenSlug.split(pathSeparator).pop()}
         </h2>
       </div>
-      <Button variant="default">
-        Download
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button variant="secondary">
+          Fill & Generate
+        </Button>
+        <Button variant="default" onClick={renderAndDownloadPDF} disabled={isDownloading}>
+          {isDownloading ? "Downloading..." : "Download"}
+        </Button>
+      </div>
     </header>
   );
 };
