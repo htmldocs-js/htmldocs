@@ -1,7 +1,6 @@
 {
   "name": "htmldocs",
   "version": "0.1.0",
-  "private": true,
   "bin": {
     "htmldocs": "./cli/index.js"
   },
