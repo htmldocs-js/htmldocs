@@ -1,9 +1,15 @@
 "use server"
 
-import { chromium } from 'playwright';
+import { LaunchOptions, chromium } from 'playwright';
 
-export const renderDocumentToPDF = async (url: string): Promise<Buffer | Error> => {
-  const browser = await chromium.launch();
+interface RenderDocumentToPDFProps extends LaunchOptions {
+    url: string;
+}
+
+export const renderDocumentToPDF = async ({ url, ...props }: RenderDocumentToPDFProps): Promise<Buffer | Error> => {
+  const browser = await chromium.launch({
+    ...props,
+  });
   try {
     const page = await browser.newPage();
     await page.goto(url);

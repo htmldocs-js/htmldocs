@@ -1,9 +1,9 @@
-import path from "node:path";
-import fs from "node:fs";
 import type {
   PipeableStream,
   ReactDOMServerReadableStream,
 } from "react-dom/server";
+// @ts-ignore
+import cssText from "./css/index.css";
 
 const decoder = new TextDecoder("utf-8");
 
@@ -73,19 +73,12 @@ export const renderAsync = async (component: React.ReactElement, documentCss?: s
     });
   }
 
-  let css = '';
-  if (process.env.NEXT_PUBLIC_CLI_PACKAGE_LOCATION) {
-    const cssFilePath = path.join(process.env.NEXT_PUBLIC_CLI_PACKAGE_LOCATION!, 'cli/index.css');
-    css = await fs.promises.readFile(cssFilePath, 'utf-8');
-  }
-
-
   const document = dedent(`
       <!DOCTYPE html>
       <html>
         <head>
           ${documentCss ? `<style>${documentCss}</style>` : ""}
-          ${css ? `<style>${css}</style>` : ""}
+          <style>${cssText}</style>
         </head>
         <body>
           ${html}
