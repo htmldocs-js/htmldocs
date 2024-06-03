@@ -1,6 +1,13 @@
 {
     "extends": "@htmldocs/typescript-config/base.json",
+    "ts-node": {
+      "compilerOptions": {
+        "module": "commonjs"
+      }
+    },
     "compilerOptions": {
+      "esModuleInterop": true,
+      "emitDeclarationOnly": true,
       "outDir": "dist",
       "module": "esnext",
       "moduleResolution": "bundler",

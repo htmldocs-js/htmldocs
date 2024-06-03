@@ -2,6 +2,7 @@
 import { program } from 'commander';
 import packageJson from '../../package.json';
 import { dev } from './commands/dev';
+import { build } from './commands/build';
 
 const PACKAGE_NAME = 'htmldocs';
 
@@ -16,5 +17,10 @@ program
   .option('-d, --dir <path>', 'Directory with your document templates', './documents')
   .option('-p --port <port>', 'Port to run dev server on', '3000')
   .action(dev);
+
+program
+  .command('build <file>')
+  .description('Builds the document component')
+  .action((file) => build(file));
 
 program.parse();

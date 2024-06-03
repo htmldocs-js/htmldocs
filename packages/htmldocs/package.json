@@ -7,12 +7,12 @@
   "scripts": {
     "init": "npx playwright install",
     "dev": "next dev",
-    "build": "tsup && pnpm build:css && pnpm link --global",
-    "build:css": "tailwindcss build src/css/index.css -o cli/index.css --minify",
+    "build": "tsup && pnpm link --global",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@htmldocs/render": "workspace:*",
     "@babel/core": "^7.24.6",
     "@babel/parser": "^7.24.5",
     "@babel/preset-typescript": "^7.24.6",
@@ -50,20 +50,19 @@
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "ts-json-schema-generator": "^2.2.0"
+    "ts-json-schema-generator": "^2.2.0",
+    "autoprefixer": "^10.4.19",
+    "tailwindcss": "^3.4.3",
+    "postcss": "^8.4.38"
   },
   "devDependencies": {
-    "@htmldocs/render": "workspace:*",
     "@swc/core": "^1.5.7",
     "@types/babel__core": "^7.20.5",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
     "stacktrace-parser": "^0.1.10",
-    "tailwindcss": "^3.4.3",
     "tsup": "^8.0.2",
     "typescript": "^5"
   }
