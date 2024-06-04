@@ -215,7 +215,6 @@ main {
   box-sizing: border-box;
   page-break-after: always;
   overflow: visible;
-  height: auto !important;
 }
 
 /** Paper sizes **/
