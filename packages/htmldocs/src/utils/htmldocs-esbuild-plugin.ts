@@ -22,8 +22,10 @@ export const htmldocsPlugin = (documentTemplates: string[]) => ({
     b.onLoad(
       { filter: new RegExp(documentTemplates.join("|")) },
       async ({ path: pathToFile }) => {
-        const contents = await fs.promises.readFile(pathToFile, "utf8");
+        let contents = await fs.promises.readFile(pathToFile, "utf8");
         // await generateAndWriteSchema(contents, pathToFile);
+        // Replace all occurrences of /static with ./static
+        contents = contents.replace(/\/static/g, './static');
         return {
           contents: `${contents};
           export { renderAsync } from 'htmldocs-module-that-will-export-render'
