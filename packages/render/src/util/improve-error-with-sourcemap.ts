@@ -1,7 +1,7 @@
 import path from 'node:path';
 import * as stackTraceParser from 'stacktrace-parser';
 import { SourceMapConsumer, type RawSourceMap } from 'source-map-js';
-import type { ErrorObject } from './types/error-object';
+import type { ErrorObject } from '../types';
 
 export const improveErrorWithSourceMap = (
   error: Error,

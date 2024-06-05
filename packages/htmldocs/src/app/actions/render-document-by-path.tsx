@@ -2,8 +2,7 @@
 import React from 'react';
 import fs from 'node:fs';
 import { getDocumentComponent } from '../../utils/get-document-component';
-import type { ErrorObject } from '../../utils/types/error-object';
-import { improveErrorWithSourceMap } from '../../utils/improve-error-with-sourcemap';
+import { ErrorObject, improveErrorWithSourceMap } from '@htmldocs/render';
 
 export interface RenderedDocumentMetadata {
   markup: string;

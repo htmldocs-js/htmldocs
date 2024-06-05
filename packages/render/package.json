@@ -43,5 +43,9 @@
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "source-map-js": "^1.2.0",
+    "stacktrace-parser": "^0.1.10"
   }
 }

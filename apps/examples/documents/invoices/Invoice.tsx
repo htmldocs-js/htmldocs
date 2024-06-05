@@ -1,9 +1,6 @@
-import React from "react";
-import { Document, Head, JSONValue, Page, Spacer } from "@htmldocs/react";
+import { Document, Head, Page, Spacer } from "@htmldocs/react";
 import clsx from "clsx";
 import { createIntl, createIntlCache } from "@formatjs/intl";
-// @ts-ignore
-// import LogoSVG from "../static/logo.svg";
 import "~/index.css";
 
 const cache = createIntlCache();
@@ -263,7 +260,7 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
           </div>
           <Spacer height={36} />
           <div className="flex justify-between text-sm text-gray-500">
-            {yourCompany.name} © {new Date().getFullYear()}
+            {yourCompany.name} &copy; {new Date().getFullYear()}
             <div className="flex items-center gap-8">
               <p className="text-sm">{yourCompany.phone}</p>
               <p className="text-sm">{yourCompany.email}</p>
@@ -343,5 +340,7 @@ Invoice.PreviewProps = {
     },
   ],
 };
+
+Invoice.documentId = "invoice"
 
 export default Invoice;

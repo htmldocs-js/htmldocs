@@ -5,7 +5,6 @@ export default defineConfig({
   format: ["cjs"],
   dts: true,
   clean: false,
-  external: ["@htmldocs/render"],
   outDir: "cli",
 });
 
