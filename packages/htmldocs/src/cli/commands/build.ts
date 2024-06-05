@@ -7,7 +7,7 @@ import ora from "ora";
 import { htmldocsPlugin } from "../../utils/htmldocs-esbuild-plugin";
 import { closeOraOnSIGINT } from "../utils/close-ora-on-sigint";
 
-export const build = async (fileName: string) => {
+export const build = async (fileName: string, write: boolean = true) => {
   const spinner = ora({
     text: `Building ${fileName}...\n`,
     prefixText: " ",
@@ -16,16 +16,16 @@ export const build = async (fileName: string) => {
   closeOraOnSIGINT(spinner);
   try {
     if (!fs.existsSync(fileName)) {
-      console.error(chalk.red(`Missing file: ${fileName}`));
+      spinner.fail(chalk.red(`Missing file: ${fileName}`));
       process.exit(1);
     }
 
     try {
-      await es.build({
+      const result = await es.build({
         entryPoints: [fileName],
         bundle: true,
         minify: true,
-        write: true,
+        write: write,
         format: "cjs",
         jsx: "automatic",
         platform: "node",
@@ -38,7 +38,7 @@ export const build = async (fileName: string) => {
           ".css": "css",
         },
         plugins: [
-          htmldocsPlugin([fileName]),
+          htmldocsPlugin([fileName], true),
           postCssPlugin({
             postcss: {
               plugins: [require("tailwindcss"), require("autoprefixer")],
@@ -52,6 +52,7 @@ export const build = async (fileName: string) => {
         sourcemap: "external",
       });
       spinner.succeed("Build completed");
+      return result;
     } catch (error) {
       spinner.fail("Build failed");
       const buildFailure = error as es.BuildFailure;

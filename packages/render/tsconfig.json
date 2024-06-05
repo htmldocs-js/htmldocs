@@ -8,6 +8,7 @@
     "compilerOptions": {
       "esModuleInterop": true,
       "emitDeclarationOnly": true,
+      "rootDir": "src",
       "outDir": "dist",
       "module": "esnext",
       "moduleResolution": "bundler",

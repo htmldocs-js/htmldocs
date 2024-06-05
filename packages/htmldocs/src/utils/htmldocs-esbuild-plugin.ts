@@ -16,7 +16,7 @@ import type { Loader, PluginBuild, ResolveOptions } from "esbuild";
  *
  * Also, this plugin generates the schema for document components and saves it to .next
  */
-export const htmldocsPlugin = (documentTemplates: string[]) => ({
+export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) => ({
   name: "htmldocs-plugin",
   setup: (b: PluginBuild) => {
     b.onLoad(
@@ -24,8 +24,10 @@ export const htmldocsPlugin = (documentTemplates: string[]) => ({
       async ({ path: pathToFile }) => {
         let contents = await fs.promises.readFile(pathToFile, "utf8");
         // await generateAndWriteSchema(contents, pathToFile);
-        // Replace all occurrences of /static with ./static
-        contents = contents.replace(/\/static/g, './static');
+        if (isBuild) {
+          // Replace all occurrences of /static with ./static
+          contents = contents.replace(/\/static/g, './static');
+        }
         return {
           contents: `${contents};
           export { renderAsync } from 'htmldocs-module-that-will-export-render'

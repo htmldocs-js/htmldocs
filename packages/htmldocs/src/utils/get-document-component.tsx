@@ -1,21 +1,19 @@
 import * as es from "esbuild";
 import fs from "node:fs";
-import vm from "node:vm";
-import path from "path";
 import { BuildFailure, type OutputFile } from "esbuild";
-import { type RawSourceMap } from "source-map-js";
 
-import { staticNodeModulesForVM } from "./static-node-modules-for-vm";
-import { improveErrorWithSourceMap } from "./improve-error-with-sourcemap";
-import { ErrorObject } from "./types/error-object";
-import { renderAsync } from "@htmldocs/render";
+import {
+  ErrorObject,
+  configureSourceMap,
+  createFakeContext,
+  executeBuiltCode,
+  extractOutputFiles,
+  improveErrorWithSourceMap,
+  renderAsync,
+} from "@htmldocs/render";
 import { htmldocsPlugin } from "./htmldocs-esbuild-plugin";
 import postCssPlugin from "esbuild-style-plugin";
-
-export interface DocumentComponent {
-  (props: Record<string, unknown> | Record<string, never>): React.ReactNode;
-  PreviewProps?: Record<string, unknown>;
-}
+import { RawSourceMap } from "source-map-js";
 
 export const getDocumentComponent = async (
   documentPath: string
@@ -42,7 +40,7 @@ export const getDocumentComponent = async (
         "process.env.NODE_ENV": '"development"',
       },
       plugins: [
-        htmldocsPlugin([documentPath]),
+        htmldocsPlugin([documentPath], false),
         postCssPlugin({
           postcss: {
             plugins: [require("tailwindcss"), require("autoprefixer")],
@@ -71,118 +69,41 @@ export const getDocumentComponent = async (
     process.exit(1);
   }
 
-  let sourceMapFile: OutputFile | undefined;
-  let bundledDocumentFile: OutputFile | undefined;
-  let cssFile: OutputFile | undefined;
+  try {
+    const { sourceMapFile, bundledDocumentFile, cssFile } =
+      extractOutputFiles(outputFiles);
+    const builtDocumentCode = bundledDocumentFile.text;
+    const documentCss = cssFile?.text;
+    const fakeContext = createFakeContext(documentPath);
+    const sourceMapToDocument = configureSourceMap(sourceMapFile);
 
-  for (const file of outputFiles) {
-    if (file.path.endsWith(".map")) {
-      sourceMapFile = file;
-    } else if (file.path.endsWith(".js")) {
-      bundledDocumentFile = file;
-    } else if (file.path.endsWith(".css")) {
-      cssFile = file;
+    const documentComponent = executeBuiltCode(
+      builtDocumentCode,
+      fakeContext,
+      documentPath,
+      sourceMapToDocument
+    );
+
+    if ("error" in documentComponent) {
+      return { error: documentComponent.error };
     }
-  }
 
-  if (!sourceMapFile || !bundledDocumentFile) {
-    console.error({
+    return {
+      documentComponent,
+      documentCss,
+      renderAsync: fakeContext.module.exports.renderAsync as typeof renderAsync,
+      sourceMapToOriginalFile: sourceMapToDocument,
+    };
+  } catch (error) {
+    return {
       error: {
-        message: "Expected output files not found",
+        message: error.message,
         stack: new Error().stack,
         name: "Error",
+        cause: error.cause,
       },
-    });
-    process.exit(1);
-  }
-
-  const builtDocumentCode = bundledDocumentFile.text;
-  const documentCss = cssFile?.text;
-
-  const fakeContext = {
-    ...global,
-    console,
-    Buffer,
-    TextDecoder,
-    TextDecoderStream,
-    TextEncoder,
-    TextEncoderStream,
-    ReadableStream,
-    URL,
-    URLSearchParams,
-    Headers,
-    module: {
-      exports: {
-        default: undefined as unknown,
-        renderAsync: undefined as unknown,
-      },
-    },
-    __filename: documentPath,
-    __dirname: path.dirname(documentPath),
-    require: (module: string) => {
-      if (module in staticNodeModulesForVM) {
-        return staticNodeModulesForVM[
-          module as keyof typeof staticNodeModulesForVM
-        ];
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-useless-template-literals
-      return require(`${module}`) as unknown;
-      // this stupid string templating was necessary to not have
-      // webpack warnings like:
-      //
-      // Import trace for requested module:
-      // ./src/utils/get-email-component.tsx
-      // ./src/app/page.tsx
-      //  ⚠ ./src/utils/get-email-component.tsx
-      // Critical dependency: the request of a dependency is an expression
-    },
-    process,
-  };
-
-  const sourceMapToDocument = JSON.parse(sourceMapFile.text) as RawSourceMap;
-
-  // because it will have a path like <tsconfigLocation>/stdout/email.js.map
-  sourceMapToDocument.sourceRoot = path.resolve(sourceMapFile.path, "../..");
-  sourceMapToDocument.sources = sourceMapToDocument.sources.map((source) =>
-    path.resolve(sourceMapFile!.path, "..", source)
-  );
-  try {
-    vm.runInNewContext(builtDocumentCode, fakeContext, {
-      filename: documentPath,
-    });
-  } catch (exception) {
-    const error = exception as Error;
-
-    error.stack &&= error.stack.split("at Script.runInContext (node:vm")[0];
-
-    return {
-      error: improveErrorWithSourceMap(
-        error,
-        documentPath,
-        sourceMapToDocument
-      ),
     };
   }
-
-  if (fakeContext.module.exports.default === undefined) {
-    return {
-      error: improveErrorWithSourceMap(
-        new Error(
-          `The document component at ${documentPath} does not contain a default export`
-        ),
-        documentPath,
-        sourceMapToDocument
-      ),
-    };
-  }
-
-  return {
-    documentComponent: fakeContext.module.exports.default as DocumentComponent,
-    documentCss: documentCss,
-    renderAsync: fakeContext.module.exports.renderAsync as typeof renderAsync,
-    sourceMapToOriginalFile: sourceMapToDocument,
-  };
 };
 
 export interface RenderedDocumentMetadata {
