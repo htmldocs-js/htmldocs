@@ -4,6 +4,7 @@ import packageJson from '../../package.json';
 import { dev } from './commands/dev';
 import { build } from './commands/build';
 import { publish } from './commands/publish';
+import { login } from './commands/login';
 
 const PACKAGE_NAME = 'htmldocs';
 const noop = () => {};
@@ -30,12 +31,9 @@ program
   .description('Publishes the document to the cloud for API use')
   .action((file) => publish(file));
 
+program
+  .command('login')
+  .description('Authenticates the CLI with the cloud')
+  .action(login);
+
 program.parse();
-
-process.on('uncaughtException', function (err) {
-  console.error('Unhandled Exception:', err);
-});
-
-process.on('unhandledRejection', function (reason, promise) {
-  console.error('Unhandled Rejection:', reason);
-});

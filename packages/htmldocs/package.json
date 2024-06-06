@@ -41,6 +41,7 @@
     "mime-types": "^2.1.35",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
+    "open": "^8.4.2",
     "ora": "^5.4.1",
     "playwright": "^1.44.1",
     "postcss": "^8.4.38",
