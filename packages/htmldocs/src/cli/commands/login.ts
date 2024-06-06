@@ -11,7 +11,7 @@ const apiUrl = "http://localhost:3001";
 export const login = async () => {
   const server = http.createServer(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    
+
     if (req.url?.startsWith("/callback")) {
       const url = new URL(req.url, `http://localhost:${server.address().port}`);
       const code = url.searchParams.get("code");
@@ -46,8 +46,10 @@ export const login = async () => {
   });
 
   server.listen(0, async () => {
-    const authUrl = `${apiUrl}/authorize?redirect_uri=http://localhost:${server.address().port}/callback`;
-    await open(authUrl);
+    const url = new URL(`${apiUrl}/authorize`);
+    const encodedCallbackUri = Buffer.from(`http://localhost:${server.address().port}/callback`).toString('base64');
+    url.searchParams.set("callback", encodedCallbackUri);
+    await open(url.toString());
     console.log(
       chalk.blue("Please complete the authentication in your browser.")
     );
