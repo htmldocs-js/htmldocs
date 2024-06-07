@@ -14,24 +14,13 @@ export const login = async () => {
 
     if (req.url?.startsWith("/callback")) {
       const url = new URL(req.url, `http://localhost:${server.address().port}`);
-      const code = url.searchParams.get("code");
       const tokenId = url.searchParams.get("token_id");
       const tokenSecret = url.searchParams.get("token_secret");
 
       if (tokenId && tokenSecret) {
-        // storeToken(tokenId, tokenSecret);
+        await storeToken(tokenId, tokenSecret);
         res.end("Authentication successful! You can close this window.");
         console.log(chalk.green("Login successful and tokens stored."));
-      } else if (code) {
-        const tokenData = await verifyCodeWithApi(code);
-        if (tokenData) {
-          storeToken(tokenData.token_id, tokenData.token_secret);
-          res.end("Authentication successful! You can close this window.");
-          console.log(chalk.green("Login successful and tokens stored."));
-        } else {
-          res.end("Authentication failed!");
-          console.log(chalk.red("Authentication failed!"));
-        }
       } else {
         res.end("No code or tokens received!");
         console.log(
@@ -56,26 +45,7 @@ export const login = async () => {
   });
 };
 
-async function verifyCodeWithApi(code: string) {
-  console.log("verifying code with api");
-  const response = await fetch(`${apiUrl}/api/auth/verify`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ code }),
-  });
-
-  if (response.ok) {
-    console.log("verified code with api");
-    return response.json();
-  } else {
-    console.error(chalk.red("Error verifying code."));
-    return null;
-  }
-}
-
-function storeToken(tokenId: string, tokenSecret: string) {
+async function storeToken(tokenId: string, tokenSecret: string) {
   const configData = JSON.stringify({
     token_id: tokenId,
     token_secret: tokenSecret,
