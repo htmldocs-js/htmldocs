@@ -336,7 +336,7 @@ Invoice.PreviewProps = {
       name: "Development",
       description: "Description",
       quantity: 2,
-      rate: 1500,
+      rate: 1200,
     },
   ],
 };
