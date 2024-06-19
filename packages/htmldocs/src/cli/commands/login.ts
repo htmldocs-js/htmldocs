@@ -1,11 +1,10 @@
 import chalk from "chalk";
 import * as http from "http";
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
+import { AddressInfo } from "net";
 import open from "open";
 
-const configPath = path.join(os.homedir(), ".htmldocs.json");
+import { storeToken } from "../utils/token";
+
 const apiUrl = "http://localhost:3001";
 
 export const login = async () => {
@@ -13,18 +12,25 @@ export const login = async () => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     if (req.url?.startsWith("/callback")) {
-      const url = new URL(req.url, `http://localhost:${server.address().port}`);
+      const address = server.address() as AddressInfo;
+      if (address === null) {
+        console.error("Server is not running.");
+        res.end("Server error.");
+        return;
+      }
+      const url = new URL(req.url, `http://localhost:${address.port}`);
+      const teamId = url.searchParams.get("team_id");
       const tokenId = url.searchParams.get("token_id");
       const tokenSecret = url.searchParams.get("token_secret");
 
-      if (tokenId && tokenSecret) {
-        await storeToken(tokenId, tokenSecret);
+      if (teamId && tokenId && tokenSecret) {
+        await storeToken(teamId, tokenId, tokenSecret);
         res.end("Authentication successful! You can close this window.");
         console.log(chalk.green("Login successful and tokens stored."));
       } else {
-        res.end("No code or tokens received!");
+        res.end("No team specified or tokens received!");
         console.log(
-          chalk.red("No code or tokens received in the callback URL.")
+          chalk.red("No team specified or tokens received in the callback URL.")
         );
       }
       server.close();
@@ -35,8 +41,15 @@ export const login = async () => {
   });
 
   server.listen(0, async () => {
+    const address = server.address() as AddressInfo;
+    if (address === null) {
+      console.error("Server is not running.");
+      return;
+    }
     const url = new URL(`${apiUrl}/authorize`);
-    const encodedCallbackUri = Buffer.from(`http://localhost:${server.address().port}/callback`).toString('base64');
+    const encodedCallbackUri = Buffer.from(
+      `http://localhost:${address.port}/callback`
+    ).toString("base64");
     url.searchParams.set("callback", encodedCallbackUri);
     await open(url.toString());
     console.log(
@@ -44,11 +57,3 @@ export const login = async () => {
     );
   });
 };
-
-async function storeToken(tokenId: string, tokenSecret: string) {
-  const configData = JSON.stringify({
-    token_id: tokenId,
-    token_secret: tokenSecret,
-  });
-  fs.writeFileSync(configPath, configData);
-}
