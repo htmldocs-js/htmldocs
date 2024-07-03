@@ -5,10 +5,15 @@ import { promises as fs, createReadStream } from "fs";
 import path from "path";
 import { OutputFile } from "esbuild";
 import AdmZip from "adm-zip";
-import FormData from 'form-data';
-import fetch from 'node-fetch';
+import FormData from "form-data";
+import fetch from "node-fetch";
 import { getToken } from "../utils/token";
-import { configureSourceMap, createFakeContext, executeBuiltCode, extractOutputFiles } from "@htmldocs/render";
+import {
+  configureSourceMap,
+  createFakeContext,
+  executeBuiltCode,
+  extractOutputFiles,
+} from "@htmldocs/render";
 import ora from "ora";
 import { closeOraOnSIGINT } from "../utils/close-ora-on-sigint";
 
@@ -22,10 +27,10 @@ export const publish = async (documentPath: string) => {
   }
 
   const documentId = await getDocumentId(documentPath, outputFiles);
-  
+
   const zipPath = await zipDocumentFiles(outputFiles);
   const { team_id, token_id, token_secret } = await getToken();
-  
+
   const formData = new FormData();
   formData.append("file", createReadStream(path.join(zipPath, "output.zip")));
   formData.append("teamId", team_id);
@@ -37,24 +42,38 @@ export const publish = async (documentPath: string) => {
   }).start();
   closeOraOnSIGINT(spinner);
 
-  const response = await fetch("http://localhost:3001/api/documents/upload", {
-    method: "POST",
-    headers: {
-      "X-Htmldocs-Token-Id": token_id,
-      "X-Htmldocs-Token-Secret": token_secret
-    },
-    body: formData
-  });
+  try {
+    const response = await fetch("http://localhost:3001/api/documents/upload", {
+      method: "POST",
+      headers: {
+        "X-Htmldocs-Token-Id": token_id,
+        "X-Htmldocs-Token-Secret": token_secret,
+      },
+      body: formData,
+    });
 
-  if (!response.ok) {
-    spinner.fail(chalk.red(`Failed to upload document: ${response.statusText}`));
+    if (!response.ok) {
+      spinner.fail(
+        chalk.red(`Failed to upload document: ${response.statusText}`)
+      );
+      return;
+    }
+
+    spinner.succeed(chalk.green(`Document "${documentId}" published`));
+  } catch (error) {
+    spinner.fail(
+      chalk.red(
+        "Could not connect to the server. Please check your internet connection and try again."
+      )
+    );
     return;
   }
-
-  spinner.succeed(chalk.green(`Document "${documentId}" published`));
 };
 
-const getDocumentId = async (documentPath: string, outputFiles: OutputFile[]) => {
+const getDocumentId = async (
+  documentPath: string,
+  outputFiles: OutputFile[]
+) => {
   const { sourceMapFile, bundledDocumentFile } =
     extractOutputFiles(outputFiles);
   const builtDocumentCode = bundledDocumentFile.text;
@@ -77,7 +96,11 @@ const getDocumentId = async (documentPath: string, outputFiles: OutputFile[]) =>
 
   const documentId = documentComponent.documentId;
   if (!documentId) {
-    console.log(chalk.red("No document ID found. Please ensure documentId is set as a property on the default export."));
+    console.log(
+      chalk.red(
+        "No document ID found. Please ensure documentId is set as a property on the default export."
+      )
+    );
     return;
   }
 
@@ -89,7 +112,7 @@ const zipDocumentFiles = async (outputFiles: OutputFile[]) => {
   outputFiles.forEach((file) => {
     zip.addLocalFile(file.path);
   });
-  
+
   const tempDir = path.join(tmpdir(), `htmldocs-${Date.now()}`);
   await fs.mkdir(tempDir, { recursive: true });
   zip.writeZip(path.join(tempDir, "output.zip"));
