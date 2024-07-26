@@ -37,4 +37,3 @@ yarn-error.log*
 .DS_Store
 .ignore
 *.pem
-apps/app
