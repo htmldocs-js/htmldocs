@@ -5,35 +5,50 @@ import open from "open";
 
 import { storeToken } from "../utils/token";
 
-const apiUrl = "http://localhost:3001";
+const apiUrl = "http://localhost:3000";
 
 export const login = async () => {
   const server = http.createServer(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-    if (req.url?.startsWith("/callback")) {
-      const address = server.address() as AddressInfo;
-      if (address === null) {
-        console.error("Server is not running.");
-        res.end("Server error.");
-        return;
-      }
-      const url = new URL(req.url, `http://localhost:${address.port}`);
-      const teamId = url.searchParams.get("team_id");
-      const tokenId = url.searchParams.get("token_id");
-      const tokenSecret = url.searchParams.get("token_secret");
+    if (req.method === "OPTIONS") {
+      res.writeHead(200);
+      res.end();
+      return;
+    }
 
-      if (teamId && tokenId && tokenSecret) {
-        await storeToken(teamId, tokenId, tokenSecret);
-        res.end("Authentication successful! You can close this window.");
-        console.log(chalk.green("Login successful and tokens stored."));
-      } else {
-        res.end("No team specified or tokens received!");
-        console.log(
-          chalk.red("No team specified or tokens received in the callback URL.")
-        );
-      }
-      server.close();
+    if (req.url?.startsWith("/callback") && req.method === "POST") {
+      let body = "";
+      req.on("data", chunk => {
+        body += chunk.toString();
+      });
+      req.on("end", async () => {
+        try {
+          const { team_id, token_id, token, token_secret } = JSON.parse(body);
+
+          if (team_id && token_id && token && token_secret) {
+            await storeToken(team_id, token_id, token, token_secret);
+            res.writeHead(200, { "Content-Type": "text/plain" });
+            res.end("Authentication successful! You can close this window.");
+            console.log(chalk.green("Login successful and tokens stored."));
+          } else {
+            res.writeHead(400, { "Content-Type": "text/plain" });
+            res.end("Invalid data received");
+            console.log(
+              chalk.red("Invalid data received in the callback.")
+            );
+          }
+        } catch (error) {
+          res.writeHead(400, { "Content-Type": "text/plain" });
+          res.end("Error processing data");
+          console.log(
+            chalk.red("Error processing data in the callback.")
+          );
+        }
+        server.close();
+      });
     } else {
       res.statusCode = 404;
       res.end();
@@ -53,7 +68,7 @@ export const login = async () => {
     url.searchParams.set("callback", encodedCallbackUri);
     await open(url.toString());
     console.log(
-      chalk.blue("Please complete the authentication in your browser.")
+      chalk.blue("Please select a team and complete the authentication in your browser.")
     );
   });
 };
