@@ -26,10 +26,10 @@ export const login = async () => {
       });
       req.on("end", async () => {
         try {
-          const { team_id, token_id, token, token_secret } = JSON.parse(body);
+          const { team_id, token_id, token_secret } = JSON.parse(body);
 
-          if (team_id && token_id && token && token_secret) {
-            await storeToken(team_id, token_id, token, token_secret);
+          if (team_id && token_id && token_secret) {
+            await storeToken(team_id, token_id, token_secret);
             res.writeHead(200, { "Content-Type": "text/plain" });
             res.end("Authentication successful! You can close this window.");
             console.log(chalk.green("Login successful and tokens stored."));
@@ -58,7 +58,7 @@ export const login = async () => {
   server.listen(0, async () => {
     const address = server.address() as AddressInfo;
     if (address === null) {
-      console.error("Server is not running.");
+      console.error(chalk.red("Server is not running."));
       return;
     }
     const url = new URL(`${apiUrl}/authorize`);
