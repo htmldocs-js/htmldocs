@@ -7,6 +7,11 @@ import ora from "ora";
 import { htmldocsPlugin } from "../../utils/htmldocs-esbuild-plugin";
 import { closeOraOnSIGINT } from "../utils/close-ora-on-sigint";
 
+export const BUILD_DIR = path.join(
+  process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION || process.cwd(),
+  "dist"
+);
+
 export const build = async (fileName: string, write: boolean = true) => {
   const spinner = ora({
     text: `Building ${fileName}...\n`,
@@ -45,10 +50,7 @@ export const build = async (fileName: string, write: boolean = true) => {
             },
           }),
         ],
-        outdir: path.join(
-          process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION || process.cwd(),
-          "dist"
-        ),
+        outdir: BUILD_DIR,
         sourcemap: "external",
       });
       spinner.succeed("Build completed");

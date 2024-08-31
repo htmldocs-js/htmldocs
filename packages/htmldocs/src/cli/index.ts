@@ -5,14 +5,24 @@ import { dev } from './commands/dev';
 import { build } from './commands/build';
 import { publish } from './commands/publish';
 import { login } from './commands/login';
+import logger from './utils/log';
 
 const PACKAGE_NAME = 'htmldocs';
 const noop = () => {};
 
+// Silence Node.js deprecation warnings
+process.removeAllListeners('warning');
+
 program
   .name(PACKAGE_NAME)
   .description('A live preview of your documents right in your browser')
-  .version(packageJson.version);
+  .version(packageJson.version)
+  .option('-v, --verbose', 'Enable verbose logging')
+  .hook('preAction', (thisCommand) => {
+    if (thisCommand.opts().verbose) {
+      logger.level = 'debug';
+    }
+  });
 
 program
   .command('dev')
