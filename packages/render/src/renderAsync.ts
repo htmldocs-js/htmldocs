@@ -88,3 +88,5 @@ export const renderAsync = async (component: React.ReactElement, documentCss?: s
 
   return document;
 };
+
+export type RenderAsyncFunction = typeof renderAsync;
