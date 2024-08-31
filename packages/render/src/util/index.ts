@@ -6,6 +6,7 @@ import { RawSourceMap } from "source-map-js";
 import { staticNodeModulesForVM } from "./static-node-modules-for-vm";
 import { improveErrorWithSourceMap } from "./improve-error-with-sourcemap";
 import { DocumentComponent, ErrorObject } from "../types";
+import { RenderAsyncFunction } from "../renderAsync";
 
 export { improveErrorWithSourceMap } from "./improve-error-with-sourcemap";
 
@@ -76,7 +77,7 @@ export function executeBuiltCode(
   fakeContext: any,
   documentPath: string,
   sourceMapToDocument: RawSourceMap
-): DocumentComponent | { error: ErrorObject } {
+): { DocumentComponent: DocumentComponent; renderAsync: RenderAsyncFunction } | { error: ErrorObject } {
   try {
     vm.runInNewContext(builtDocumentCode, fakeContext, { filename: documentPath });
   } catch (exception) {
@@ -95,5 +96,8 @@ export function executeBuiltCode(
     };
   }
 
-  return fakeContext.module.exports.default as DocumentComponent;
+  return {
+    DocumentComponent: fakeContext.module.exports.default as DocumentComponent,
+    renderAsync: fakeContext.module.exports.renderAsync as RenderAsyncFunction,
+  };
 }

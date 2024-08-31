@@ -77,21 +77,21 @@ export const getDocumentComponent = async (
     const fakeContext = createFakeContext(documentPath);
     const sourceMapToDocument = configureSourceMap(sourceMapFile);
 
-    const documentComponent = executeBuiltCode(
+    const executionResult = executeBuiltCode(
       builtDocumentCode,
       fakeContext,
       documentPath,
       sourceMapToDocument
     );
 
-    if ("error" in documentComponent) {
-      return { error: documentComponent.error };
+    if ("error" in executionResult) {
+      return { error: executionResult.error };
     }
 
     return {
-      documentComponent,
+      documentComponent: executionResult.DocumentComponent,
       documentCss,
-      renderAsync: fakeContext.module.exports.renderAsync as typeof renderAsync,
+      renderAsync: executionResult.renderAsync,
       sourceMapToOriginalFile: sourceMapToDocument,
     };
   } catch (error) {

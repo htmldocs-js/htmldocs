@@ -102,20 +102,20 @@ const getDocumentId = async (
   const sourceMapToDocument = configureSourceMap(sourceMapFile);
 
   logger.debug("Executing built code to extract document ID");
-  const documentComponent = executeBuiltCode(
+  const executionResult = executeBuiltCode(
     builtDocumentCode,
     fakeContext,
     documentPath,
     sourceMapToDocument
   );
 
-  if ("error" in documentComponent) {
+  if ("error" in executionResult) {
     logger.error("Error building document");
-    logger.error(documentComponent.error);
+    logger.error(executionResult.error);
     return;
   }
 
-  const documentId = documentComponent.documentId;
+  const documentId = executionResult.DocumentComponent.documentId;
   if (!documentId) {
     logger.error(
       "No document ID found. Please ensure documentId is set as a property on the default export."
