@@ -158,6 +158,9 @@ importers:
       lucide-react:
         specifier: ^0.416.0
         version: 0.416.0(react@18.3.1)
+      mime-types:
+        specifier: ^2.1.35
+        version: 2.1.35
       next:
         specifier: 14.2.5
         version: 14.2.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.4)
