@@ -88,6 +88,8 @@ export const getDocumentComponent = async (
       return { error: executionResult.error };
     }
 
+    console.log("executionResult", executionResult);
+
     return {
       documentComponent: executionResult.DocumentComponent,
       documentCss,

@@ -2,7 +2,7 @@
 
 import { LaunchOptions, chromium } from 'playwright';
 
-interface RenderDocumentToPDFProps extends LaunchOptions {
+export interface RenderDocumentToPDFProps extends LaunchOptions {
     url: string;
 }
 
