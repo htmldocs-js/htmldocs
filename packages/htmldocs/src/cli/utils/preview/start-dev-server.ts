@@ -9,6 +9,11 @@ import packageJson from '../../../../package.json';
 import { closeOraOnSIGINT } from '../close-ora-on-sigint';
 import { serveStaticFile } from './serve-static-file';
 import { getEnvVariablesForPreviewApp } from './get-env-variables-for-preview-app';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 let devServer: http.Server | undefined;
 
@@ -26,7 +31,7 @@ const safeAsyncServerListen = (server: http.Server, port: number) => {
   });
 };
 
-export const isRunningBuilt = __filename.endsWith(path.join('cli', 'index.js'));
+export const isRunningBuilt = __filename.endsWith(path.join('cli', 'index.mjs'));
 export const cliPackageLocation = isRunningBuilt
   ? path.resolve(__dirname, '../')
   : path.resolve(__dirname, '../../../..');

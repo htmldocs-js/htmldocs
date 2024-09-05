@@ -1,10 +1,12 @@
 import path from "node:path";
 import fs from "node:fs";
 import type { Loader, PluginBuild, ResolveOptions } from "esbuild";
-// import { Documentation, parse } from "react-docgen";
-// import { randomBytes } from "crypto";
-// import * as tsj from "ts-json-schema-generator";
-// import { DOCUMENT_SCHEMAS_DIR } from "./paths";
+import { Documentation, parse } from "react-docgen";
+import * as tsj from "ts-json-schema-generator";
+import { DOCUMENT_SCHEMAS_DIR } from "./paths";
+import { getEnvVariablesForPreviewApp } from "../cli/utils/preview/get-env-variables-for-preview-app";
+import { documentsDirRelativePath } from "./documents-directory-absolute-path";
+import { cliPackageLocation } from "../cli/utils";
 
 /**
  * Made to export the `renderAsync` function out of the user's email template
@@ -19,11 +21,21 @@ import type { Loader, PluginBuild, ResolveOptions } from "esbuild";
 export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) => ({
   name: "htmldocs-plugin",
   setup: (b: PluginBuild) => {
+    process.env = {
+      ...process.env,
+      ...getEnvVariablesForPreviewApp(
+        // If we don't do normalization here, stuff like https://github.com/resend/react-email/issues/1354 happens.
+        path.normalize(documentsDirRelativePath),
+        cliPackageLocation,
+        process.cwd(),
+      ),
+    };
+    
     b.onLoad(
       { filter: new RegExp(documentTemplates.join("|")) },
       async ({ path: pathToFile }) => {
         let contents = await fs.promises.readFile(pathToFile, "utf8");
-        // await generateAndWriteSchema(contents, pathToFile);
+        await generateAndWriteSchema(contents, pathToFile);
         if (isBuild) {
           // Replace all occurrences of /static with ./static
           contents = contents.replace(/\/static/g, './static');
@@ -61,69 +73,68 @@ export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) =>
   },
 });
 
-// async function generateAndWriteSchema(contents: string, filePath: string): Promise<void> {
-//   const componentProps = await parseFileToProps(contents, filePath);
-//   const randomSuffix = randomBytes(4).toString("hex");
-//   const componentInterfaceName = `ComponentProps_${randomSuffix}`;
-//   let interfaceContent = `export interface ${componentInterfaceName} {\n`;
+async function generateAndWriteSchema(contents: string, filePath: string): Promise<void> {
+  const componentProps = await parseFileToProps(contents, filePath);
+  const componentInterfaceName = `ComponentProps`;
+  let interfaceContent = `export interface ${componentInterfaceName} {\n`;
 
-//   for (const propName in componentProps) {
-//     const prop = componentProps[propName];
-//     if (!prop || !prop.tsType) continue;
-//     const required = prop.required ? "" : "?";
-//     const tsType = "raw" in prop.tsType ? prop.tsType.raw : prop.tsType?.name;
-//     interfaceContent += `  ${propName}${required}: ${tsType};\n`;
-//   }
+  for (const propName in componentProps) {
+    const prop = componentProps[propName];
+    if (!prop || !prop.tsType) continue;
+    const required = prop.required ? "" : "?";
+    const tsType = "raw" in prop.tsType ? prop.tsType.raw : prop.tsType?.name;
+    interfaceContent += `  ${propName}${required}: ${tsType};\n`;
+  }
 
-//   interfaceContent += `}\n`;
-//   const fileContents = contents + "\n" + interfaceContent;
-//   const tempFilePath = createTempFilePath(filePath);
+  interfaceContent += `}\n`;
+  const fileContents = contents + "\n" + interfaceContent;
+  const tempFilePath = createTempFilePath(filePath);
 
-//   await fs.writeFileSync(tempFilePath, fileContents);
-//   const config = {
-//     path: tempFilePath,
-//     tsconfig: process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION + "/tsconfig.json",
-//     type: componentInterfaceName,
-//   };
+  await fs.writeFileSync(tempFilePath, fileContents);
+  const config = {
+    path: tempFilePath,
+    tsconfig: process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION + "/tsconfig.json",
+    type: componentInterfaceName,
+  };
 
-//   const schema = tsj.createGenerator(config).createSchema(config.type);
-//   fs.unlinkSync(tempFilePath);
+  const schema = tsj.createGenerator(config).createSchema(config.type);
+  fs.unlinkSync(tempFilePath);
 
-//   const schemaString = JSON.stringify(schema, null, 2);
+  const schemaString = JSON.stringify(schema, null, 2);
 
-//   if (!fs.existsSync(DOCUMENT_SCHEMAS_DIR)) {
-//     fs.mkdirSync(DOCUMENT_SCHEMAS_DIR, { recursive: true });
-//   }
-//   const schemaFilePath = path.join(
-//     DOCUMENT_SCHEMAS_DIR,
-//     `${path.basename(filePath)}.json`
-//   );
-//   fs.writeFileSync(schemaFilePath, schemaString);
-// }
+  if (!fs.existsSync(DOCUMENT_SCHEMAS_DIR)) {
+    fs.mkdirSync(DOCUMENT_SCHEMAS_DIR, { recursive: true });
+  }
+  const schemaFilePath = path.join(
+    DOCUMENT_SCHEMAS_DIR,
+    `${path.basename(filePath, path.extname(filePath))}.schema.json`
+  );
+  fs.writeFileSync(schemaFilePath, schemaString);
+}
 
-// function createTempFilePath(filePath: string): string {
-//   const baseName = path.basename(filePath, path.extname(filePath));
-//   const dirName = path.dirname(filePath);
-//   const extension = path.extname(filePath).replace(".", "");
-//   const tempFileName = `.${baseName}.${extension}`;
-//   const tempFilePath = path.join(dirName, tempFileName);
-//   return tempFilePath;
-// }
+function createTempFilePath(filePath: string): string {
+  const baseName = path.basename(filePath, path.extname(filePath));
+  const dirName = path.dirname(filePath);
+  const extension = path.extname(filePath).replace(".", "");
+  const tempFileName = `.${baseName}.${extension}`;
+  const tempFilePath = path.join(dirName, tempFileName);
+  return tempFilePath;
+}
 
-// const parseFileToProps = async (
-//   contents: string,
-//   filePath: string
-// ): Promise<Documentation["props"] | undefined> => {
-//   const componentsInfo = parse(contents, {
-//     babelOptions: {
-//       filename: filePath,
-//       babelrc: false,
-//     },
-//   });
+const parseFileToProps = async (
+  contents: string,
+  filePath: string
+): Promise<Documentation["props"] | undefined> => {
+  const componentsInfo = parse(contents, {
+    babelOptions: {
+      filename: filePath,
+      babelrc: false,
+    },
+  });
 
-//   if (componentsInfo.length > 0 && componentsInfo[0]) {
-//     return componentsInfo[0].props;
-//   } else {
-//     return undefined;
-//   }
-// };
+  if (componentsInfo.length > 0 && componentsInfo[0]) {
+    return componentsInfo[0].props;
+  } else {
+    return undefined;
+  }
+};

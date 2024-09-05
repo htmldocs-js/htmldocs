@@ -2,7 +2,7 @@
   "name": "htmldocs",
   "version": "0.1.0",
   "bin": {
-    "htmldocs": "./cli/index.js"
+    "htmldocs": "./cli/index.mjs"
   },
   "scripts": {
     "init": "npx playwright install",

@@ -4,6 +4,8 @@ import * as es from "esbuild";
 import path from "node:path";
 import postCssPlugin from "esbuild-style-plugin";
 import ora from "ora";
+import tailwindcss from "tailwindcss";
+import autoprefixer from "autoprefixer";
 import { htmldocsPlugin } from "../../utils/htmldocs-esbuild-plugin";
 import { closeOraOnSIGINT } from "../utils/close-ora-on-sigint";
 
@@ -46,7 +48,7 @@ export const build = async (fileName: string, write: boolean = true) => {
           htmldocsPlugin([fileName], true),
           postCssPlugin({
             postcss: {
-              plugins: [require("tailwindcss"), require("autoprefixer")],
+              plugins: [tailwindcss, autoprefixer],
             },
           }),
         ],

@@ -39,7 +39,7 @@ export const publish = async (documentPath: string) => {
   const documentId = await getDocumentId(documentPath, outputFiles);
   logger.debug(`Document ID: ${documentId}`);
 
-  const zipPath = await zipDocumentFiles(outputFiles);
+  const zipPath = await zipDocumentFiles();
   logger.debug(`Zipped document files to: ${zipPath}`);
 
   const { team_id, token_id, token_secret } = await getToken();
@@ -127,14 +127,17 @@ const getDocumentId = async (
   return documentId;
 };
 
-const zipDocumentFiles = async (outputFiles: OutputFile[]) => {
+const zipDocumentFiles = async () => {
   logger.debug("Starting to zip document files");
   const zip = new AdmZip();
-  outputFiles.forEach((file) => {
-    logger.debug(`Adding file to zip: ${file.path}`);
-    zip.addLocalFile(file.path);
-    logger.debug(`File added to zip: ${file.path}`);
-  });
+
+  const files = await fs.readdir(BUILD_DIR);
+  for (const file of files) {
+    const filePath = path.join(BUILD_DIR, file);
+    logger.debug(`Adding file to zip: ${filePath}`);
+    zip.addLocalFile(filePath);
+    logger.debug(`File added to zip: ${filePath}`);
+  }
 
   const tempDir = path.join(tmpdir(), `htmldocs-${Date.now()}`);
   logger.debug(`Creating temporary directory: ${tempDir}`);
