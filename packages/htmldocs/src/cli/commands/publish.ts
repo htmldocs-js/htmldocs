@@ -36,7 +36,7 @@ export const publish = async (documentPath: string) => {
   }
   logger.debug("Finished writing output files");
 
-  const documentId = await getDocumentId(documentPath, outputFiles);
+  const { documentId, defaultProps } = await getDocumentIdAndDefaultProps(documentPath, outputFiles);
   logger.debug(`Document ID: ${documentId}`);
 
   const zipPath = await zipDocumentFiles();
@@ -49,6 +49,7 @@ export const publish = async (documentPath: string) => {
   formData.append("file", createReadStream(path.join(zipPath, "output.zip")));
   formData.append("teamId", team_id);
   formData.append("documentName", documentId);
+  formData.append("defaultProps", JSON.stringify(defaultProps));
   logger.debug("Form data prepared for upload");
 
   const spinner = ora({
@@ -89,10 +90,10 @@ export const publish = async (documentPath: string) => {
   }
 };
 
-const getDocumentId = async (
+const getDocumentIdAndDefaultProps = async (
   documentPath: string,
   outputFiles: OutputFile[]
-) => {
+): Promise<{ documentId: string | null; defaultProps: Record<string, any> }> => {
   logger.debug("Extracting document ID");
   const { sourceMapFile, bundledDocumentFile } =
     extractOutputFiles(outputFiles);
@@ -112,7 +113,7 @@ const getDocumentId = async (
   if ("error" in executionResult) {
     logger.error("Error building document");
     logger.error(executionResult.error);
-    return;
+    return { documentId: null, defaultProps: {} };
   }
 
   const documentId = executionResult.DocumentComponent.documentId;
@@ -120,11 +121,13 @@ const getDocumentId = async (
     logger.error(
       "No document ID found. Please ensure documentId is set as a property on the default export."
     );
-    return;
+    return { documentId: null, defaultProps: {} };
   }
 
+  const defaultProps = executionResult.DocumentComponent.PreviewProps || {};
   logger.debug(`Extracted document ID: ${documentId}`);
-  return documentId;
+  logger.debug(`Extracted default props: ${JSON.stringify(defaultProps, null, 2)}`);
+  return { documentId, defaultProps: defaultProps };
 };
 
 const zipDocumentFiles = async () => {
