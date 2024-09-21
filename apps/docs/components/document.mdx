@@ -1,0 +1,78 @@
+---
+title: "Document"
+description: "A component for creating document layouts"
+icon: "file-doc"
+---
+
+The `Document` component is used to create a layout for document pages. It provides a structured way to set the size, orientation, and margin of the document.
+
+## Usage
+
+<CodeGroup>
+
+```jsx Document Example
+import Document from './Document';
+
+const MyDocument = () => (
+  <Document size="A4" orientation="portrait" margin="0.39in">
+    <h1>My Document Content</h1>
+    <p>This is the content of my document.</p>
+  </Document>
+);
+```
+
+</CodeGroup>
+
+## Props
+
+<ResponseField name="size" type="string" required>
+  The size of the document. Must be one of: "A3", "A4", "A5", "letter", or "legal".
+</ResponseField>
+
+<ResponseField name="orientation" type="string" required>
+  The orientation of the document. Must be either "portrait" or "landscape".
+</ResponseField>
+
+<ResponseField name="margin" type="string | React.CSSProperties['margin']">
+  The margin of the document. Can be a string (e.g., "0.39in") or a valid CSS margin value.
+</ResponseField>
+
+<ResponseField name="children" type="React.ReactNode" required>
+  The content of the document.
+</ResponseField>
+
+## Examples
+
+### A4 Portrait Document
+
+<CodeGroup>
+
+```jsx A4 Portrait
+import Document from './Document';
+
+const A4Portrait = () => (
+  <Document size="A4" orientation="portrait" margin="1in">
+    <h1>A4 Portrait Document</h1>
+    <p>This is an A4 portrait document with 1 inch margins.</p>
+  </Document>
+);
+```
+
+</CodeGroup>
+
+### Legal Landscape Document
+
+<CodeGroup>
+
+```jsx Legal Landscape
+import Document from './Document';
+
+const LegalLandscape = () => (
+  <Document size="legal" orientation="landscape" margin="0.5in">
+    <h1>Legal Landscape Document</h1>
+    <p>This is a legal size landscape document with 0.5 inch margins.</p>
+  </Document>
+);
+```
+
+</CodeGroup>

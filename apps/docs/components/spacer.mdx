@@ -1,0 +1,97 @@
+---
+title: "Spacer"
+description: "Add flexible spacing between elements"
+icon: "arrows-from-line"
+---
+
+The `Spacer` component allows you to add customizable vertical or horizontal space between elements in your document.
+
+<Spacer height={20} />
+
+## Usage
+
+Use the `Spacer` component to create gaps between content. You can specify either `height` or `width`.
+
+<CodeGroup>
+
+```jsx Vertical Spacer
+<Spacer height={50} />
+```
+
+```jsx Horizontal Spacer
+<Spacer width={100} />
+```
+
+</CodeGroup>
+
+<CodeGroup>
+
+```jsx Full Example
+import Document from './Document';
+import Page from './Page';
+import Head from './Head';
+import Spacer from './Spacer';
+
+const MyDocument = () => (
+  <Document>
+    <Head>
+      <title>My Document</title>
+    </Head>
+    <Page>
+      <h1>Welcome to My Document</h1>
+      <Spacer height={20} />
+      <p>This is the first paragraph of my document.</p>
+      <Spacer height={30} />
+      <h2>Section 1</h2>
+      <Spacer height={15} />
+      <p>Content for section 1 goes here.</p>
+      <Spacer height={50} />
+      <h2>Section 2</h2>
+      <Spacer height={15} />
+      <p>Content for section 2 goes here.</p>
+    </Page>
+  </Document>
+);
+
+export default MyDocument;
+```
+</CodeGroup>
+
+## Props
+
+<ResponseField name="height" type="number | string | boolean">
+  Vertical space the spacer takes up. Use a number for pixels, a string for other units, or `true` for 100%.
+</ResponseField>
+
+<ResponseField name="width" type="number | string | boolean">
+  Horizontal space the spacer takes up. Use a number for pixels, a string for other units, or `true` for 100%.
+</ResponseField>
+
+<ResponseField name="display" type="string" default="block">
+  CSS display property of the spacer.
+</ResponseField>
+
+## Comparison to LaTeX
+
+The `Spacer` component serves a similar purpose to LaTeX's vertical and horizontal spacing commands:
+
+- `Spacer` with `height` is similar to LaTeX's `\vspace{}`
+- `Spacer` with `width` is similar to LaTeX's `\hspace{}`
+
+However, `Spacer` offers more flexibility:
+
+1. **Units**: While LaTeX typically uses pt, em, or ex, `Spacer` can use any CSS unit.
+2. **Responsiveness**: `Spacer` can adapt to different screen sizes more easily.
+3. **Simplicity**: `Spacer` uses a single component for both vertical and horizontal spacing.
+
+<CodeGroup>
+
+```jsx Spacer Example
+<Spacer height={20} />
+```
+
+```latex LaTeX Equivalent
+\vspace{20pt}
+```
+
+</CodeGroup>

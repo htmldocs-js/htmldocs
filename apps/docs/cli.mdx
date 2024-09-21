@@ -1,0 +1,86 @@
+---
+title: "CLI"
+sidebarTitle: "CLI"
+description: "After installing the htmldocs package, you can start using the command line interface (CLI)."
+"og:image": "https://htmldocs.com/static/covers/htmldocs.png"
+icon: "square-terminal"
+---
+
+## `htmldocs dev`
+
+Starts a local development server that will watch your files and automatically rebuild your document template when you make changes.
+
+**Options**
+
+<ResponseField name="--dir" type="string" default="./documents">
+  Change the directory of your document templates.
+</ResponseField>
+<ResponseField name="--port" type="string" default="3000">
+  Port to run dev server on
+</ResponseField>
+
+## `htmldocs build <file>`
+
+Builds the document component. This will create a `dist` directory with the built files.
+
+**Options**
+
+<ResponseField name="file" type="string" required>
+  The file path of the document to build.
+</ResponseField>
+
+## `htmldocs publish <file>`
+
+Publishes the document to the cloud for API use.
+
+**Options**
+
+<ResponseField name="file" type="string" required>
+  The file path of the document to publish.
+</ResponseField>
+
+## `htmldocs login`
+
+Authenticates the CLI with the cloud.
+
+## `htmldocs --help`
+
+Shows all available commands and options.
+
+**Options**
+
+<ResponseField name="-v, --verbose" type="boolean">
+  Enable verbose logging
+</ResponseField>
+
+**F.A.Q**
+
+<AccordionGroup>
+  <Accordion title="How can I define props specific to the document's preview?">
+    You can define preview props for your document by adding a `PreviewProps` property to your default export. For example:
+
+    ```jsx
+    export default function Document(props) {
+      return (
+        <div>
+          <h1>{props.title}</h1>
+          <p>{props.content}</p>
+        </div>
+      );
+    }
+
+    Document.PreviewProps = {
+      title: "Preview Title",
+      content: "This is preview content",
+    };
+    ```
+
+    These props will be used when previewing the document in the development server.
+  </Accordion>
+  <Accordion title="How do I set up authentication for publishing?">
+    To publish documents, you need to authenticate with the cloud service. Use the `htmldocs login` command to start the authentication process. This will open a browser window where you can select a team and complete the authentication. Once authenticated, your tokens will be securely stored for future use.
+  </Accordion>
+  <Accordion title="Where are the built files stored?">
+    By default, built files are stored in a `dist` directory in your project root. You can customize this location by setting the `NEXT_PUBLIC_USER_PROJECT_LOCATION` environment variable.
+  </Accordion>
+</AccordionGroup>
