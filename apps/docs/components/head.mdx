@@ -1,0 +1,62 @@
+---
+title: "Head"
+description: "Add metadata and external resources to your document"
+icon: "head-side"
+---
+
+The `Head` component allows you to add metadata and external resources to your document. It can be used to import fonts and icon libraries. It works similarly to Next.js's `Head` component, which hoists the contents to the top of the HTML document.
+
+## Usage
+
+Place the `Head` component inside your document, typically near the top. You can include various HTML elements that you want to be added to the `<head>` section of your page.
+
+<CodeGroup>
+
+```jsx Example
+import Document from "@htmldocs/core";
+import Head from "@htmldocs/core";
+
+export default function MyDocument() {
+  return (
+    <Document>
+      <Head>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+      </Head>
+      {/* Rest of your document content */}
+    </Document>
+  );
+}
+```
+
+</CodeGroup>
+
+## Notes
+
+- The `Head` component doesn't render any visible content. It only affects the document's `<head>` section.
+- The `Head` component automatically removes duplicate elements, keeping only the last instance of each unique element type or meta tag.
+
+## Examples
+
+### Adding a Custom Font
+
+<CodeGroup>
+
+```jsx Font Example
+<Head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+</Head>
+```
+
+</CodeGroup>
+
+### Including an External Script
+
+<CodeGroup>
+
+```jsx Script Example
+<Head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</Head>
+```
+
+</CodeGroup>
