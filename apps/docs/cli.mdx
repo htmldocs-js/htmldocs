@@ -6,9 +6,13 @@ description: "After installing the htmldocs package, you can start using the com
 icon: "square-terminal"
 ---
 
+## `htmldocs login`
+
+Authenticates the CLI with the cloud. This allows you to publish your documents to the cloud.
+
 ## `htmldocs dev`
 
-Starts a local development server that will watch your files and automatically rebuild your document template when you make changes.
+Starts a local development server that will watch your files and automatically rebuild your document template when you make changes. Login not required.
 
 **Options**
 
@@ -17,16 +21,6 @@ Starts a local development server that will watch your files and automatically r
 </ResponseField>
 <ResponseField name="--port" type="string" default="3000">
   Port to run dev server on
-</ResponseField>
-
-## `htmldocs build <file>`
-
-Builds the document component. This will create a `dist` directory with the built files.
-
-**Options**
-
-<ResponseField name="file" type="string" required>
-  The file path of the document to build.
 </ResponseField>
 
 ## `htmldocs publish <file>`
@@ -38,10 +32,6 @@ Publishes the document to the cloud for API use.
 <ResponseField name="file" type="string" required>
   The file path of the document to publish.
 </ResponseField>
-
-## `htmldocs login`
-
-Authenticates the CLI with the cloud.
 
 ## `htmldocs --help`
 
