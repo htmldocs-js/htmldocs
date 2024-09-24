@@ -21,16 +21,6 @@ import { cliPackageLocation } from "../cli/utils";
 export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) => ({
   name: "htmldocs-plugin",
   setup: (b: PluginBuild) => {
-    process.env = {
-      ...process.env,
-      ...getEnvVariablesForPreviewApp(
-        // If we don't do normalization here, stuff like https://github.com/resend/react-email/issues/1354 happens.
-        path.normalize(documentsDirRelativePath),
-        cliPackageLocation,
-        process.cwd(),
-      ),
-    };
-    
     b.onLoad(
       { filter: new RegExp(documentTemplates.join("|")) },
       async ({ path: pathToFile }) => {
