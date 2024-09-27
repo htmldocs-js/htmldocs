@@ -28,6 +28,7 @@ const isFileADocument = (fullPath: string): boolean => {
 
 export interface DocumentsDirectory {
   absolutePath: string;
+  relativePath: string;
   directoryName: string;
   documentFilenames: string[];
   subDirectories: DocumentsDirectory[];
@@ -45,9 +46,7 @@ const mergeDirectoriesWithSubDirectories = (
   ) {
     const onlySubDirectory = currentResultingMergedDirectory.subDirectories[0]!;
     currentResultingMergedDirectory = {
-      subDirectories: onlySubDirectory.subDirectories,
-      documentFilenames: onlySubDirectory.documentFilenames,
-      absolutePath: onlySubDirectory.absolutePath,
+      ...onlySubDirectory,
       directoryName: path.join(
         currentResultingMergedDirectory.directoryName,
         onlySubDirectory.directoryName,
@@ -60,6 +59,7 @@ const mergeDirectoriesWithSubDirectories = (
 
 export const getDocumentsDirectoryMetadata = async (
   absolutePathToDocumentsDirectory: string,
+  baseDirectoryPath = absolutePathToDocumentsDirectory,
 ): Promise<DocumentsDirectory | undefined> => {
   if (!fs.existsSync(absolutePathToDocumentsDirectory)) return;
 
@@ -81,16 +81,24 @@ export const getDocumentsDirectoryMetadata = async (
           !dirent.name.startsWith('_') &&
           dirent.name !== 'static',
       )
-      .map(
-        (dirent) =>
-          getDocumentsDirectoryMetadata(
-            path.join(absolutePathToDocumentsDirectory, dirent.name),
-          ) as Promise<DocumentsDirectory>,
-      ),
+      .map((dirent) => {
+        const direntAbsolutePath = path.join(
+          absolutePathToDocumentsDirectory,
+          dirent.name,
+        );
+        return getDocumentsDirectoryMetadata(
+          direntAbsolutePath,
+          baseDirectoryPath,
+        ) as Promise<DocumentsDirectory>;
+      }),
   );
 
   return mergeDirectoriesWithSubDirectories({
     absolutePath: absolutePathToDocumentsDirectory,
+    relativePath: path.relative(
+      baseDirectoryPath,
+      absolutePathToDocumentsDirectory,
+    ),
     directoryName: absolutePathToDocumentsDirectory.split(path.sep).pop()!,
     documentFilenames,
     subDirectories,

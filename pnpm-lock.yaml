@@ -250,6 +250,8 @@ importers:
         specifier: ^5
         version: 5.4.5
 
+  apps/asdf: {}
+
   apps/examples:
     dependencies:
       '@formatjs/intl':
@@ -332,8 +334,8 @@ importers:
         specifier: ^7.24.6
         version: 7.24.6(@babel/core@7.24.6)
       '@htmldocs/render':
-        specifier: workspace:*
-        version: link:../render
+        specifier: 0.1.0
+        version: 0.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@phosphor-icons/react':
         specifier: ^2.1.5
         version: 2.1.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -522,7 +524,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       htmldocs:
-        specifier: workspace:0.1.0
+        specifier: workspace:0.1.1
         version: link:../../..
       react:
         specifier: ^18.2.0
@@ -2124,6 +2126,12 @@ packages:
     resolution: {integrity: sha512-bU0Gr4EepJ/EQsH/IwEzYLsT/PEj5C0ynLQ4m+GSHS+xKH4TfSelhluTgOaoc4kA5s7eCsQbM4wvZLzELmWzUg==}
     peerDependencies:
       react-hook-form: ^7.0.0
+
+  '@htmldocs/render@0.1.0':
+    resolution: {integrity: sha512-t3v18KeJ83Z5zj0Q7x/QzFGFE8gPm7tvyf7KzwNAscv+KFwz+2lFrjRYgiIlFhlzYtWYZFpD3DcsjR7nYb3geg==}
+    peerDependencies:
+      react: ^18.2.0
+      react-dom: ^18.2.0
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -9416,6 +9424,13 @@ snapshots:
   '@hookform/resolvers@3.9.0(react-hook-form@7.53.0(react@18.3.1))':
     dependencies:
       react-hook-form: 7.53.0(react@18.3.1)
+
+  '@htmldocs/render@0.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      source-map-js: 1.2.0
+      stacktrace-parser: 0.1.10
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:

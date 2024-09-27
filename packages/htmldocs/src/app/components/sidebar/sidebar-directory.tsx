@@ -4,7 +4,6 @@ import * as React from "react";
 import { cn } from "~/lib/utils";
 import {
   documentsDirectoryAbsolutePath,
-  pathSeparator,
 } from "../../../utils/documents-directory-absolute-path";
 import { type DocumentsDirectory } from "~/actions/get-documents-directory-metadata";
 import { Folder, FolderOpen } from "@phosphor-icons/react";
@@ -24,33 +23,22 @@ export const SidebarDirectory = ({
   className,
   currentDocumentOpenSlug,
 }: SidebarDirectoryProps) => {
-  const isBaseDocumentsDirectory =
-    directoryMetadata.absolutePath === documentsDirectoryAbsolutePath;
-  const directoryPathRelativeToBaseDocumentsDirectory =
-    directoryMetadata.absolutePath
-      .replace(`${documentsDirectoryAbsolutePath}${pathSeparator}`, "")
-      .replace(documentsDirectoryAbsolutePath, "")
-      .trim();
   const doesDirectoryContainCurrentDocumentOpen = currentDocumentOpenSlug
-    ? currentDocumentOpenSlug.includes(
-        directoryPathRelativeToBaseDocumentsDirectory
-      )
+    ? currentDocumentOpenSlug.includes(directoryMetadata.relativePath)
     : false;
 
   const isEmpty =
-    directoryMetadata.documentFilenames.length > 0 ||
-    directoryMetadata.subDirectories.length > 0;
+    directoryMetadata.documentFilenames.length === 0 &&
+    directoryMetadata.subDirectories.length === 0;
 
   const [open, setOpen] = React.useState(
     persistedOpenDirectories.has(directoryMetadata.absolutePath) ||
-      isBaseDocumentsDirectory ||
       doesDirectoryContainCurrentDocumentOpen
   );
 
   return (
     <Collapsible
       className={cn(className)}
-      data-root={isBaseDocumentsDirectory}
       onOpenChange={(isOpening) => {
         if (isOpening) {
           persistedOpenDirectories.add(directoryMetadata.absolutePath);
@@ -80,7 +68,7 @@ export const SidebarDirectory = ({
             {directoryMetadata.directoryName}
           </h3>
         </div>
-        {isEmpty ? (
+        {!isEmpty ? (
           <IconArrowDown
             className="data-[open=true]:rotate-180 transition-transform opacity-60 justify-self-end"
             data-open={open}
@@ -88,7 +76,7 @@ export const SidebarDirectory = ({
         ) : null}
       </CollapsibleTrigger>
 
-      {isEmpty ? (
+      {!isEmpty ? (
         <SidebarDirectoryChildren
           currentDocumentOpenSlug={currentDocumentOpenSlug}
           documentsDirectoryMetadata={directoryMetadata}

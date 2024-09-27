@@ -5,6 +5,9 @@ export default defineConfig({
   format: ["esm"],
   dts: true,
   clean: true,
-  outDir: "cli",
+  outDir: "dist/cli",
+  banner: {
+    js: "#!/usr/bin/env node",
+  },
 });
 

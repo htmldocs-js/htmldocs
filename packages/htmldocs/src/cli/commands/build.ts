@@ -27,6 +27,23 @@ export const build = async (fileName: string, write: boolean = true) => {
       process.exit(1);
     }
 
+    const removeForceDynamic = async (filePath: string) => {
+      const contents = await fs.promises.readFile(filePath, 'utf8');
+      await fs.promises.writeFile(
+        filePath,
+        contents.replace("export const dynamic = 'force-dynamic';", ''),
+        'utf8',
+      );
+    };
+
+    const builtPreviewAppPath = path.resolve(process.cwd(), 'dist');
+    await removeForceDynamic(
+      path.resolve(builtPreviewAppPath, './src/app/layout.tsx'),
+    );
+    await removeForceDynamic(
+      path.resolve(builtPreviewAppPath, './src/app/preview/[...slug]/page.tsx'),
+    );
+
     try {
       const result = await es.build({
         entryPoints: [fileName],

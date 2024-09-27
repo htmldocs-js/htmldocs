@@ -1,21 +1,23 @@
 {
   "name": "htmldocs",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "bin": {
-    "htmldocs": "./cli/index.mjs"
+    "htmldocs": "./dist/cli/index.mjs"
   },
   "scripts": {
     "init": "npx playwright install",
+    "build": "node build-preview-server.mjs && pnpm build-cli",
+    "build-cli": "tsup-node && pnpm link --global",
     "dev": "next dev",
-    "build": "tsup && pnpm link --global",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@babel/core": "^7.24.6",
     "@babel/parser": "^7.24.5",
     "@babel/preset-typescript": "^7.24.6",
-    "@htmldocs/render": "workspace:*",
+    "@htmldocs/render": "0.1.0",
     "@phosphor-icons/react": "^2.1.5",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
