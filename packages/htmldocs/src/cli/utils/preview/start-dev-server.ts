@@ -31,10 +31,13 @@ const safeAsyncServerListen = (server: http.Server, port: number) => {
   });
 };
 
-export const isRunningBuilt = __filename.endsWith(path.join('cli', 'index.mjs'));
-export const cliPackageLocation = isRunningBuilt
-  ? path.resolve(__dirname, '../')
-  : path.resolve(__dirname, '../../../..');
+export const isDev = !__filename.endsWith(path.join('cli', 'index.js'));
+export const cliPackageLocation = isDev
+  ? path.resolve(__dirname, '../../../..')
+  : path.resolve(__dirname, '../..');
+export const previewServerLocation = isDev
+  ? path.resolve(__dirname, '../../../..')
+  : path.resolve(__dirname, '../preview');
 
 export const startDevServer = async (
   documentsDirRelativePath: string,
@@ -123,7 +126,7 @@ export const startDevServer = async (
     dev: true,
     hostname: 'localhost',
     port,
-    dir: cliPackageLocation,
+    dir: previewServerLocation,
   });
 
   let isNextReady = false;

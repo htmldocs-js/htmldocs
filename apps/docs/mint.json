@@ -54,8 +54,7 @@
       "group": "Overview",
       "pages": [
         "introduction",
-        "quickstart",
-        "development",
+        "getting-started",
         "cli"
       ]
     },

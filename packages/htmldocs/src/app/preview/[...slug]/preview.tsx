@@ -13,12 +13,14 @@ import { RenderingError } from './rendering-error';
 interface PreviewProps {
   slug: string;
   documentPath: string;
+  pathSeparator: string;
   renderingResult: DocumentRenderingResult;
 }
 
 const Preview = ({
   slug,
   documentPath,
+  pathSeparator,
   renderingResult: initialRenderingResult,
 }: PreviewProps) => {
   const router = useRouter();
@@ -78,6 +80,7 @@ const Preview = ({
       activeView={hasNoErrors ? activeView : undefined}
       currentDocumentOpenSlug={slug}
       markup={renderedDocumentMetadata?.markup}
+      pathSeparator={pathSeparator}
       setActiveView={hasNoErrors ? handleViewChange : undefined}
     >
       {/* This relative is so that when there is any error the user can still switch between documents */}

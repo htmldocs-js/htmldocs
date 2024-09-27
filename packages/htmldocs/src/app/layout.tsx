@@ -12,6 +12,9 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
+// Force this to be server-side rendered and not statically generated
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "htmldocs",
 };

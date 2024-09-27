@@ -21,11 +21,14 @@ export const setupHotreloading = async (
     });
   });
 
-  const watcher = watch(emailDirRelativePath, {
+  const absolutePathToDocumentsDirectory = path.resolve(
+    process.cwd(),
+    emailDirRelativePath,
+  );
+
+  const watcher = watch('', {
     ignoreInitial: true,
-    cwd: path.resolve(process.cwd()),
-    // eslint-disable-next-line prefer-named-capture-group
-    ignored: /(^|[/\\])\../,
+    cwd: absolutePathToDocumentsDirectory,
   });
 
   const exit = () => {
@@ -47,12 +50,8 @@ export const setupHotreloading = async (
     changes = [];
   }, 150);
 
-  const absolutePathToEmailsDirectory = path.resolve(
-    process.cwd(),
-    emailDirRelativePath,
-  );
   const [dependencyGraph, updateDependencyGraph] = await createDependencyGraph(
-    absolutePathToEmailsDirectory,
+    absolutePathToDocumentsDirectory,
   );
 
   const resolveDependentsOf = (pathToChangeTarget: string) => {
@@ -91,7 +90,7 @@ export const setupHotreloading = async (
     for (const dependentPath of resolveDependentsOf(pathToChangeTarget)) {
       changes.push({
         event: 'change' as const,
-        filename: path.relative(absolutePathToEmailsDirectory, dependentPath),
+        filename: path.relative(absolutePathToDocumentsDirectory, dependentPath),
       });
     }
     reload();
