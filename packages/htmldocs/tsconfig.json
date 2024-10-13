@@ -38,6 +38,7 @@
     "tsconfig.export.json",
     ".next",
     "dist",
-    "node_modules"
+    "node_modules",
+    "public"
   ]
 }

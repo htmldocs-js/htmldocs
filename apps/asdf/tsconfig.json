@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "jsx": "react-jsx",
+      "lib": ["es2017", "dom"],
+      "outDir": "dist",
+      "paths": {
+        "~/*": [
+          "./"
+        ]
+      },
+      "esModuleInterop": true
+    },
+    "include": ["src/**/*", "documents/**/*", "index.ts"],
+    "exclude": ["node_modules", "dist"]
+  }
