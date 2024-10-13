@@ -31,13 +31,16 @@ const safeAsyncServerListen = (server: http.Server, port: number) => {
   });
 };
 
-export const isDev = !__filename.endsWith(path.join('cli', 'index.js'));
-export const cliPackageLocation = isDev
-  ? path.resolve(__dirname, '../../../..')
-  : path.resolve(__dirname, '../..');
-export const previewServerLocation = isDev
-  ? path.resolve(__dirname, '../../../..')
-  : path.resolve(__dirname, '../preview');
+export const isRunningBuilt = __filename.endsWith(path.join('cli', 'index.mjs'));
+export const cliPackageLocation = isRunningBuilt
+  ? path.resolve(__dirname, '../')
+  : path.resolve(__dirname, '../../../..');
+export const previewServerLocation = isRunningBuilt
+  ? path.resolve(__dirname, '../preview')
+  : path.resolve(__dirname, '../../../..');
+
+console.log('cliPackageLocation', cliPackageLocation);
+console.log('previewServerLocation', previewServerLocation);
 
 export const startDevServer = async (
   documentsDirRelativePath: string,
@@ -123,7 +126,7 @@ export const startDevServer = async (
 
   const app = next({
     // passing in env here does not get the environment variables there
-    dev: true,
+    dev: !isRunningBuilt,
     hostname: 'localhost',
     port,
     dir: previewServerLocation,
@@ -170,7 +173,7 @@ const makeExitHandler =
     }
   };
 
-// do something when app is closing
+// // do something when app is closing
 process.on('exit', makeExitHandler());
 
 // catches ctrl+c event
