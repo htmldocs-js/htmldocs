@@ -3,6 +3,7 @@ import fse from "fs-extra";
 import logSymbols from "log-symbols";
 import ora from "ora";
 import logger from "../utils/log";
+import { cliPackageLocation } from "../utils";
 
 export const init = async (projectName: string) => {
   logger.debug("CLI package location", process.env.NEXT_PUBLIC_CLI_PACKAGE_LOCATION);
@@ -23,7 +24,7 @@ export const init = async (projectName: string) => {
     projectPath = projectPath.trim();
   }
 
-  const templatePath = path.resolve(process.env.NEXT_PUBLIC_CLI_PACKAGE_LOCATION!, "src/cli/template");
+  const templatePath = path.resolve(cliPackageLocation, "cli/template");
   const resolvedProjectPath = path.resolve(projectPath);
 
   fse.copySync(templatePath, resolvedProjectPath, {

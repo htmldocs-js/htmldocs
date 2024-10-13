@@ -74,8 +74,8 @@
     "@types/babel__core": "^7.20.5",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
     "tsup": "^8.0.2",
     "typescript": "^5"
   }

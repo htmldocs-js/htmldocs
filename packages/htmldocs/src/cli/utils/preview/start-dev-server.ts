@@ -176,13 +176,13 @@ const makeExitHandler =
 // // do something when app is closing
 process.on('exit', makeExitHandler());
 
-// catches ctrl+c event
+// // catches ctrl+c event
 process.on(
   'SIGINT',
   makeExitHandler({ shouldKillProcess: true, killWithErrorCode: false }),
 );
 
-//  catches "kill pid" (for example: nodemon restart)
+// //  catches "kill pid" (for example: nodemon restart)
 process.on(
   'SIGUSR1',
   makeExitHandler({ shouldKillProcess: true, killWithErrorCode: false }),
@@ -192,8 +192,8 @@ process.on(
   makeExitHandler({ shouldKillProcess: true, killWithErrorCode: false }),
 );
 
-// catches uncaught exceptions
-process.on(
-  'uncaughtException',
-  makeExitHandler({ shouldKillProcess: true, killWithErrorCode: true }),
-);
+// // catches uncaught exceptions
+// process.on(
+//   'uncaughtException',
+//   makeExitHandler({ shouldKillProcess: true, killWithErrorCode: true }),
+// );
