@@ -39,9 +39,6 @@ export const previewServerLocation = isRunningBuilt
   ? path.resolve(__dirname, '../preview')
   : path.resolve(__dirname, '../../../..');
 
-console.log('cliPackageLocation', cliPackageLocation);
-console.log('previewServerLocation', previewServerLocation);
-
 export const startDevServer = async (
   documentsDirRelativePath: string,
   staticBaseDirRelativePath: string,
