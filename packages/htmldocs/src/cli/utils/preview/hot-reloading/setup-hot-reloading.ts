@@ -75,7 +75,7 @@ export const setupHotreloading = async (
       return;
     }
     const pathToChangeTarget = path.resolve(
-      process.cwd(),
+      absolutePathToDocumentsDirectory,
       relativePathToChangeTarget,
     );
     await updateDependencyGraph(event, pathToChangeTarget);
