@@ -1,22 +1,22 @@
 {
-    "name": "htmldocs-starter",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-      "dev": "htmldocs dev",
-      "publish": "htmldocs publish"
-    },
-    "dependencies": {
-      "@htmldocs/react": "workspace:0.1.0",
-      "@htmldocs/render": "workspace:0.1.0",
-      "clsx": "^2.1.1",
-      "htmldocs": "workspace:0.1.1",
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0"
-    },
-    "devDependencies": {
-      "@types/react": "^18.2.61",
-      "@types/react-dom": "^18.2.19",
-      "typescript": "^5.4.5"
-    }
+  "name": "htmldocs-starter",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "htmldocs dev",
+    "publish": "htmldocs publish"
+  },
+  "dependencies": {
+    "@htmldocs/react": "workspace:0.1.5",
+    "@htmldocs/render": "workspace:0.1.5",
+    "clsx": "^2.1.1",
+    "htmldocs": "workspace:0.1.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
+    "typescript": "^5.4.5"
   }
+}
