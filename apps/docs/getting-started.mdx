@@ -1,5 +1,6 @@
 ---
 title: Getting Started
+icon: "rocket"
 description: 'Add htmldocs to any React/TypeScript project in minutes.'
 ---
 
@@ -26,9 +27,9 @@ bunx htmldocs@latest init
 
 </CodeGroup>
 
-This will create a new folder called `htmldocs-starter` in your current directory.
+This will prompt you for your project name and create a new folder in your current directory.
 
-2. Next, install the dependencies by running:
+2. After switching to the folder, install the dependencies by running:
 <CodeGroup>
 
 ```bash npm
@@ -78,19 +79,19 @@ If you prefer to set up htmldocs manually, follow these steps:
 <CodeGroup>
 
 ```bash npm
-npm install htmldocs
+npm install htmldocs @htmldocs/react @htmldocs/render
 ```
 
 ```bash pnpm
-pnpm add htmldocs
+pnpm add htmldocs @htmldocs/react @htmldocs/render
 ```
 
 ```bash yarn
-yarn add htmldocs
+yarn add htmldocs @htmldocs/react @htmldocs/render
 ```
 
 ```bash bun
-bun add htmldocs
+bun add htmldocs @htmldocs/react @htmldocs/render
 ```
 
 </CodeGroup>
@@ -110,7 +111,7 @@ bun add htmldocs
 Create a new folder called `documents` in your project. Then, create a new file called `index.tsx` in the `documents` folder and include the following code:
 
 ```tsx
-import { Document, Page, Head, Spacer } from "htmldocs";
+import { Document, Page } from "@htmldocs/react";
 
 export default function MyDocument() {
     return (
