@@ -1,6 +1,6 @@
 {
   "name": "htmldocs",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "bin": {
     "htmldocs": "./dist/cli/index.mjs"
   },
@@ -17,7 +17,7 @@
     "@babel/core": "^7.24.6",
     "@babel/parser": "^7.24.5",
     "@babel/preset-typescript": "^7.24.6",
-    "@htmldocs/render": "0.1.5",
+    "@htmldocs/render": "workspace:*",
     "@phosphor-icons/react": "^2.1.5",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dropdown-menu": "^2.0.6",

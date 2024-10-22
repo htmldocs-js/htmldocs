@@ -1,6 +1,6 @@
 {
   "name": "htmldocs-starter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "dev": "htmldocs dev",
@@ -10,7 +10,7 @@
     "@htmldocs/react": "workspace:0.1.5",
     "@htmldocs/render": "workspace:0.1.5",
     "clsx": "^2.1.1",
-    "htmldocs": "workspace:0.1.5",
+    "htmldocs": "workspace:0.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
