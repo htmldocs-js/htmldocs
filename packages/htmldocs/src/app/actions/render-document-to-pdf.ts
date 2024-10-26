@@ -13,8 +13,10 @@ export const renderDocumentToPDF = async ({ url, ...props }: RenderDocumentToPDF
   try {
     const page = await browser.newPage();
     await page.goto(url);
+    await page.waitForLoadState('networkidle');
     const pdfBuffer = await page.pdf({
         format: 'A4',
+        printBackground: true,
     });
     await browser.close();
 
