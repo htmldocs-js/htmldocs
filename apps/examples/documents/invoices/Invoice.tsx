@@ -174,8 +174,8 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
                   </tr>
                 </thead>
                 <tbody>
-                  {services.map((service) => (
-                    <TableRow service={service} />
+                  {services.map((service, index) => (
+                    <TableRow key={index} service={service} />
                   ))}
                   <tr className="border-b"></tr>
                   <tr className="h-12">
