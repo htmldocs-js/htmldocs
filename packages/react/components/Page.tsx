@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useDocumentSettingsContext } from "./DocumentContext";
+import Head from "./Head";
 
 interface Props extends React.ComponentProps<"div"> {
   margin?: React.CSSProperties["margin"];
@@ -13,15 +14,30 @@ const Page: React.FC<Props> = ({
   ...props
 }) => {
   const { margin: documentMargin } = useDocumentSettingsContext();
-
+  const finalMargin = margin || documentMargin;
+  
   return (
-    <div
-      className={clsx("sheet", className)}
-      style={{ padding: margin || documentMargin, ...style }}
-      {...props}
-    >
-    {children}
-    </div>
+    <>
+      <Head>
+        <style>
+          {`
+            @page {
+              margin-top: ${typeof finalMargin === 'string' ? finalMargin : `${finalMargin}px`};
+              margin-right: ${typeof finalMargin === 'string' ? finalMargin : `${finalMargin}px`};
+              margin-bottom: ${typeof finalMargin === 'string' ? finalMargin : `${finalMargin}px`};
+              margin-left: ${typeof finalMargin === 'string' ? finalMargin : `${finalMargin}px`};
+            }
+          `}
+        </style>
+      </Head>
+      <div
+        className={clsx("w-full h-full", className)}
+        style={style}
+        {...props}
+      >
+        {children}
+      </div>
+    </>
   );
 };
 
