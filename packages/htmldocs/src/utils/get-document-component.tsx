@@ -26,8 +26,13 @@ export const getDocumentComponent = async (
     }
   | { error: ErrorObject }
 > => {
+  console.log(`[getDocumentComponent] Starting build for: ${documentPath}`);
+  const startTime = performance.now();
+  
   let outputFiles: OutputFile[];
   try {
+    console.time('esbuild');
+    const buildStart = performance.now();
     const buildData = await es.build({
       entryPoints: [documentPath],
       platform: "node",
@@ -55,10 +60,14 @@ export const getDocumentComponent = async (
       outdir: "stdout", // stub for esbuild, won't actually write to this folder
       sourcemap: "external",
     });
+    const buildTime = performance.now() - buildStart;
+    console.timeEnd('esbuild');
+    console.log(`[getDocumentComponent] Build completed in ${buildTime.toFixed(2)}ms`);
+    
     outputFiles = buildData.outputFiles;
   } catch (exp) {
     const buildFailure = exp as BuildFailure;
-    console.error({
+    console.error('[getDocumentComponent] Build failed:', {
       error: {
         message: buildFailure.message,
         stack: buildFailure.stack,
@@ -70,25 +79,45 @@ export const getDocumentComponent = async (
   }
 
   try {
+    console.time('postBuild');
+    const postBuildStart = performance.now();
+    
+    console.time('extractFiles');
     const { sourceMapFile, bundledDocumentFile, cssFile } =
       extractOutputFiles(outputFiles);
+    console.timeEnd('extractFiles');
+    
     const builtDocumentCode = bundledDocumentFile.text;
     const documentCss = cssFile?.text;
+    
+    console.time('createContext');
     const fakeContext = createFakeContext(documentPath);
+    console.timeEnd('createContext');
+    
+    console.time('configureSourceMap');
     const sourceMapToDocument = configureSourceMap(sourceMapFile);
+    console.timeEnd('configureSourceMap');
 
+    console.time('executeCode');
     const executionResult = executeBuiltCode(
       builtDocumentCode,
       fakeContext,
       documentPath,
       sourceMapToDocument
     );
+    console.timeEnd('executeCode');
+
+    const postBuildTime = performance.now() - postBuildStart;
+    console.timeEnd('postBuild');
+    console.log(`[getDocumentComponent] Post-build processing completed in ${postBuildTime.toFixed(2)}ms`);
 
     if ("error" in executionResult) {
+      console.error('[getDocumentComponent] Execution failed:', executionResult.error);
       return { error: executionResult.error };
     }
 
-    // console.log("executionResult", executionResult);
+    const totalTime = performance.now() - startTime;
+    console.log(`[getDocumentComponent] Total processing completed in ${totalTime.toFixed(2)}ms`);
 
     return {
       documentComponent: executionResult.DocumentComponent,
@@ -97,6 +126,7 @@ export const getDocumentComponent = async (
       sourceMapToOriginalFile: sourceMapToDocument,
     };
   } catch (error) {
+    console.error('[getDocumentComponent] Processing error:', error);
     return {
       error: {
         message: error.message,
