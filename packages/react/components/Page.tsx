@@ -8,7 +8,6 @@ interface Props extends React.ComponentProps<"div"> {
 
 const Page: React.FC<Props> = ({
   children,
-  className,
   style,
   margin,
   ...props
@@ -31,8 +30,7 @@ const Page: React.FC<Props> = ({
         </style>
       </Head>
       <div
-        className={clsx("w-full h-full", className)}
-        style={style}
+        style={{ width: '100%', height: '100%', ...style }}
         {...props}
       >
         {children}
