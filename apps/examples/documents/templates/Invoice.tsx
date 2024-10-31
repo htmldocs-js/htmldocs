@@ -308,7 +308,7 @@ const TableRow = ({ service }: TableRowProps) => {
 
 Invoice.PreviewProps = {
   billedTo: {
-    name: "Kyle Zhang",
+    name: "Kelvin Zhang",
     address: "123 Elm Street",
     city: "Anytown",
     state: "CA",
