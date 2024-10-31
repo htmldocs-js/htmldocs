@@ -26,6 +26,8 @@ export const setupHotreloading = async (
     emailDirRelativePath,
   );
 
+  console.log(`Watching ${absolutePathToDocumentsDirectory}`);
+
   const watcher = watch('', {
     ignoreInitial: true,
     cwd: absolutePathToDocumentsDirectory,
@@ -44,6 +46,7 @@ export const setupHotreloading = async (
   const reload = debounce(() => {
     // we detect these using the useHotreload hook on the Next app
     clients.forEach((client) => {
+      console.log(`Emitting reload to ${client.id}`);
       client.emit('reload', changes);
     });
 
@@ -74,6 +77,9 @@ export const setupHotreloading = async (
     if (file.length === 0) {
       return;
     }
+
+    console.log(`Detected ${event} in ${relativePathToChangeTarget}`);
+
     const pathToChangeTarget = path.resolve(
       absolutePathToDocumentsDirectory,
       relativePathToChangeTarget,
