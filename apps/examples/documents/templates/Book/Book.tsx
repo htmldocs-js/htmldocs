@@ -17,9 +17,6 @@ function Book() {
   
   return (
     <Document size="A4" orientation="portrait">
-      <Head>
-        <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
-      </Head>
       <Page className="p-12">
         <article className="prose prose-sm max-w-none">
           <div dangerouslySetInnerHTML={{ __html: html }} />
