@@ -76,19 +76,6 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
     <Document size="A4" orientation="portrait" margin="0.5in">
       <Head>
         <title>Invoice</title>
-        <link rel="preconnect" href="https://rsms.me/" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        <style>
-          {`
-            :root {
-              font-family: Inter, sans-serif;
-              font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-            }
-            @supports (font-variation-settings: normal) {
-              :root { font-family: InterVariable, sans-serif; }
-            }
-          `}
-        </style>
       </Head>
       <Page className="flex flex-col justify-between">
         <div id="invoice_body">
