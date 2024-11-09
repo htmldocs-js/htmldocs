@@ -79,76 +79,74 @@ export const renderAsync = async (component: React.ReactElement, documentCss?: s
         <head>
           ${documentCss ? `<style>${documentCss}</style>` : ""}
           <style>${cssText}</style>
-          <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+          <script src="https://unpkg.com/pagedjs@0.5.0-beta.2/dist/paged.polyfill.js"></script>
           <script type="text/javascript">
-            (function() {
-              // Hide content initially
-              // document.querySelector("html").style.visibility = "hidden";
-              
-              const horizontalPadding = 20;
-              
-              const scaleToFit = () => {
-                try {
-                  const pageElement = document.querySelector(".pagedjs_page");
-                  if (!pageElement) return;
-                  
-                  const pageWidth = pageElement.offsetWidth + horizontalPadding * 2;
-                  const scaleFactor = window.innerWidth / pageWidth;
-                  
-                  console.log("Scale debug:", {
-                    windowWidth: window.innerWidth,
-                    pageWidth: pageElement.offsetWidth,
-                    pageWidthWithPadding: pageWidth,
-                    scaleFactor,
-                    timestamp: new Date().toISOString()
-                  });
+            // Hide content initially
+            // document.querySelector("html").style.visibility = "hidden";
+            
+            const horizontalPadding = 20;
+            
+            const scaleToFit = () => {
+              try {
+                const pageElement = document.querySelector(".pagedjs_page");
+                if (!pageElement) return;
+                
+                const pageWidth = pageElement.offsetWidth + horizontalPadding * 2;
+                const scaleFactor = window.innerWidth / pageWidth;
+                
+                console.log("Scale debug:", {
+                  windowWidth: window.innerWidth,
+                  pageWidth: pageElement.offsetWidth,
+                  pageWidthWithPadding: pageWidth,
+                  scaleFactor,
+                  timestamp: new Date().toISOString()
+                });
 
-                  // const htmlElement = document.querySelector("html");
-                  // if (htmlElement) {
-                  //   htmlElement.style.transform = "scale(" + scaleFactor + ") translateX(" + horizontalPadding + "px)";
-                  // }
-                } catch (err) {
-                  console.error("Error in scaleToFit:", err);
-                }
-              };
-              
-              // Save scroll position before unload
-              window.onbeforeunload = function() {
-                try {
-                  localStorage.setItem("scrollpos", String(window.scrollY));
-                } catch (err) {
-                  console.error("Error saving scroll position:", err);
-                }
-              };
-              
-              // Handle window resize
-              window.addEventListener("resize", scaleToFit);
-              
-              // Register Paged.js handler when API is available
-              if (typeof Paged !== "undefined") {
-                class MyHandler extends Paged.Handler {
-                  afterPageLayout(pageFragment, page) {
-                    try {
-                      console.log("afterPageLayout triggered");
-                      scaleToFit();
-                      var scrollpos = localStorage.getItem("scrollpos");
-                      if (scrollpos) window.scrollTo(0, parseInt(scrollpos, 10));
-                      document.querySelector("html").style.visibility = "visible";
+                // const htmlElement = document.querySelector("html");
+                // if (htmlElement) {
+                //   htmlElement.style.transform = "scale(" + scaleFactor + ") translateX(" + horizontalPadding + "px)";
+                // }
+              } catch (err) {
+                console.error("Error in scaleToFit:", err);
+              }
+            };
+            
+            // Save scroll position before unload
+            window.onbeforeunload = function() {
+              try {
+                localStorage.setItem("scrollpos", String(window.scrollY));
+              } catch (err) {
+                console.error("Error saving scroll position:", err);
+              }
+            };
+            
+            // Handle window resize
+            window.addEventListener("resize", scaleToFit);
+            
+            // Register Paged.js handler when API is available
+            if (typeof Paged !== "undefined") {
+              class MyHandler extends Paged.Handler {
+                afterPageLayout(pageFragment, page) {
+                  try {
+                    console.log("afterPageLayout triggered");
+                    scaleToFit();
+                    var scrollpos = localStorage.getItem("scrollpos");
+                    if (scrollpos) window.scrollTo(0, parseInt(scrollpos, 10));
+                    document.querySelector("html").style.visibility = "visible";
 
-                      // Notify parent window when layout is complete
-                      window.parent.postMessage({ type: 'layoutComplete' }, '*');
-                      console.log("layoutComplete message sent");
-                    } catch (err) {
-                      console.error("Error in afterPageLayout:", err);
-                      // Still show content even if there's an error
-                      document.querySelector("html").style.visibility = "visible";
-                    }
+                    // Notify parent window when layout is complete
+                    window.parent.postMessage({ type: 'layoutComplete' }, '*');
+                    console.log("layoutComplete message sent");
+                  } catch (err) {
+                    console.error("Error in afterPageLayout:", err);
+                    // Still show content even if there's an error
+                    document.querySelector("html").style.visibility = "visible";
                   }
                 }
-                Paged.registerHandlers(MyHandler);
-                console.log("Paged.js registered handlers");
               }
-            })();
+              Paged.registerHandlers(MyHandler);
+              console.log("Paged.js registered handlers");
+            }
           </script>
         </head>
         <body>
