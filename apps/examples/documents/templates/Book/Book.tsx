@@ -16,13 +16,9 @@ function Book() {
   const html = md.render(content)
   
   return (
-    <Document size="A4" orientation="portrait">
-      <Page className="p-12">
-        <article className="prose prose-sm max-w-none">
-          <div dangerouslySetInnerHTML={{ __html: html }} />
-        </article>
-      </Page>
-    </Document>
+    <article className="prose prose-sm max-w-none">
+      <div dangerouslySetInnerHTML={{ __html: html }} />
+    </article>
   )
 }
 

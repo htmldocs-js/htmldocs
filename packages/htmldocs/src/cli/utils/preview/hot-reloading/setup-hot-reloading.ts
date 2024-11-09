@@ -37,7 +37,7 @@ export const setupHotreloading = async (
     void watcher.close();
   };
   process.on('SIGINT', exit);
-  process.on('uncaughtException', exit);
+  // process.on('uncaughtException', exit);
 
   // used to keep track of all changes
   // and send them at once to the preview app through the web socket
