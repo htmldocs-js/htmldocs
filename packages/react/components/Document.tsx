@@ -1,4 +1,4 @@
-import { DocumentContextProvider } from "./DocumentContext";
+import Head from "./Head";
 
 const sizes = ["A3", "A4", "A5", "letter", "legal"];
 const orientations = ["portrait", "landscape"];
@@ -11,21 +11,23 @@ interface Props {
 }
 
 const Document: React.FC<Props> = ({ size, orientation, margin, children }) => {
+  const formatMargin = (value: React.CSSProperties["margin"]) => 
+    typeof value === 'string' ? value : `${value}px`;
+
   return (
-    <DocumentContextProvider defaults={{ pageSize: size, orientation, margin }}>
-      <main
-        className={`${size} ${orientation}`}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {children}
-      </main>
-    </DocumentContextProvider>
+    <>
+      <Head>
+        <style>
+          {`
+            @page {
+              size: ${size} ${orientation};
+              margin: ${formatMargin(margin || '0.39in')};
+            }
+          `}
+        </style>
+      </Head>
+      {children}
+    </>
   );
 };
 

@@ -51,9 +51,14 @@ const readStream = async (
   return result;
 };
 
-export const renderAsync = async (component: React.ReactElement, documentCss?: string) => {
+export const renderAsync = async (
+  component: React.ReactElement,
+  documentCss?: string,
+  headContents?: string
+) => {
   const reactDOMServer = await import("react-dom/server");
-
+  
+  // Then render the main component
   let html!: string;
   if (Object.hasOwn(reactDOMServer, "renderToReadableStream")) {
     html = await readStream(
@@ -73,12 +78,46 @@ export const renderAsync = async (component: React.ReactElement, documentCss?: s
     });
   }
 
+  // Extract head contents from rendered HTML if present
+  // Debug: Write HTML to file for inspection
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const debugPath = path.join(process.cwd(), 'debug-render.html');
+  fs.writeFileSync(debugPath, html, 'utf-8');
+  console.log(`[renderAsync] Wrote debug HTML to ${debugPath}`);
+  let extractedHeadContents = '';
+  const headMatches = html.matchAll(/<head>(.*?)<\/head>/gs);
+  const seenMetaTags = new Set();
+  
+  for (const match of headMatches) {
+    if (match[1]) {
+      // Process meta tags to avoid duplicates
+      const content = match[1];
+      const metaMatches = content.matchAll(/<meta[^>]+>/g);
+      for (const metaMatch of metaMatches) {
+        const metaTag = metaMatch[0];
+        if (!seenMetaTags.has(metaTag)) {
+          seenMetaTags.add(metaTag);
+          extractedHeadContents += metaTag;
+        }
+      }
+      
+      // Add non-meta content
+      extractedHeadContents += content.replace(/<meta[^>]+>/g, '');
+      
+      // Remove the head section from main HTML
+      html = html.replace(match[0], '');
+    }
+  }
+  console.log('[renderAsync] Extracted head contents:', extractedHeadContents);
+
   const document = dedent(`
       <!DOCTYPE html>
       <html>
         <head>
           ${documentCss ? `<style>${documentCss}</style>` : ""}
           <style>${cssText}</style>
+          ${extractedHeadContents}
           <script src="https://unpkg.com/pagedjs@0.5.0-beta.2/dist/paged.polyfill.js"></script>
           <script type="text/javascript">
             // Hide content initially

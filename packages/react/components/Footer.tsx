@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDocumentSettingsContext } from './DocumentContext';
 import clsx from 'clsx';
+import Head from './Head';
 
 interface FooterProps {
   /**
@@ -10,7 +10,6 @@ interface FooterProps {
   
   /**
    * Custom page number render function
-   * Returns a React node that will receive the page counter element
    */
   renderPageNumber?: (pageCounter: React.ReactElement) => React.ReactNode;
   
@@ -20,19 +19,16 @@ interface FooterProps {
   showPageNumbers?: boolean;
   
   /**
-   * Footer position. Defaults to 'bottom'
+   * Footer position. Defaults to 'bottom-center'
    */
-  position?: 'bottom' | 'top';
+  position?: 'top-left-corner' | 'top-left' | 'top-center' | 'top-right' | 'top-right-corner' | 
+    'left-top' | 'left-middle' | 'left-bottom' | 'right-top' | 'right-middle' | 'right-bottom' |
+    'bottom-left-corner' | 'bottom-left' | 'bottom-center' | 'bottom-right' | 'bottom-right-corner';
   
   /**
-   * Alignment of the footer content
+   * Whether to show footer on even/odd/blank pages
    */
-  align?: 'left' | 'center' | 'right';
-  
-  /**
-   * Whether to show footer on even/odd pages only
-   */
-  pageType?: 'all' | 'even' | 'odd';
+  pageType?: 'all' | 'even' | 'odd' | 'blank';
   
   /**
    * Custom CSS classes
@@ -49,88 +45,85 @@ export const Footer: React.FC<FooterProps> = ({
   children,
   renderPageNumber,
   showPageNumbers = false,
-  position = 'bottom',
-  align = 'center',
+  position = 'bottom-center',
   pageType = 'all',
   className,
   style
 }) => {
-  const { margin } = useDocumentSettingsContext();
-
-  const baseStyles: React.CSSProperties = {
-    position: 'absolute',
-    left: margin,
-    right: margin,
-    textAlign: align,
-    ...style
-  };
-
-  if (position === 'bottom') {
-    baseStyles.bottom = margin;
-  } else {
-    baseStyles.top = margin;
-  }
-
+  // Default page number renderer
   const defaultPageNumber = (pageCounter: React.ReactElement) => (
     <span className="page-number">
-      Page {pageCounter}
+      Page <span className="pagedjs-page-counter"></span> of <span className="pagedjs-pages-counter"></span>
     </span>
   );
 
   return (
-    <div
-      className={clsx('print-footer', className)}
-      style={baseStyles}
-    >
-      <style>
-        {`
-          .print-footer {
-            display: block !important;
-          }
-          
-          .print-footer .page-number {
-            display: ${showPageNumbers ? 'inline' : 'none'};
-          }
+    <>
+      <Head>
+        <style>
+          {`
+            /* Set up running footer element */
+            .print-footer {
+              position: running(footer);
+            }
 
-          /* Print-specific styles */
-          @media print {
+            /* Apply footer to specified margin box */
+            @page {
+              @${position} {
+                content: element(footer);
+              }
+            }
+
+            /* Page type specific styles */
             ${pageType === 'even' ? `
               @page:odd {
-                .print-footer {
-                  display: none !important;
-                }
+                @${position} { content: none; }
               }
             ` : pageType === 'odd' ? `
               @page:even {
-                .print-footer {
-                  display: none !important;
-                }
+                @${position} { content: none; }
+              }
+            ` : pageType === 'blank' ? `
+              @page:blank {
+                @${position} { content: none; }
               }
             ` : ''}
-          }
 
-          /* Screen preview shows page 1 */
-          @media screen {
-            .print-footer .page-counter::after {
-              content: '1';
+            /* Hide page numbers if not enabled */
+            .print-footer .page-number {
+              display: ${showPageNumbers ? 'inline' : 'none'};
             }
-          }
 
-          /* Print mode uses actual page counter */
-          @media print {
-            .print-footer .page-counter::after {
-              content: counter(page);
+            /* Default margin box alignments based on position */
+            .print-footer {
+              ${position.includes('left') ? 'text-align: left;' : 
+                position.includes('right') ? 'text-align: right;' : 
+                'text-align: center;'}
+              
+              ${position.includes('top') ? 'vertical-align: top;' :
+                position.includes('bottom') ? 'vertical-align: bottom;' :
+                'vertical-align: middle;'}
             }
-          }
-        `}
-      </style>
-      {children}
-      {showPageNumbers && (
-        (renderPageNumber || defaultPageNumber)(
-          <span className="page-counter" />
-        )
-      )}
-    </div>
+
+            /* Apply custom styles */
+            .print-footer {
+              ${Object.entries(style || {}).map(([key, value]) => 
+                `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`
+              ).join('\n')}
+            }
+          `}
+        </style>
+      </Head>
+
+      <div className={clsx('print-footer', className)}>
+        {children}
+        {showPageNumbers && (
+          (renderPageNumber || defaultPageNumber)(
+            <span className="pagedjs-page-counter" />
+          )
+        )}
+      </div>
+    </>
   );
 };
 
