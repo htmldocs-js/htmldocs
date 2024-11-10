@@ -1,4 +1,4 @@
-import { Document, Page, Head } from "@htmldocs/react"
+import { Document, Page, Head, Footer } from "@htmldocs/react"
 import MarkdownIt from 'markdown-it'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -16,9 +16,12 @@ function Book() {
   const html = md.render(content)
   
   return (
-    <article className="prose prose-sm max-w-none">
-      <div dangerouslySetInnerHTML={{ __html: html }} />
-    </article>
+    <Document size="A4" orientation="portrait" margin="1.5in">
+      <article className="prose prose-lg max-w-none font-serif">
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      </article>
+      <Footer position="bottom-center" showPageNumbers={true} />
+    </Document>
   )
 }
 
