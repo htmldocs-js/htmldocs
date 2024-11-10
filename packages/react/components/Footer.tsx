@@ -53,7 +53,7 @@ export const Footer: React.FC<FooterProps> = ({
   // Default page number renderer
   const defaultPageNumber = (pageCounter: React.ReactElement) => (
     <span className="page-number">
-      Page <span className="pagedjs-page-counter"></span> of <span className="pagedjs-pages-counter"></span>
+      Page <span className="page-counter"></span> of <span className="pages-counter"></span>
     </span>
   );
 
@@ -89,6 +89,15 @@ export const Footer: React.FC<FooterProps> = ({
               }
             ` : ''}
 
+            /* Page counter styles */
+            .print-footer .page-counter::after {
+              content: counter(page);
+            }
+            
+            .print-footer .pages-counter::after {
+              content: counter(pages);
+            }
+
             /* Hide page numbers if not enabled */
             .print-footer .page-number {
               display: ${showPageNumbers ? 'inline' : 'none'};
@@ -119,7 +128,7 @@ export const Footer: React.FC<FooterProps> = ({
         {children}
         {showPageNumbers && (
           (renderPageNumber || defaultPageNumber)(
-            <span className="pagedjs-page-counter" />
+            <span className="page-counter" />
           )
         )}
       </div>
