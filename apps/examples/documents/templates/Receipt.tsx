@@ -1,4 +1,4 @@
-import { Document, Footer, Head, Page, Spacer } from "@htmldocs/react"
+import { Document, Footer, Head, Page } from "@htmldocs/react"
 import "~/index.css"
 
 interface BillingAddress {
@@ -163,11 +163,13 @@ function Receipt({
           </table>
         </section>
 
-        <div className="flex-grow" />
-
-        <p className="max-w-md mx-auto text-center text-sm text-gray-600">
-          For any additional information or assistance, please don't hesitate to reach out to our dedicated account management team.
-        </p>
+        <Footer 
+          position="bottom-center"
+          showPageNumbers={true}
+          renderPageNumber={(pageCounter) => (
+            <>ASDF {pageCounter}</>
+          )}
+        />
       </Page>
     </Document>
   )

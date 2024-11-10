@@ -20,7 +20,14 @@ function Book() {
       <article className="prose prose-lg max-w-none font-serif">
         <div dangerouslySetInnerHTML={{ __html: html }} />
       </article>
-      <Footer position="bottom-center" showPageNumbers={true} />
+
+      <Footer 
+        position="bottom-center"
+        showPageNumbers={true}
+        renderPageNumber={(pageCounter) => (
+          <>ASDF {pageCounter}</>
+        )}
+      />
     </Document>
   )
 }
