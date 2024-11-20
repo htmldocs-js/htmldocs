@@ -2,11 +2,14 @@ import Head from "./Head";
 import Footer from "./Footer";
 import React from "react";
 
-const sizes = ["A3", "A4", "A5", "letter", "legal"];
-const orientations = ["portrait", "landscape"];
+const sizes = ["A3", "A4", "A5", "letter", "legal"] as const;
+const orientations = ["portrait", "landscape"] as const;
+type Unit = 'in' | 'cm' | 'mm' | 'px';
+type SizeType = (typeof sizes)[number] | 
+  `${number}${Unit} ${number}${Unit}`;
 
 interface Props {
-  size: (typeof sizes)[number];
+  size: SizeType;
   orientation: (typeof orientations)[number];
   margin?: React.CSSProperties["margin"];
   children: React.ReactNode;
@@ -15,6 +18,11 @@ interface Props {
 const Document: React.FC<Props> = ({ size, orientation, margin, children }) => {
   const formatMargin = (value: React.CSSProperties["margin"]) => 
     typeof value === 'string' ? value : `${value}px`;
+
+  // Format size to handle both preset and custom sizes
+  const formatSize = (size: SizeType) => {
+    return sizes.includes(size as typeof sizes[number]) ? size : `${size}`;
+  };
 
   // Convert children to array for manipulation
   const childrenArray = React.Children.toArray(children);
@@ -39,7 +47,7 @@ const Document: React.FC<Props> = ({ size, orientation, margin, children }) => {
         <style>
           {`
             @page {
-              size: ${size} ${orientation};
+              size: ${formatSize(size)} ${orientation};
               margin: ${formatMargin(margin || '0.39in')};
             }
           `}
