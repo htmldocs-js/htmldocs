@@ -1,53 +1,8 @@
-<head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/><meta name="x-apple-disable-message-reformatting"/><style>
-            @page {
-              size: 6in 9in portrait;
-              margin: 0.75in;
-            }
-          </style></head><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/><meta name="x-apple-disable-message-reformatting"/><style>
-            /* Set up running footer element */
-            .print-footer {
-              position: running(footer);
-            }
+### Chapter 1. 
+Loomings.
+=========
 
-            /* Apply footer to specified margin box */
-            @page {
-              @bottom-center {
-                content: element(footer);
-                margin-bottom: 0.25in;
-              }
-            }
-
-            /* Page type specific styles */
-            
-
-            /* Page counter styles */
-            .print-footer .page-counter::after {
-              content: counter(page);
-            }
-            
-            .print-footer .pages-counter::after {
-              content: counter(pages);
-            }
-
-            /* Hide page numbers if not using function children */
-            .print-footer .page-number {
-              display: inline;
-            }
-
-            /* Default margin box alignments based on position */
-            .print-footer {
-              text-align: center;
-              
-              vertical-align: bottom;
-            }
-
-            /* Apply custom styles */
-            .print-footer {
-              
-            }
-          </style></head><div class="print-footer font-serif text-sm"><span class="page-counter"></span></div><article class="prose max-w-none font-serif"><div><h3>Chapter 1.</h3>
-<h1>Loomings.</h1>
-<p>Call me Ishmael. Some years ago — never mind how long precisely — having little
+Call me Ishmael. Some years ago — never mind how long precisely — having little
 or no money in my purse, and nothing particular to interest me on shore, I
 thought I would sail about a little and see the watery part of the world. It is
 a way I have of driving off the spleen and regulating the circulation. Whenever
@@ -61,13 +16,15 @@ sea as soon as I can. This is my substitute for pistol and ball. With a
 philosophical flourish Cato throws himself upon his sword; I quietly take to the
 ship. There is nothing surprising in this. If they but knew it, almost all men
 in their degree, some time or other, cherish very nearly the same feelings
-towards the ocean with me.</p>
-<p>There now is your insular city of the Manhattoes, belted round by wharves as
+towards the ocean with me.
+
+There now is your insular city of the Manhattoes, belted round by wharves as
 Indian isles by coral reefs — commerce surrounds it with her surf. Right and
 left, the streets take you waterward. Its extreme downtown is the battery, where
 that noble mole is washed by waves, and cooled by breezes, which a few hours
-previous were out of sight of land.  Look at the crowds of water-gazers there.</p>
-<p>Circumambulate the city of a dreamy Sabbath afternoon. Go from Corlears Hook to
+previous were out of sight of land.  Look at the crowds of water-gazers there.
+
+Circumambulate the city of a dreamy Sabbath afternoon. Go from Corlears Hook to
 Coenties Slip, and from thence, by Whitehall, northward. What do you see? —
 Posted like silent sentinels all around the town, stand thousands upon thousands
 of mortal men fixed in ocean reveries. Some leaning against the spiles; some
@@ -75,16 +32,18 @@ seated upon the pier-heads; some looking over the bulwarks of ships from China;
 some high aloft in the rigging, as if striving to get a still better seaward
 peep. But these are all landsmen; of week days pent up in lath and plaster —
 tied to counters, nailed to benches, clinched to desks. How then is this? Are
-the green fields gone? What do they here?</p>
-<p>But look! here come more crowds, pacing straight for the water, and seemingly
+the green fields gone? What do they here?
+
+But look! here come more crowds, pacing straight for the water, and seemingly
 bound for a dive. Strange! Nothing will content them but the extremest limit of
 the land; loitering under the shady lee of yonder warehouses will not suffice.
 No. They must get just as nigh the water as they possibly can without falling
 in. And there they stand — miles of them — leagues. Inlanders all, they come
 from lanes and alleys, streets and avenues — north, east, south, and west. Yet
 here they all unite.  Tell me, does the magnetic virtue of the needles of the
-compasses of all those ships attract them thither?</p>
-<p>Once more. Say you are in the country; in some high land of lakes. Take almost
+compasses of all those ships attract them thither?
+
+Once more. Say you are in the country; in some high land of lakes. Take almost
 any path you please, and ten to one it carries you down in a dale, and leaves
 you there by a pool in the stream. There is magic in it. Let the most
 absent-minded of men be plunged in his deepest reveries — stand that man on his
@@ -92,8 +51,9 @@ legs, set his feet a-going, and he will infallibly lead you to water, if water
 there be in all that region.  Should you ever be athirst in the great American
 desert, try this experiment, if your caravan happen to be supplied with a
 metaphysical professor. Yes, as every one knows, meditation and water are wedded
-for ever.</p>
-<p>But here is an artist. He desires to paint you the dreamiest, shadiest,
+for ever.
+
+But here is an artist. He desires to paint you the dreamiest, shadiest,
 quietest, most enchanting bit of romantic landscape in all the valley of the
 Saco. What is the chief element he employs? There stand his trees, each with a
 hollow trunk, as if a hermit and a crucifix were within; and here sleeps his
@@ -117,8 +77,9 @@ separate deity, and own brother of Jove? Surely all this is not without meaning.
 And still deeper the meaning of that story of Narcissus, who because he could
 not grasp the tormenting, mild image he saw in the fountain, plunged into it and
 was drowned. But that same image, we ourselves see in all rivers and oceans. It
-is the image of the ungraspable phantom of life; and this is the key to it all.</p>
-<p>Now, when I say that I am in the habit of going to sea whenever I begin to grow
+is the image of the ungraspable phantom of life; and this is the key to it all.
+
+Now, when I say that I am in the habit of going to sea whenever I begin to grow
 hazy about the eyes, and begin to be over conscious of my lungs, I do not mean
 to have it inferred that I ever go to sea as a passenger.  For to go as a
 passenger you must needs have a purse, and a purse is but a rag unless you have
@@ -136,8 +97,9 @@ broiled, judiciously buttered, and judgmatically salted and peppered, there is
 no one who will speak more respectfully, not to say reverentially, of a broiled
 fowl than I will. It is out of the idolatrous dotings of the old Egyptians upon
 broiled ibis and roasted river horse, that you see the mummies of those
-creatures in their huge bake-houses the pyramids.</p>
-<p>No, when I go to sea, I go as a simple sailor, right before the mast, plumb down
+creatures in their huge bake-houses the pyramids.
+
+No, when I go to sea, I go as a simple sailor, right before the mast, plumb down
 into the forecastle, aloft there to the royal mast-head.  True, they rather
 order me about some, and make me jump from spar to spar, like a grasshopper in a
 May meadow. And at first, this sort of thing is unpleasant enough. It touches
@@ -147,8 +109,9 @@ if just previous to putting your hand into the tar-pot, you have been lording it
 as a country schoolmaster, making the tallest boys stand in awe of you. The
 transition is a keen one, I assure you, from a schoolmaster to a sailor, and
 requires a strong decoction of Seneca and the Stoics to enable you to grin and
-bear it. But even this wears off in time.</p>
-<p>What of it, if some old hunks of a sea-captain orders me to get a broom and
+bear it. But even this wears off in time.
+
+What of it, if some old hunks of a sea-captain orders me to get a broom and
 sweep down the decks? What does that indignity amount to, weighed, I mean, in
 the scales of the New Testament? Do you think the archangel Gabriel thinks
 anything the less of me, because I promptly and respectfully obey that old hunks
@@ -158,18 +121,20 @@ punch me about, I have the satisfaction of knowing that it is all right; that
 everybody else is one way or other served in much the same way — either in a
 physical or metaphysical point of view, that is; and so the universal thump is
 passed round, and all hands should rub each other’s shoulder-blades, and be
-content.</p>
-<p>Again, I always go to sea as a sailor, because they make a point of paying me
+content.
+
+Again, I always go to sea as a sailor, because they make a point of paying me
 for my trouble, whereas they never pay passengers a single penny that I ever
 heard of. On the contrary, passengers themselves must pay. And there is all the
 difference in the world between paying and being paid. The act of paying is
 perhaps the most uncomfortable infliction that the two orchard thieves entailed
-upon us. But <em>being paid,</em> — what will compare with it? The urbane activity with
+upon us. But *being paid,* — what will compare with it? The urbane activity with
 which a man receives money is really marvellous, considering that we so
 earnestly believe money to be the root of all earthly ills, and that on no
 account can a monied man enter heaven. Ah! how cheerfully we consign ourselves
-to perdition!</p>
-<p>Finally, I always go to sea as a sailor, because of the wholesome exercise and
+to perdition!
+
+Finally, I always go to sea as a sailor, because of the wholesome exercise and
 pure air of the fore-castle deck. For as in this world, head winds are far more
 prevalent than winds from astern (that is, if you never violate the Pythagorean
 maxim), so for the most part the Commodore on the quarter-deck gets his
@@ -184,11 +149,15 @@ unaccountable way — he can better answer than any one else. And, doubtless, m
 going on this whaling voyage, formed part of the grand programme of Providence
 that was drawn up a long time ago. It came in as a sort of brief interlude and
 solo between more extensive performances.  I take it that this part of the bill
-must have run something like this:</p>
-<p><strong>“Grand Contested Election for the Presidency of the United States.”</strong></p>
-<p><strong>“Whaling Voyage by One Ishmael.”</strong></p>
-<p><strong>“Bloody Battle in Affghanistan.”</strong></p>
-<p>Though I cannot tell why it was exactly that those stage managers, the Fates,
+must have run something like this:
+
+__“Grand Contested Election for the Presidency of the United States.”__
+
+__“Whaling Voyage by One Ishmael.”__
+
+__“Bloody Battle in Affghanistan.”__
+
+Though I cannot tell why it was exactly that those stage managers, the Fates,
 put me down for this shabby part of a whaling voyage, when others were set down
 for magnificent parts in high tragedies, and short and easy parts in genteel
 comedies, and jolly parts in farces — though I cannot tell why this was exactly;
@@ -196,8 +165,9 @@ yet, now that I recall all the circumstances, I think I can see a little into
 the springs and motives which being cunningly presented to me under various
 disguises, induced me to set about performing the part I did, besides cajoling
 me into the delusion that it was a choice resulting from my own unbiased
-freewill and discriminating judgment.</p>
-<p>Chief among these motives was the overwhelming idea of the great whale himself.
+freewill and discriminating judgment.
+
+Chief among these motives was the overwhelming idea of the great whale himself.
 Such a portentous and mysterious monster roused all my curiosity. Then the wild
 and distant seas where he rolled his island bulk; the undeliverable, nameless
 perils of the whale; these, with all the attending marvels of a thousand
@@ -207,10 +177,10 @@ tormented with an everlasting itch for things remote. I love to sail forbidden
 seas, and land on barbarous coasts. Not ignoring what is good, I am quick to
 perceive a horror, and could still be social with it — would they let me — since
 it is but well to be on friendly terms with all the inmates of the place one
-lodges in.</p>
-<p>By reason of these things, then, the whaling voyage was welcome; the great
+lodges in.
+
+By reason of these things, then, the whaling voyage was welcome; the great
 flood-gates of the wonder-world swung open, and in the wild conceits that swayed
 me to my purpose, two and two there floated into my inmost soul, endless
 processions of the whale, and, mid most of them all, one grand hooded phantom,
-like a snow hill in the air.</p>
-</div></article>
+like a snow hill in the air.

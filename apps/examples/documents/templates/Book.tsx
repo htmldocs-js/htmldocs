@@ -1,12 +1,11 @@
-import { Document, Page, Head, Footer } from "@htmldocs/react"
+import { Document, Footer } from "@htmldocs/react"
 import MarkdownIt from 'markdown-it'
 import fs from 'node:fs'
-import path from 'node:path'
 
 import "~/index.css"
 
 const content = fs.readFileSync(
-  path.join(__dirname, 'content.md'),
+  '/static/content.md',
   'utf-8'
 )
 
@@ -16,18 +15,19 @@ function Book() {
   const html = md.render(content)
   
   return (
-    <Document size="A4" orientation="portrait" margin="1.5in">
-      <article className="prose prose-lg max-w-none font-serif">
+    <Document size="6in 9in" orientation="portrait" margin="0.75in">
+      <article className="prose max-w-none font-serif">
         <div dangerouslySetInnerHTML={{ __html: html }} />
       </article>
 
       <Footer 
         position="bottom-center"
-      >
-        {({ currentPage, totalPages }) => (
-          <>Page {currentPage} of {totalPages}</>
-        )}
-      </Footer>
+        className="font-serif text-sm"
+        children={({ currentPage }) => currentPage}
+        marginBoxStyles={{
+          marginBottom: '0.25in',
+        }}
+      />
     </Document>
   )
 }

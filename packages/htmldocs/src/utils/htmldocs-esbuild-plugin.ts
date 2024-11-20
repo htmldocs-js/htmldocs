@@ -29,6 +29,13 @@ export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) =>
         if (isBuild) {
           // Replace all occurrences of /static with ./static
           contents = contents.replace(/\/static/g, './static');
+        } else {
+          const staticPath = path.join(
+            process.env.DOCUMENTS_DIR_ABSOLUTE_PATH ?? 
+            path.join(process.cwd(), 'documents'),
+            'static'
+          );
+          contents = contents.replace(/\/static/g, staticPath);
         }
         return {
           contents: `${contents};

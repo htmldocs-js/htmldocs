@@ -3,52 +3,78 @@ module.exports = {
   content: ["./documents/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['Palatino', 'Palatino Linotype', 'serif'],
+      },
       typography: {
         DEFAULT: {
           css: {
+            fontSize: '12pt',
+            lineHeight: 1.5,
+            color: '#000000',
+            p: {
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
+              color: '#000000',
+              textIndent: '1em',
+            },
             h1: {
-              fontSize: '1.875em',
-              marginTop: '1.5em',
-              marginBottom: '0.8em',
+              fontSize: '16pt',
+              marginTop: '1em',
+              marginBottom: '0.5em',
+              fontWeight: '600',
+              color: '#000000',
             },
             h2: {
-              fontSize: '1.5em',
-              marginTop: '1.4em',
-              marginBottom: '0.8em',
+              fontSize: '14pt', 
+              marginTop: '1em',
+              marginBottom: '0.5em',
+              fontWeight: '600',
+              color: '#000000',
             },
             h3: {
-              fontSize: '1.25em',
-              marginTop: '1.3em',
-              marginBottom: '0.6em',
+              fontSize: '12pt',
+              marginTop: '1em',
+              marginBottom: '0.5em',
+              fontWeight: '600',
+              color: '#000000',
             },
             h4: {
-              fontSize: '1.125em',
-              marginTop: '1.2em',
-              marginBottom: '0.6em',
+              fontSize: '12pt',
+              marginTop: '0.8em',
+              marginBottom: '0.4em',
+              fontWeight: '600',
+              fontStyle: 'italic',
+              color: '#000000',
             },
-          },
-        },
-        lg: {
-          css: {
-            h1: {
-              fontSize: '2em',
-              marginTop: '1.5em',
-              marginBottom: '0.8em',
+            ul: {
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
+              color: '#000000',
             },
-            h2: {
-              fontSize: '1.75em',
-              marginTop: '1.4em',
-              marginBottom: '0.8em',
+            ol: {
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
+              color: '#000000',
             },
-            h3: {
-              fontSize: '1.5em',
-              marginTop: '1.3em',
-              marginBottom: '0.6em',
+            li: {
+              marginTop: '0.2em',
+              marginBottom: '0.2em',
+              color: '#000000',
             },
-            h4: {
-              fontSize: '1.25em',
-              marginTop: '1.2em',
-              marginBottom: '0.6em',
+            a: {
+              color: '#000000',
+              textDecoration: 'underline',
+            },
+            strong: {
+              color: '#000000',
+              fontWeight: '600',
+            },
+            code: {
+              color: '#000000',
+            },
+            pre: {
+              color: '#000000',
             },
           },
         },
