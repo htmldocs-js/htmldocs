@@ -4,19 +4,15 @@ import Head from './Head';
 
 interface FooterProps {
   /**
-   * Content to display in the footer
+   * Content to render in the footer.
+   * Can be either:
+   * - A function that receives current page and total pages
+   * - A ReactNode for static content
    */
-  children?: React.ReactNode;
-  
-  /**
-   * Custom page number render function
-   */
-  renderPageNumber?: (pageCounter: React.ReactElement) => React.ReactNode;
-  
-  /**
-   * Whether to show page numbers
-   */
-  showPageNumbers?: boolean;
+  children?: ((params: { 
+    currentPage: React.ReactElement, 
+    totalPages: React.ReactElement 
+  }) => React.ReactNode) | React.ReactNode;
   
   /**
    * Footer position. Defaults to 'bottom-center'
@@ -39,24 +35,25 @@ interface FooterProps {
    * Custom styles
    */
   style?: React.CSSProperties;
+  
+  /**
+   * Optional styling for the position element
+   */
+  marginBoxStyles?: React.CSSProperties;
 }
 
 export const Footer: React.FC<FooterProps> = ({
-  children,
-  renderPageNumber,
-  showPageNumbers = false,
+  children = ({ currentPage, totalPages }) => (
+    <span className="page-number">
+      Page {currentPage} of {totalPages}
+    </span>
+  ),
   position = 'bottom-center',
   pageType = 'all',
   className,
-  style
+  style,
+  marginBoxStyles,
 }) => {
-  // Default page number renderer
-  const defaultPageNumber = (pageCounter: React.ReactElement) => (
-    <span className="page-number">
-      Page <span className="page-counter"></span> of <span className="pages-counter"></span>
-    </span>
-  );
-
   return (
     <>
       <Head>
@@ -71,6 +68,9 @@ export const Footer: React.FC<FooterProps> = ({
             @page {
               @${position} {
                 content: element(footer);
+                ${Object.entries(marginBoxStyles || {}).map(([key, value]) =>
+                  `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`
+                ).join('\n')}
               }
             }
 
@@ -98,9 +98,9 @@ export const Footer: React.FC<FooterProps> = ({
               content: counter(pages);
             }
 
-            /* Hide page numbers if not enabled */
+            /* Hide page numbers if not using function children */
             .print-footer .page-number {
-              display: ${showPageNumbers ? 'inline' : 'none'};
+              display: ${typeof children === 'function' ? 'inline' : 'none'};
             }
 
             /* Default margin box alignments based on position */
@@ -125,12 +125,12 @@ export const Footer: React.FC<FooterProps> = ({
       </Head>
 
       <div className={clsx('print-footer', className)}>
-        {children}
-        {showPageNumbers && (
-          (renderPageNumber || defaultPageNumber)(
-            <span className="page-counter" />
-          )
-        )}
+        {typeof children === 'function' 
+          ? children({
+              currentPage: <span className="page-counter" />,
+              totalPages: <span className="pages-counter" />
+            })
+          : children}
       </div>
     </>
   );

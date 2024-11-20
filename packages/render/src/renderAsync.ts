@@ -78,13 +78,6 @@ export const renderAsync = async (
     });
   }
 
-  // Extract head contents from rendered HTML if present
-  // Debug: Write HTML to file for inspection
-  const fs = require('node:fs');
-  const path = require('node:path');
-  const debugPath = path.join(process.cwd(), 'debug-render.html');
-  fs.writeFileSync(debugPath, html, 'utf-8');
-  console.log(`[renderAsync] Wrote debug HTML to ${debugPath}`);
   let extractedHeadContents = '';
   const headMatches = html.matchAll(/<head>(.*?)<\/head>/gs);
   const seenMetaTags = new Set();
@@ -109,7 +102,6 @@ export const renderAsync = async (
       html = html.replace(match[0], '');
     }
   }
-  console.log('[renderAsync] Extracted head contents:', extractedHeadContents);
 
   const document = dedent(`
       <!DOCTYPE html>
