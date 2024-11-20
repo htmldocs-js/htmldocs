@@ -59,6 +59,12 @@
       ]
     },
     {
+      "group": "Guides",
+      "pages": [
+        "guides/static-content"
+      ]
+    },
+    {
       "group": "Components",
       "pages": [
         "components/document",
