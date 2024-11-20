@@ -6,8 +6,8 @@ html {
 /* Change the look */
 :root {
     --color-background: #E4E7EB;
-    --color-pageSheet: #cfcfcf;
-    --color-pageBox: violet;
+    --color-pageSheet: #E3E3E3;
+    // --color-pageBox: violet;
     --color-paper: white;
     --color-marginBox: transparent;
     --pagedjs-crop-color: black;
@@ -49,7 +49,8 @@ pagedjs-ignore {
     }
 
     .pagedjs_pagebox {
-        box-shadow: 0 0 0 1px var(--color-pageBox);
+        // box-shadow: 0 0 0 1px var(--color-pageBox);
+        box-shadow: 0px 87px 24px 0px rgba(145, 145, 145, 0.00), 0px 55px 22px 0px rgba(145, 145, 145, 0.01), 0px 31px 19px 0px rgba(145, 145, 145, 0.05), 0px 14px 14px 0px rgba(145, 145, 145, 0.09), 0px 3px 8px 0px rgba(145, 145, 145, 0.10);
     }
 
     .pagedjs_left_page {
