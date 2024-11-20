@@ -6,10 +6,7 @@ import {
 } from "~/actions/get-documents-directory-metadata";
 import { useHotreload } from "~/hooks/use-hot-reload";
 import {
-  documentsDirRelativePath,
   documentsDirectoryAbsolutePath,
-  normalizePath,
-  pathSeparator,
 } from "../../utils/documents-directory-absolute-path";
 import {
   renderDocumentByPath,
@@ -61,7 +58,7 @@ export const DocumentsProvider = (props: {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useHotreload(async (changes) => {
       const metadata = await getDocumentsDirectoryMetadata(
-        documentsDirectoryAbsolutePath
+        props.initialDocumentsDirectoryMetadata.absolutePath,
       );
       if (metadata) {
         setDocumentsDirectoryMetadata(metadata);
@@ -75,19 +72,12 @@ export const DocumentsProvider = (props: {
         if (!change.filename.match(/\.(js|jsx|ts|tsx)$/)) {
           return;
         }
-        const normalizedDocumentsDirRelativePath = normalizePath(
-          documentsDirRelativePath
-        );
+
         const slugForChangedDocument =
           // filename ex: documents/apple-receipt.tsx
           // so we need to remove the "documents/" because it isn't used
           // on the slug parameter for the preview page
-          change.filename
-            .replace(
-              `${normalizedDocumentsDirRelativePath}${pathSeparator}`,
-              ""
-            )
-            .replace(normalizedDocumentsDirRelativePath, "");
+          change.filename;
 
         const pathForChangedDocument = await getDocumentPathFromSlug(
           slugForChangedDocument

@@ -12,6 +12,7 @@ interface ShellProps extends RootProps {
   markup?: string;
   currentDocumentOpenSlug?: string;
   activeView?: string;
+  pathSeparator: string;
   setActiveView?: (view: string) => void;
 }
 
@@ -19,6 +20,7 @@ export const Shell = ({
   documentPath,
   currentDocumentOpenSlug,
   children,
+  pathSeparator,
   markup,
   activeView,
   setActiveView,
@@ -88,7 +90,7 @@ export const Shell = ({
                 : "",
             }}
           >
-            {currentDocumentOpenSlug && documentPath ? (
+            {currentDocumentOpenSlug && documentPath && pathSeparator ? (
               <Topbar
                 documentPath={documentPath}
                 activeView={activeView}
@@ -105,6 +107,7 @@ export const Shell = ({
                     setTriggerTransition(false);
                   }, 300);
                 }}
+                pathSeparator={pathSeparator}
                 setActiveView={setActiveView}
               />
             ) : null}

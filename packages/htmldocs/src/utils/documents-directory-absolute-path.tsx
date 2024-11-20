@@ -32,4 +32,3 @@ export const normalizePath = (path: string) => {
 export const documentsDirectoryAbsolutePath = `${
   process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION
 }${pathSeparator}${normalizePath(documentsDirRelativePath)}`;
-

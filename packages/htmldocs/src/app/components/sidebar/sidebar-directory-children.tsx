@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import type { DocumentsDirectory } from "~/actions/get-documents-directory-metadata";
 import {
   documentsDirectoryAbsolutePath,
-  pathSeparator,
 } from "../../../utils/documents-directory-absolute-path";
 import { cn } from "~/lib/utils";
 // import { IconFile } from "../icons/icon-file";
@@ -20,11 +19,6 @@ export const SidebarDirectoryChildren = (props: {
   isRoot?: boolean;
 }) => {
   const searchParams = useSearchParams();
-  const directoryPathRelativeToDocumentsDirectory =
-    props.documentsDirectoryMetadata.absolutePath
-      .replace(`${documentsDirectoryAbsolutePath}${pathSeparator}`, "")
-      .replace(documentsDirectoryAbsolutePath, "")
-      .trim();
   const isBaseDocumentsDirectory =
     props.documentsDirectoryMetadata.absolutePath ===
     documentsDirectoryAbsolutePath;
@@ -61,9 +55,9 @@ export const SidebarDirectoryChildren = (props: {
 
                 {props.documentsDirectoryMetadata.documentFilenames.map(
                   (documentFilename, index) => {
-                    const documentSlug = `${directoryPathRelativeToDocumentsDirectory}${
-                      !isBaseDocumentsDirectory ? pathSeparator : ""
-                    }${documentFilename}`;
+                    const documentSlug = isBaseDocumentsDirectory
+                      ? documentFilename
+                      : `${props.documentsDirectoryMetadata.relativePath}/${documentFilename}`;
                     const removeExtensionFrom = (path: string) => {
                       if (
                         path.split(".").pop() === "tsx" ||

@@ -1,27 +1,19 @@
-import clsx from "clsx";
-import { useDocumentSettingsContext } from "./DocumentContext";
-
-interface Props extends React.ComponentProps<"div"> {
-  margin?: React.CSSProperties["margin"];
-}
+interface Props extends React.ComponentProps<"div"> { }
 
 const Page: React.FC<Props> = ({
   children,
-  className,
   style,
-  margin,
   ...props
 }) => {
-  const { margin: documentMargin } = useDocumentSettingsContext();
-
   return (
-    <div
-      className={clsx("sheet", className)}
-      style={{ padding: margin || documentMargin, ...style }}
-      {...props}
-    >
-    {children}
-    </div>
+    <>
+      <div
+        style={{ width: '100%', height: '100%', pageBreakAfter: 'always', ...style }}
+        {...props}
+      >
+        {children}
+      </div>
+    </>
   );
 };
 

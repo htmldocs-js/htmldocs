@@ -14,6 +14,9 @@ export interface PreviewParams {
   slug: string[];
 }
 
+// Force this to be server-side rendered and not statically generated
+export const dynamic = "force-dynamic";
+
 const Page = async ({ params }: { params: PreviewParams }) => {
   // will come in here as segments of a relative path to the document
   // ex: ['authentication', 'verify-password.tsx']
@@ -59,6 +62,7 @@ This is most likely not an issue with the preview server. Maybe there was a typo
     <Suspense fallback={<Home />}>
       <Preview
         documentPath={documentPath}
+        pathSeparator={path.sep}
         renderingResult={documentRenderingResult}
         slug={slug}
       />

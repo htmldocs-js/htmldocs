@@ -117,7 +117,7 @@ export const createDependencyGraph = async (directory: string) => {
             );
             if (pathWithExtension) {
               pathToDependencyFromDirectory = pathWithExtension;
-            } else if (!isRunningBuilt) {
+            } else if (isRunningBuilt) {
               // only warn about this on development as it is probably going to be irrelevant otherwise
               console.warn(
                 `Could not find index file for directory at ${pathToDependencyFromDirectory}. This is probably going to cause issues with both hot reloading and your code.`,
@@ -135,7 +135,7 @@ export const createDependencyGraph = async (directory: string) => {
             );
             if (pathWithExtension) {
               pathToDependencyFromDirectory = pathWithExtension;
-            } else if (!isRunningBuilt) {
+            } else if (isRunningBuilt) {
               // only warn about this on development as it is probably going to be irrelevant otherwise
               console.warn(
                 `Could not determine the file extension for the file at ${pathWithExtension}`,
