@@ -1,10 +1,10 @@
 ---
 title: "Page"
-description: "A component for rendering individual pages within a document"
+description: "A component for creating page breaks within a document"
 icon: "file-lines"
 ---
 
-The `Page` component is used to render individual pages within a document. It applies the appropriate margins and styling to ensure consistency across your document.
+The `Page` component is used to separate content into distinct pages within a document. It creates a page break after each page.
 
 ## Usage
 
@@ -43,35 +43,3 @@ const MyDocument = () => (
 <ResponseField name="style" type="React.CSSProperties">
   Additional inline styles to apply to the page.
 </ResponseField>
-
-<ResponseField name="margin" type="React.CSSProperties['margin']">
-  Custom margin to apply to the page. If not provided, it will use the margin from the [Document](/components/document) component.
-</ResponseField>
-
-## Example
-
-Here's an example of using the `Page` component with custom margins:
-
-<CodeGroup>
-
-```jsx Custom Margin Example
-import Document from './Document';
-import Page from './Page';
-
-const MyDocument = () => (
-  <Document size="A4" orientation="portrait">
-    <Page>
-      <h1>Default Margin</h1>
-      <p>This page uses the default document margin.</p>
-    </Page>
-    <Page margin="2in">
-      <h2>Custom Margin</h2>
-      <p>This page has a custom 2-inch margin.</p>
-    </Page>
-  </Document>
-);
-```
-
-</CodeGroup>
-
-In this example, the first page uses the default document margin, while the second page has a custom 2-inch margin applied.

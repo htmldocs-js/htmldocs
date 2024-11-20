@@ -148,7 +148,7 @@ const Preview = ({
     return (
       <div key={id} className="relative h-full">
         <iframe
-          className={`absolute top-0 left-0 w-full h-[calc(100vh_-_70px)] bg-white ${
+          className={`absolute top-0 left-0 w-full h-[calc(100vh_-_70px)] print:h-[100vh] bg-white ${
             isActive ? 'z-20 opacity-100' : 'z-10 opacity-0'
           } ${activeView === 'mobile' ? 'w-[360px] mx-auto right-0' : ''}`}
           srcDoc={content}

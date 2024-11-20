@@ -165,11 +165,15 @@ function Receipt({
 
         <Footer 
           position="bottom-center"
-          showPageNumbers={true}
-          renderPageNumber={(pageCounter) => (
-            <>ASDF {pageCounter}</>
+          className="text-sm text-gray-500"
+          marginBoxStyles={{
+            marginBottom: '0.5in',
+          }}
+        >
+          {({ currentPage, totalPages }) => (
+            <>Page {currentPage} of {totalPages}</>
           )}
-        />
+        </Footer>
       </Page>
     </Document>
   )

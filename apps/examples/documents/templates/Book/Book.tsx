@@ -23,11 +23,11 @@ function Book() {
 
       <Footer 
         position="bottom-center"
-        showPageNumbers={true}
-        renderPageNumber={(pageCounter) => (
-          <>ASDF {pageCounter}</>
+      >
+        {({ currentPage, totalPages }) => (
+          <>Page {currentPage} of {totalPages}</>
         )}
-      />
+      </Footer>
     </Document>
   )
 }
