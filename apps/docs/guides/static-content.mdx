@@ -1,0 +1,54 @@
+---
+title: "Static Content"
+description: "Learn how to use static content in your document templates"
+icon: "image"
+---
+
+## Client-Side Usage
+Inside HTML/React components, static files are served directly from the `/static` directory. Access them using the absolute path:
+
+```tsx
+// Access static content on the client-side
+<img src="/static/logo.png" />
+```
+
+## Server-Side Usage 
+When reading files server-side (like in document templates), use `process.env.DOCUMENTS_DIR_RELATIVE_PATH` to get the correct path:
+
+```tsx
+import fs from 'node:fs'
+import path from 'path'
+
+// Read static content in server-side components
+const content = fs.readFileSync(
+  path.join(process.env.DOCUMENTS_DIR_RELATIVE_PATH ?? '', '/static/content.md'),
+  'utf-8'
+)
+```
+
+## Example: Loading Markdown Content
+Here's a complete example of loading and rendering markdown content in a document:
+
+```tsx
+import { Document } from "@htmldocs/react"
+import MarkdownIt from 'markdown-it'
+import fs from 'node:fs'
+import path from "path"
+
+const content = fs.readFileSync(
+  path.join(process.env.DOCUMENTS_DIR_RELATIVE_PATH ?? '', '/static/content.md'),
+  'utf-8'
+)
+
+const md = new MarkdownIt({ html: true })
+
+function MyDocument() {
+  const html = md.render(content)
+  
+  return (
+    <Document>
+      <div dangerouslySetInnerHTML={{ __html: html }} />
+    </Document>
+  )
+}
+```

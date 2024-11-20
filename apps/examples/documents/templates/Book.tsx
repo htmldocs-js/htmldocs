@@ -1,11 +1,12 @@
 import { Document, Footer } from "@htmldocs/react"
 import MarkdownIt from 'markdown-it'
 import fs from 'node:fs'
+import path from "path"
 
 import "~/index.css"
 
 const content = fs.readFileSync(
-  '/static/content.md',
+  path.join(process.env.DOCUMENTS_DIR_RELATIVE_PATH ?? '', '/static/content.md'),
   'utf-8'
 )
 
