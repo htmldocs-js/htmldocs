@@ -6,7 +6,7 @@ const Home = async () => {
   const baseEmailsDirectoryName = path.basename(documentsDirectoryAbsolutePath);
 
   return (
-    <Shell>
+    <Shell pathSeparator={path.sep}>
       <div className="relative max-w-lg mx-auto p-8 flex items-center justify-center h-[inherit] text-foreground">
         <div className="relative z-10 flex flex-col text-center items-center">
           <h2 className="text-2xl font-bold">

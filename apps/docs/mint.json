@@ -54,9 +54,14 @@
       "group": "Overview",
       "pages": [
         "introduction",
-        "quickstart",
-        "development",
+        "getting-started",
         "cli"
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/static-content"
       ]
     },
     {

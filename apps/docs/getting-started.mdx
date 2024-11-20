@@ -1,0 +1,133 @@
+---
+title: Getting Started
+icon: "rocket"
+description: 'Add htmldocs to any React/TypeScript project in minutes.'
+---
+
+## Automatic Setup
+The easiest way to setup htmldocs is to use our automatic setup script.
+1. Run the following command in your terminal:
+<CodeGroup>
+
+```bash npm
+npx htmldocs@latest init
+```
+
+```bash pnpm
+pnpx htmldocs@latest init
+```
+
+```bash yarn
+yarn dlx htmldocs@latest init
+```
+
+```bash bun
+bunx htmldocs@latest init
+```
+
+</CodeGroup>
+
+This will prompt you for your project name and create a new folder in your current directory.
+
+2. After switching to the folder, install the dependencies by running:
+<CodeGroup>
+
+```bash npm
+npm install
+```
+
+```bash pnpm
+pnpm install
+```
+
+```bash yarn
+yarn install
+```
+
+```bash bun
+bun install
+```
+</CodeGroup>
+
+3. Once the setup is complete, you can start the development server by running:
+<CodeGroup>
+
+```bash npm
+npm run dev
+```
+
+```bash pnpm
+pnpm dev
+```
+
+```bash yarn
+yarn dev
+```
+
+```bash bun
+bun dev
+```
+
+</CodeGroup>
+
+This will start a live preview of your documents in your browser.
+
+## Manual Setup
+If you prefer to set up htmldocs manually, follow these steps:
+
+1. Install htmldocs in your project:
+<CodeGroup>
+
+```bash npm
+npm install htmldocs @htmldocs/react @htmldocs/render
+```
+
+```bash pnpm
+pnpm add htmldocs @htmldocs/react @htmldocs/render
+```
+
+```bash yarn
+yarn add htmldocs @htmldocs/react @htmldocs/render
+```
+
+```bash bun
+bun add htmldocs @htmldocs/react @htmldocs/render
+```
+
+</CodeGroup>
+
+2. Add the following script to your `package.json`:
+
+```json
+{
+    "scripts": {
+        "dev": "htmldocs dev",
+    }
+}
+```
+
+3. Create document template
+
+Create a new folder called `documents` in your project. Then, create a new file called `index.tsx` in the `documents` folder and include the following code:
+
+```tsx
+import { Document, Page } from "@htmldocs/react";
+
+export default function MyDocument() {
+    return (
+        <Document size="A4" orientation="portrait" margin="0.5in">
+            <Page style={{ backgroundColor: "#000", color: "#fff" }}>
+                <h1>Hello from the dark side</h1>
+            </Page>
+        </Document>
+    );
+}
+```
+
+4. Run the development server by running:
+
+```bash
+npm run dev
+```
+
+This will start a live preview of your documents in your browser.

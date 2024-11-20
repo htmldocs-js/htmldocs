@@ -1,6 +1,6 @@
 {
   "name": "@htmldocs/examples",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -13,11 +13,14 @@
     "@react-email/components": "0.0.18",
     "clsx": "^2.1.1",
     "htmldocs": "workspace:*",
+    "markdown-it": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ts-json-schema-generator": "^2.2.0"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.8.1",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
     "typescript": "^5.4.5"

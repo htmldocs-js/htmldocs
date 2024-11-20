@@ -35,6 +35,9 @@ export const isRunningBuilt = __filename.endsWith(path.join('cli', 'index.mjs'))
 export const cliPackageLocation = isRunningBuilt
   ? path.resolve(__dirname, '../')
   : path.resolve(__dirname, '../../../..');
+export const previewServerLocation = isRunningBuilt
+  ? path.resolve(__dirname, '../preview')
+  : path.resolve(__dirname, '../../../..');
 
 export const startDevServer = async (
   documentsDirRelativePath: string,
@@ -120,10 +123,10 @@ export const startDevServer = async (
 
   const app = next({
     // passing in env here does not get the environment variables there
-    dev: true,
+    dev: !isRunningBuilt,
     hostname: 'localhost',
     port,
-    dir: cliPackageLocation,
+    dir: previewServerLocation,
   });
 
   let isNextReady = false;
@@ -167,16 +170,16 @@ const makeExitHandler =
     }
   };
 
-// do something when app is closing
+// // do something when app is closing
 process.on('exit', makeExitHandler());
 
-// catches ctrl+c event
+// // catches ctrl+c event
 process.on(
   'SIGINT',
   makeExitHandler({ shouldKillProcess: true, killWithErrorCode: false }),
 );
 
-//  catches "kill pid" (for example: nodemon restart)
+// //  catches "kill pid" (for example: nodemon restart)
 process.on(
   'SIGUSR1',
   makeExitHandler({ shouldKillProcess: true, killWithErrorCode: false }),
@@ -186,8 +189,8 @@ process.on(
   makeExitHandler({ shouldKillProcess: true, killWithErrorCode: false }),
 );
 
-// catches uncaught exceptions
-process.on(
-  'uncaughtException',
-  makeExitHandler({ shouldKillProcess: true, killWithErrorCode: true }),
-);
+// // catches uncaught exceptions
+// process.on(
+//   'uncaughtException',
+//   makeExitHandler({ shouldKillProcess: true, killWithErrorCode: true }),
+// );

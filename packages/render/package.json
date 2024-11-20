@@ -1,7 +1,6 @@
 {
   "name": "@htmldocs/render",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.5",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -26,7 +25,7 @@
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "build": "ts-node build.ts && tsc",
+    "build": "pnpm run build:css && ts-node build.ts && tsc",
     "build:css": "sass --no-source-map ./src/css/index.scss ./src/css/index.css"
   },
   "devDependencies": {

@@ -1,15 +1,17 @@
 {
   "name": "htmldocs",
-  "version": "0.1.0",
+  "version": "0.1.6",
   "bin": {
-    "htmldocs": "./cli/index.mjs"
+    "htmldocs": "./dist/cli/index.mjs"
   },
   "scripts": {
     "init": "npx playwright install",
+    "build": "node build-preview-server.mjs && pnpm build-cli",
+    "build-cli": "tsup-node && pnpm link --global",
     "dev": "next dev",
-    "build": "tsup && pnpm link --global",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@babel/core": "^7.24.6",
@@ -25,6 +27,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toggle-group": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@tailwindcss/typography": "0.5.9",
     "adm-zip": "^0.5.14",
     "autoprefixer": "^10.4.19",
     "chalk": "^4.1.2",
@@ -72,8 +75,8 @@
     "@types/babel__core": "^7.20.5",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
     "tsup": "^8.0.2",
     "typescript": "^5"
   }

@@ -1,13 +1,13 @@
 "use client";
 import * as React from "react";
 import { Sidebar } from "@phosphor-icons/react";
-import { pathSeparator } from "../../utils/documents-directory-absolute-path";
 import { Button } from "./ui/button";
 import { useDocuments } from "~/contexts/documents";
 
 interface TopbarProps {
   documentPath: string;
   currentDocumentOpenSlug: string;
+  pathSeparator: string;
   activeView?: string;
   markup?: string;
   onToggleSidebar?: () => void;
@@ -17,6 +17,7 @@ interface TopbarProps {
 export const Topbar: React.FC<Readonly<TopbarProps>> = ({
   documentPath,
   currentDocumentOpenSlug,
+  pathSeparator,
   markup,
   activeView,
   setActiveView,

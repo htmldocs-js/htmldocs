@@ -51,9 +51,14 @@ const readStream = async (
   return result;
 };
 
-export const renderAsync = async (component: React.ReactElement, documentCss?: string) => {
+export const renderAsync = async (
+  component: React.ReactElement,
+  documentCss?: string,
+  headContents?: string
+) => {
   const reactDOMServer = await import("react-dom/server");
-
+  
+  // Then render the main component
   let html!: string;
   if (Object.hasOwn(reactDOMServer, "renderToReadableStream")) {
     html = await readStream(
@@ -73,12 +78,107 @@ export const renderAsync = async (component: React.ReactElement, documentCss?: s
     });
   }
 
+  let extractedHeadContents = '';
+  const headMatches = html.matchAll(/<head>(.*?)<\/head>/gs);
+  const seenMetaTags = new Set();
+  
+  for (const match of headMatches) {
+    if (match[1]) {
+      // Process meta tags to avoid duplicates
+      const content = match[1];
+      const metaMatches = content.matchAll(/<meta[^>]+>/g);
+      for (const metaMatch of metaMatches) {
+        const metaTag = metaMatch[0];
+        if (!seenMetaTags.has(metaTag)) {
+          seenMetaTags.add(metaTag);
+          extractedHeadContents += metaTag;
+        }
+      }
+      
+      // Add non-meta content
+      extractedHeadContents += content.replace(/<meta[^>]+>/g, '');
+      
+      // Remove the head section from main HTML
+      html = html.replace(match[0], '');
+    }
+  }
+
   const document = dedent(`
       <!DOCTYPE html>
       <html>
         <head>
           ${documentCss ? `<style>${documentCss}</style>` : ""}
           <style>${cssText}</style>
+          ${extractedHeadContents}
+          <script src="https://unpkg.com/pagedjs@0.5.0-beta.2/dist/paged.polyfill.js"></script>
+          <script type="text/javascript">
+            // Hide content initially
+            // document.querySelector("html").style.visibility = "hidden";
+            
+            const horizontalPadding = 20;
+            
+            const scaleToFit = () => {
+              try {
+                const pageElement = document.querySelector(".pagedjs_page");
+                if (!pageElement) return;
+                
+                const pageWidth = pageElement.offsetWidth + horizontalPadding * 2;
+                const scaleFactor = window.innerWidth / pageWidth;
+                
+                console.log("Scale debug:", {
+                  windowWidth: window.innerWidth,
+                  pageWidth: pageElement.offsetWidth,
+                  pageWidthWithPadding: pageWidth,
+                  scaleFactor,
+                  timestamp: new Date().toISOString()
+                });
+
+                // const htmlElement = document.querySelector("html");
+                // if (htmlElement) {
+                //   htmlElement.style.transform = "scale(" + scaleFactor + ") translateX(" + horizontalPadding + "px)";
+                // }
+              } catch (err) {
+                console.error("Error in scaleToFit:", err);
+              }
+            };
+            
+            // Save scroll position before unload
+            window.onbeforeunload = function() {
+              try {
+                localStorage.setItem("scrollpos", String(window.scrollY));
+              } catch (err) {
+                console.error("Error saving scroll position:", err);
+              }
+            };
+            
+            // Handle window resize
+            window.addEventListener("resize", scaleToFit);
+            
+            // Register Paged.js handler when API is available
+            if (typeof Paged !== "undefined") {
+              class MyHandler extends Paged.Handler {
+                afterPageLayout(pageFragment, page) {
+                  try {
+                    console.log("afterPageLayout triggered");
+                    scaleToFit();
+                    var scrollpos = localStorage.getItem("scrollpos");
+                    if (scrollpos) window.scrollTo(0, parseInt(scrollpos, 10));
+                    document.querySelector("html").style.visibility = "visible";
+
+                    // Notify parent window when layout is complete
+                    window.parent.postMessage({ type: 'layoutComplete' }, '*');
+                    console.log("layoutComplete message sent");
+                  } catch (err) {
+                    console.error("Error in afterPageLayout:", err);
+                    // Still show content even if there's an error
+                    document.querySelector("html").style.visibility = "visible";
+                  }
+                }
+              }
+              Paged.registerHandlers(MyHandler);
+              console.log("Paged.js registered handlers");
+            }
+          </script>
         </head>
         <body>
           ${html}
