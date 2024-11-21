@@ -13,7 +13,8 @@ import {
   type DocumentRenderingResult,
 } from "~/actions/render-document-by-path";
 import { getDocumentPathFromSlug } from "~/actions/get-document-path-from-slug";
-import { renderDocumentToPDF, RenderDocumentToPDFProps, DocumentSize } from "~/actions/render-document-to-pdf";
+import { renderDocumentToPDF, RenderDocumentToPDFProps } from "~/actions/render-document-to-pdf";
+import { DocumentSize, PageConfig } from "~/lib/types";
 
 const DocumentsContext = createContext<
   | {
@@ -26,8 +27,8 @@ const DocumentsContext = createContext<
         serverDocumentRenderedResult: DocumentRenderingResult
       ) => DocumentRenderingResult;
       renderDocumentToPDF: ({ url, ...props }: RenderDocumentToPDFProps) => Promise<Buffer | Error>;
-      documentSizes: Record<string, DocumentSize>;
-      setDocumentSize: (documentPath: string, size: DocumentSize) => void;
+      pageConfigs: Record<string, PageConfig>;
+      setPageConfig: (documentPath: string, config: PageConfig) => void;
     }
   | undefined
 >(undefined);
@@ -54,12 +55,12 @@ export const DocumentsProvider = (props: {
   const [renderingResultPerDocumentPath, setRenderingResultPerDocumentPath] =
     useState<Record<string, DocumentRenderingResult>>({});
 
-  const [documentSizes, setDocumentSizes] = useState<Record<string, DocumentSize>>({});
+  const [pageConfigs, setPageConfigs] = useState<Record<string, PageConfig>>({});
 
-  const setDocumentSize = (documentPath: string, size: DocumentSize) => {
-    setDocumentSizes(prev => ({
+  const setPageConfig = (documentPath: string, config: PageConfig) => {
+    setPageConfigs(prev => ({
       ...prev,
-      [documentPath]: size
+      [documentPath]: config
     }));
   };
 
@@ -142,8 +143,8 @@ export const DocumentsProvider = (props: {
           return serverDocumentRenderedResult;
         },
         renderDocumentToPDF,
-        documentSizes,
-        setDocumentSize,
+        pageConfigs,
+        setPageConfig,
       }}
     >
       {props.children}
