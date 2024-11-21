@@ -45,10 +45,6 @@ const Document: React.FC<Props> = ({ size, orientation, margin, children }) => {
     <div id="document"
       data-size={formatSize(size)}
       data-orientation={orientation}
-      style={{
-        height: '100%',
-        width: '100%',
-      }}
     >
       <Head>
         <style>

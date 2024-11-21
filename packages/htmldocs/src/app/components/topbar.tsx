@@ -27,11 +27,18 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
   const [isDownloading, setIsDownloading] = React.useState(false);
 
   const renderAndDownloadPDF = async () => {
+    if (!markup) {
+      console.error("No markup available to generate PDF");
+      return;
+    }
+
     setIsDownloading(true);
+    
     const pdfBuffer = await renderDocumentToPDF({ 
-      url: window.location.href,
+      html: markup,
       pageConfig: pageConfigs[documentPath]
     });
+    
     if (pdfBuffer instanceof Error) {
       console.error("Error downloading document:", pdfBuffer.message);
       setIsDownloading(false);
