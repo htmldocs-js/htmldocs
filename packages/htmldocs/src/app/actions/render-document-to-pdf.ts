@@ -4,12 +4,13 @@ import { LaunchOptions, chromium } from 'playwright';
 import { PageConfig, isStandardSize, parseCustomSize } from '~/lib/types';
 
 export interface RenderDocumentToPDFProps extends LaunchOptions {
-    url: string;
+    url?: string;
+    html: string;
     pageConfig?: PageConfig;
 }
 
 export const renderDocumentToPDF = async ({ 
-  url, 
+  html,
   pageConfig = { size: 'A4', orientation: 'portrait' }, 
   ...props 
 }: RenderDocumentToPDFProps): Promise<Buffer | Error> => {
@@ -18,7 +19,8 @@ export const renderDocumentToPDF = async ({
   });
   try {
     const page = await browser.newPage();
-    await page.goto(url);
+    
+    await page.setContent(html);
     await page.waitForLoadState('networkidle');
 
     console.debug('pageConfig', pageConfig);

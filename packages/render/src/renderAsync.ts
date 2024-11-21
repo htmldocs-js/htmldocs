@@ -170,6 +170,9 @@ export const renderAsync = async (
                     const documentSize = documentEl?.getAttribute('data-size');
                     const documentOrientation = documentEl?.getAttribute('data-orientation');
 
+                    // After layout, set document height to 100% so that it doesn't interfere with page chunking
+                    documentEl?.style.setProperty('height', '100%');
+
                     // Notify parent window when layout is complete
                     window.parent.postMessage({ 
                       type: 'layoutComplete',
