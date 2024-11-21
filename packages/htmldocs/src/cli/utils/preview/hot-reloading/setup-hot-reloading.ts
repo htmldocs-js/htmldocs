@@ -5,6 +5,7 @@ import { watch } from 'chokidar';
 import debounce from 'debounce';
 import type { HotReloadChange } from '../../../../utils/types/hot-reload-change';
 import { createDependencyGraph } from './create-dependency-graph';
+import logger from '../../../utils/log';
 
 export const setupHotreloading = async (
   devServer: http.Server,
@@ -26,7 +27,7 @@ export const setupHotreloading = async (
     emailDirRelativePath,
   );
 
-  console.log(`Watching ${absolutePathToDocumentsDirectory}`);
+  logger.info(`Watching ${absolutePathToDocumentsDirectory}`);
 
   const watcher = watch('', {
     ignoreInitial: true,
@@ -46,7 +47,7 @@ export const setupHotreloading = async (
   const reload = debounce(() => {
     // we detect these using the useHotreload hook on the Next app
     clients.forEach((client) => {
-      console.log(`Emitting reload to ${client.id}`);
+      logger.debug(`Emitting reload to ${client.id}`);
       client.emit('reload', changes);
     });
 
@@ -78,7 +79,7 @@ export const setupHotreloading = async (
       return;
     }
 
-    console.log(`Detected ${event} in ${relativePathToChangeTarget}`);
+    logger.debug(`Detected ${event} in ${relativePathToChangeTarget}`);
 
     const pathToChangeTarget = path.resolve(
       absolutePathToDocumentsDirectory,

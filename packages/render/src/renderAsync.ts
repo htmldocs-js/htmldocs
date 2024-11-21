@@ -165,9 +165,17 @@ export const renderAsync = async (
                     if (scrollpos) window.scrollTo(0, parseInt(scrollpos, 10));
                     document.querySelector("html").style.visibility = "visible";
 
+                    // Get document size
+                    const documentEl = document.getElementById('document');
+                    const documentSize = documentEl?.getAttribute('data-size');
+
                     // Notify parent window when layout is complete
-                    window.parent.postMessage({ type: 'layoutComplete' }, '*');
-                    console.log("layoutComplete message sent");
+                    window.parent.postMessage({ 
+                      type: 'layoutComplete',
+                      documentSize,
+                      timestamp: new Date().toISOString()
+                    }, '*');
+                    console.log("layoutComplete message sent", { documentSize });
                   } catch (err) {
                     console.error("Error in afterPageLayout:", err);
                     // Still show content even if there's an error

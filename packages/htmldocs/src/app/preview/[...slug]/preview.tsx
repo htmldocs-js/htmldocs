@@ -9,12 +9,19 @@ import { Shell } from '~/components/shell';
 import { useDocuments } from '~/contexts/documents';
 import { useRenderingMetadata } from '~/hooks/use-rendering-metadata';
 import { RenderingError } from './rendering-error';
+import { DocumentSize } from "~/actions/render-document-to-pdf";
 
 interface PreviewProps {
   slug: string;
   documentPath: string;
   pathSeparator: string;
   renderingResult: DocumentRenderingResult;
+}
+
+interface LayoutCompleteMessage {
+  type: 'layoutComplete';
+  documentSize?: string;
+  timestamp: string;
 }
 
 const Preview = ({
@@ -29,7 +36,7 @@ const Preview = ({
 
   const activeView = searchParams.get('view') ?? 'desktop';
   const activeLang = searchParams.get('lang') ?? 'jsx';
-  const { useDocumentRenderingResult } = useDocuments();
+  const { useDocumentRenderingResult, setDocumentSize } = useDocuments();
 
   const renderingResult = useDocumentRenderingResult(
     documentPath,
@@ -87,6 +94,24 @@ const Preview = ({
 
   const handleMessage = React.useCallback((event: MessageEvent) => {
     if (event.data.type === 'layoutComplete' && nextIframeId) {
+      console.log("Received layoutComplete message:", {
+        documentSize: event.data.documentSize,
+        timestamp: event.data.timestamp
+      });
+
+      if (event.data.documentSize) {
+        // Validate that the size matches our DocumentSize type
+        const size = event.data.documentSize;
+        const standardSizes = ["A3", "A4", "A5", "letter", "legal"];
+        const sizeRegex = /^\d+(?:in|cm|mm|px)\s+\d+(?:in|cm|mm|px)$/;
+        
+        if (standardSizes.includes(size) || sizeRegex.test(size)) {
+          setDocumentSize(documentPath, size as DocumentSize);
+        } else {
+          console.warn(`Invalid document size format: ${size}`);
+        }
+      }
+
       // Remove the previous iframe from state
       setIframes((prev) => {
         const updated = { ...prev };
@@ -98,7 +123,7 @@ const Preview = ({
       setActiveIframeId(nextIframeId);
       setNextIframeId(null);
     }
-  }, [activeIframeId, nextIframeId]);
+  }, [activeIframeId, nextIframeId, documentPath, setDocumentSize]);
 
   React.useEffect(() => {
     window.addEventListener('message', handleMessage);

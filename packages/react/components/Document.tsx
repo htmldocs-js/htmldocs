@@ -42,7 +42,7 @@ const Document: React.FC<Props> = ({ size, orientation, margin, children }) => {
     : childrenArray;
 
   return (
-    <>
+    <div id="document" data-size={formatSize(size)}>
       <Head>
         <style>
           {`
@@ -54,7 +54,7 @@ const Document: React.FC<Props> = ({ size, orientation, margin, children }) => {
         </style>
       </Head>
       {reorderedChildren}
-    </>
+    </div>
   );
 };
 

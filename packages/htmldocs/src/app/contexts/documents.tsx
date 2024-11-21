@@ -13,7 +13,7 @@ import {
   type DocumentRenderingResult,
 } from "~/actions/render-document-by-path";
 import { getDocumentPathFromSlug } from "~/actions/get-document-path-from-slug";
-import { renderDocumentToPDF, RenderDocumentToPDFProps } from "~/actions/render-document-to-pdf";
+import { renderDocumentToPDF, RenderDocumentToPDFProps, DocumentSize } from "~/actions/render-document-to-pdf";
 
 const DocumentsContext = createContext<
   | {
@@ -26,6 +26,8 @@ const DocumentsContext = createContext<
         serverDocumentRenderedResult: DocumentRenderingResult
       ) => DocumentRenderingResult;
       renderDocumentToPDF: ({ url, ...props }: RenderDocumentToPDFProps) => Promise<Buffer | Error>;
+      documentSizes: Record<string, DocumentSize>;
+      setDocumentSize: (documentPath: string, size: DocumentSize) => void;
     }
   | undefined
 >(undefined);
@@ -51,6 +53,15 @@ export const DocumentsProvider = (props: {
 
   const [renderingResultPerDocumentPath, setRenderingResultPerDocumentPath] =
     useState<Record<string, DocumentRenderingResult>>({});
+
+  const [documentSizes, setDocumentSizes] = useState<Record<string, DocumentSize>>({});
+
+  const setDocumentSize = (documentPath: string, size: DocumentSize) => {
+    setDocumentSizes(prev => ({
+      ...prev,
+      [documentPath]: size
+    }));
+  };
 
   if (process.env.NEXT_PUBLIC_IS_BUILDING !== "true") {
     // this will not change on runtime so it doesn't violate
@@ -131,6 +142,8 @@ export const DocumentsProvider = (props: {
           return serverDocumentRenderedResult;
         },
         renderDocumentToPDF,
+        documentSizes,
+        setDocumentSize,
       }}
     >
       {props.children}
