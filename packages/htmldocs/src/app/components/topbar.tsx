@@ -23,12 +23,15 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
   setActiveView,
   onToggleSidebar,
 }) => {
-  const { renderDocumentToPDF } = useDocuments();
+  const { renderDocumentToPDF, documentSizes } = useDocuments();
   const [isDownloading, setIsDownloading] = React.useState(false);
 
   const renderAndDownloadPDF = async () => {
     setIsDownloading(true);
-    const pdfBuffer = await renderDocumentToPDF({ url: window.location.href });
+    const pdfBuffer = await renderDocumentToPDF({ 
+      url: window.location.href,
+      size: documentSizes[documentPath]
+    });
     if (pdfBuffer instanceof Error) {
       console.error("Error downloading document:", pdfBuffer.message);
       setIsDownloading(false);

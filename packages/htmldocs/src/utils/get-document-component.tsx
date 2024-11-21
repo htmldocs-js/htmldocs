@@ -14,6 +14,7 @@ import {
 import { htmldocsPlugin } from "./htmldocs-esbuild-plugin";
 import postCssPlugin from "esbuild-style-plugin";
 import { RawSourceMap } from "source-map-js";
+import logger from "../cli/utils/log";
 
 export const getDocumentComponent = async (
   documentPath: string
@@ -26,12 +27,12 @@ export const getDocumentComponent = async (
     }
   | { error: ErrorObject }
 > => {
-  console.log(`[getDocumentComponent] Starting build for: ${documentPath}`);
+  logger.debug(`[getDocumentComponent] Starting build for: ${documentPath}`);
   const startTime = performance.now();
   
   let outputFiles: OutputFile[];
   try {
-    console.time('esbuild');
+    logger.debug('Starting esbuild');
     const buildStart = performance.now();
     const buildData = await es.build({
       entryPoints: [documentPath],
@@ -61,13 +62,13 @@ export const getDocumentComponent = async (
       sourcemap: "external",
     });
     const buildTime = performance.now() - buildStart;
-    console.timeEnd('esbuild');
-    console.log(`[getDocumentComponent] Build completed in ${buildTime.toFixed(2)}ms`);
+    logger.debug('esbuild completed');
+    logger.debug(`[getDocumentComponent] Build completed in ${buildTime.toFixed(2)}ms`);
     
     outputFiles = buildData.outputFiles;
   } catch (exp) {
     const buildFailure = exp as BuildFailure;
-    console.error('[getDocumentComponent] Build failed:', {
+    logger.error('[getDocumentComponent] Build failed:', {
       error: {
         message: buildFailure.message,
         stack: buildFailure.stack,
@@ -79,45 +80,45 @@ export const getDocumentComponent = async (
   }
 
   try {
-    console.time('postBuild');
+    logger.debug('Starting post-build processing');
     const postBuildStart = performance.now();
     
-    console.time('extractFiles');
+    logger.debug('Extracting files');
     const { sourceMapFile, bundledDocumentFile, cssFile } =
       extractOutputFiles(outputFiles);
-    console.timeEnd('extractFiles');
+    logger.debug('Files extracted');
     
     const builtDocumentCode = bundledDocumentFile.text;
     const documentCss = cssFile?.text;
     
-    console.time('createContext');
+    logger.debug('Creating context');
     const fakeContext = createFakeContext(documentPath);
-    console.timeEnd('createContext');
+    logger.debug('Context created');
     
-    console.time('configureSourceMap');
+    logger.debug('Configuring source map');
     const sourceMapToDocument = configureSourceMap(sourceMapFile);
-    console.timeEnd('configureSourceMap');
+    logger.debug('Source map configured');
 
-    console.time('executeCode');
+    logger.debug('Executing code');
     const executionResult = executeBuiltCode(
       builtDocumentCode,
       fakeContext,
       documentPath,
       sourceMapToDocument
     );
-    console.timeEnd('executeCode');
+    logger.debug('Code executed');
 
     const postBuildTime = performance.now() - postBuildStart;
-    console.timeEnd('postBuild');
-    console.log(`[getDocumentComponent] Post-build processing completed in ${postBuildTime.toFixed(2)}ms`);
+    logger.debug('Post-build completed');
+    logger.debug(`[getDocumentComponent] Post-build processing completed in ${postBuildTime.toFixed(2)}ms`);
 
     if ("error" in executionResult) {
-      console.error('[getDocumentComponent] Execution failed:', executionResult.error);
+      logger.error('[getDocumentComponent] Execution failed:', executionResult.error);
       return { error: executionResult.error };
     }
 
     const totalTime = performance.now() - startTime;
-    console.log(`[getDocumentComponent] Total processing completed in ${totalTime.toFixed(2)}ms`);
+    logger.debug(`[getDocumentComponent] Total processing completed in ${totalTime.toFixed(2)}ms`);
 
     return {
       documentComponent: executionResult.DocumentComponent,
@@ -126,7 +127,7 @@ export const getDocumentComponent = async (
       sourceMapToOriginalFile: sourceMapToDocument,
     };
   } catch (error) {
-    console.error('[getDocumentComponent] Processing error:', error);
+    logger.error('[getDocumentComponent] Processing error:', error);
     return {
       error: {
         message: error.message,
