@@ -168,11 +168,13 @@ export const renderAsync = async (
                     // Get document size
                     const documentEl = document.getElementById('document');
                     const documentSize = documentEl?.getAttribute('data-size');
+                    const documentOrientation = documentEl?.getAttribute('data-orientation');
 
                     // Notify parent window when layout is complete
                     window.parent.postMessage({ 
                       type: 'layoutComplete',
                       documentSize,
+                      documentOrientation,
                       timestamp: new Date().toISOString()
                     }, '*');
                     console.log("layoutComplete message sent", { documentSize });

@@ -1,28 +1,18 @@
 "use server"
 
 import { LaunchOptions, chromium } from 'playwright';
-
-const standardSizes = ["A3", "A4", "A5", "letter", "legal"] as const;
-type StandardSize = typeof standardSizes[number];
-type Unit = 'in' | 'cm' | 'mm' | 'px';
-type CustomSize = `${number}${Unit} ${number}${Unit}`;
-export type DocumentSize = StandardSize | CustomSize;
+import { PageConfig, isStandardSize, parseCustomSize } from '~/lib/types';
 
 export interface RenderDocumentToPDFProps extends LaunchOptions {
     url: string;
-    size?: DocumentSize;
+    pageConfig?: PageConfig;
 }
 
-const isStandardSize = (size: string): size is StandardSize => {
-    return standardSizes.includes(size as StandardSize);
-};
-
-const parseCustomSize = (size: string) => {
-    const [width, height] = size.split(' ');
-    return { width, height };
-};
-
-export const renderDocumentToPDF = async ({ url, size = 'A4', ...props }: RenderDocumentToPDFProps): Promise<Buffer | Error> => {
+export const renderDocumentToPDF = async ({ 
+  url, 
+  pageConfig = { size: 'A4', orientation: 'portrait' }, 
+  ...props 
+}: RenderDocumentToPDFProps): Promise<Buffer | Error> => {
   const browser = await chromium.launch({
     ...props,
   });
@@ -31,11 +21,14 @@ export const renderDocumentToPDF = async ({ url, size = 'A4', ...props }: Render
     await page.goto(url);
     await page.waitForLoadState('networkidle');
 
+    console.debug('pageConfig', pageConfig);
+
     const pdfOptions = {
         printBackground: true,
-        ...(isStandardSize(size) 
-            ? { format: size } 
-            : parseCustomSize(size))
+        ...(isStandardSize(pageConfig.size) 
+            ? { format: pageConfig.size } 
+            : parseCustomSize(pageConfig.size)),
+        landscape: pageConfig.orientation === 'landscape'
     };
 
     const pdfBuffer = await page.pdf(pdfOptions);
