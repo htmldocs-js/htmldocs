@@ -85,7 +85,7 @@ function Letter({
         <div className="flex justify-between items-start mb-12">
           <img 
             src="/static/techflow.svg" 
-            className="w-64 h-auto"
+            className="w-64 h-auto mt-2"
           />
           <div className="text-right text-gray-700">
             <div>{sender.address}</div>
