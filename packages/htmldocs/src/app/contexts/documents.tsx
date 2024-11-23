@@ -72,6 +72,7 @@ export const DocumentsProvider = (props: {
       const metadata = await getDocumentsDirectoryMetadata(
         props.initialDocumentsDirectoryMetadata.absolutePath,
       );
+
       if (metadata) {
         setDocumentsDirectoryMetadata(metadata);
       } else {

@@ -58,6 +58,7 @@ export const SidebarDirectoryChildren = (props: {
                     const documentSlug = isBaseDocumentsDirectory
                       ? documentFilename
                       : `${props.documentsDirectoryMetadata.relativePath}/${documentFilename}`;
+
                     const removeExtensionFrom = (path: string) => {
                       if (
                         path.split(".").pop() === "tsx" ||
