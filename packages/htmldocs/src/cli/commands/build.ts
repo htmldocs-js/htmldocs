@@ -8,11 +8,20 @@ import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import { htmldocsPlugin } from "../../utils/htmldocs-esbuild-plugin";
 import { closeOraOnSIGINT } from "../utils/close-ora-on-sigint";
+import { documentsDirectoryAbsolutePath } from "../../utils/documents-directory-absolute-path";
+import AdmZip from "adm-zip";
 
 export const BUILD_DIR = path.join(
   process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION || process.cwd(),
   "dist"
 );
+
+const cleanDistFolder = () => {
+  if (fs.existsSync(BUILD_DIR)) {
+    fs.rmSync(BUILD_DIR, { recursive: true, force: true });
+  }
+  fs.mkdirSync(BUILD_DIR, { recursive: true });
+};
 
 export const build = async (fileName: string, write: boolean = true) => {
   const spinner = ora({
@@ -27,22 +36,21 @@ export const build = async (fileName: string, write: boolean = true) => {
       process.exit(1);
     }
 
-    const removeForceDynamic = async (filePath: string) => {
-      const contents = await fs.promises.readFile(filePath, 'utf8');
-      await fs.promises.writeFile(
-        filePath,
-        contents.replace("export const dynamic = 'force-dynamic';", ''),
-        'utf8',
-      );
-    };
+    spinner.text = "Cleaning dist folder...";
+    cleanDistFolder();
+    
+    spinner.text = "Zipping static assets...";
+    const staticPath = path.join(process.env.DOCUMENTS_DIR_ABSOLUTE_PATH!, 'static');
+    
+    if (fs.existsSync(staticPath)) {
+      // Create a zip file for static content
+      const zip = new AdmZip();
+      zip.addLocalFolder(staticPath, 'static');
+      zip.writeZip(path.join(BUILD_DIR, 'static.zip'));
+      spinner.succeed("Static assets zipped");
+    }
 
-    const builtPreviewAppPath = path.resolve(process.cwd(), 'dist');
-    await removeForceDynamic(
-      path.resolve(builtPreviewAppPath, './src/app/layout.tsx'),
-    );
-    await removeForceDynamic(
-      path.resolve(builtPreviewAppPath, './src/app/preview/[...slug]/page.tsx'),
-    );
+    spinner.text = `Building ${fileName}...\n`;
 
     try {
       const result = await es.build({

@@ -35,6 +35,7 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
     setIsDownloading(true);
     
     const pdfBuffer = await renderDocumentToPDF({ 
+      url: window.location.href,
       html: markup,
       pageConfig: pageConfigs[documentPath]
     });
