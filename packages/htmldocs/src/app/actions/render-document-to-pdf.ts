@@ -4,12 +4,13 @@ import { LaunchOptions, chromium } from 'playwright';
 import { PageConfig, isStandardSize, parseCustomSize } from '~/lib/types';
 
 export interface RenderDocumentToPDFProps extends LaunchOptions {
-    url?: string;
+    url: string;
     html: string;
     pageConfig?: PageConfig;
 }
 
 export const renderDocumentToPDF = async ({ 
+  url,
   html,
   pageConfig = { size: 'A4', orientation: 'portrait' }, 
   ...props 
@@ -19,7 +20,11 @@ export const renderDocumentToPDF = async ({
   });
   try {
     const page = await browser.newPage();
-    
+
+    // required due to support relative image paths
+    await page.goto(url);
+
+    // replace app contents with the html we want to render
     await page.setContent(html);
     await page.waitForLoadState('networkidle');
 
