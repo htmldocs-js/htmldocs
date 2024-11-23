@@ -32,6 +32,7 @@ const Preview = ({
   return (
     <div className="relative h-full">
       <iframe
+        allow="same-origin"
         className="w-full h-full bg-white"
         srcDoc={renderedDocumentMetadata?.markup}
         title={slug}

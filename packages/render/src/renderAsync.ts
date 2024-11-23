@@ -51,6 +51,20 @@ const readStream = async (
   return result;
 };
 
+function decodeHtmlEntities(str: string) {
+  return str.replace(/&([^;]+);/g, (match, entity) => {
+    const entities: Record<string, string> = {
+      'amp': '&',
+      'apos': "'",
+      '#x27': "'",
+      'quot': '"',
+      'lt': '<',
+      'gt': '>'
+    };
+    return entities[entity] || match;
+  });
+}
+
 export const renderAsync = async (
   component: React.ReactElement,
   documentCss?: string,
@@ -85,7 +99,7 @@ export const renderAsync = async (
   for (const match of headMatches) {
     if (match[1]) {
       // Process meta tags to avoid duplicates
-      const content = match[1];
+      const content = decodeHtmlEntities(match[1]);
       const metaMatches = content.matchAll(/<meta[^>]+>/g);
       for (const metaMatch of metaMatches) {
         const metaTag = metaMatch[0];
@@ -110,7 +124,7 @@ export const renderAsync = async (
           ${documentCss ? `<style>${documentCss}</style>` : ""}
           <style>${cssText}</style>
           ${extractedHeadContents}
-          <script src="https://unpkg.com/pagedjs@0.5.0-beta.2/dist/paged.polyfill.js"></script>
+          <script src="https://unpkg.com/@htmldocs/render@0.1.7/dist/paged.polyfill.js"></script>
           <script type="text/javascript">
             // Hide content initially
             // document.querySelector("html").style.visibility = "hidden";
