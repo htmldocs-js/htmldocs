@@ -4,9 +4,6 @@ import type { Loader, PluginBuild, ResolveOptions } from "esbuild";
 import { Documentation, parse } from "react-docgen";
 import * as tsj from "ts-json-schema-generator";
 import { DOCUMENT_SCHEMAS_DIR } from "./paths";
-import { getEnvVariablesForPreviewApp } from "../cli/utils/preview/get-env-variables-for-preview-app";
-import { documentsDirRelativePath } from "./documents-directory-absolute-path";
-import { cliPackageLocation } from "../cli/utils";
 
 /**
  * Made to export the `renderAsync` function out of the user's email template

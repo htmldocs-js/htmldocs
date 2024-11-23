@@ -29,6 +29,4 @@ export const normalizePath = (path: string) => {
   return newPath;
 };
 
-export const documentsDirectoryAbsolutePath = `${
-  process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION
-}${pathSeparator}${normalizePath(documentsDirRelativePath)}`;
+export const documentsDirectoryAbsolutePath = process.env.DOCUMENTS_DIR_ABSOLUTE_PATH!;

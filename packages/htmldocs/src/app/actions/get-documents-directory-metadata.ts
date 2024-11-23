@@ -59,6 +59,8 @@ const mergeDirectoriesWithSubDirectories = (
 
 export const getDocumentsDirectoryMetadata = async (
   absolutePathToDocumentsDirectory: string,
+  keepFileExtensions = false,
+  isSubDirectory = false,
   baseDirectoryPath = absolutePathToDocumentsDirectory,
 ): Promise<DocumentsDirectory | undefined> => {
   if (!fs.existsSync(absolutePathToDocumentsDirectory)) return;
@@ -71,7 +73,11 @@ export const getDocumentsDirectoryMetadata = async (
     .filter((dirent) =>
       isFileADocument(path.join(absolutePathToDocumentsDirectory, dirent.name)),
     )
-    .map((dirent) => dirent.name.replace(path.extname(dirent.name), ''));
+    .map((dirent) =>
+      keepFileExtensions
+        ? dirent.name
+        : dirent.name.replace(path.extname(dirent.name), ''),
+    );
 
   const subDirectories = await Promise.all(
     dirents
@@ -88,12 +94,14 @@ export const getDocumentsDirectoryMetadata = async (
         );
         return getDocumentsDirectoryMetadata(
           direntAbsolutePath,
+          keepFileExtensions,
+          true,
           baseDirectoryPath,
         ) as Promise<DocumentsDirectory>;
       }),
   );
 
-  return mergeDirectoriesWithSubDirectories({
+  const documentsMetadata = {
     absolutePath: absolutePathToDocumentsDirectory,
     relativePath: path.relative(
       baseDirectoryPath,
@@ -102,5 +110,9 @@ export const getDocumentsDirectoryMetadata = async (
     directoryName: absolutePathToDocumentsDirectory.split(path.sep).pop()!,
     documentFilenames,
     subDirectories,
-  });
+  } satisfies DocumentsDirectory;
+
+  return isSubDirectory
+    ? mergeDirectoriesWithSubDirectories(documentsMetadata)
+    : documentsMetadata;
 };

@@ -8,7 +8,6 @@ import chalk from 'chalk';
 import packageJson from '../../../../package.json';
 import { closeOraOnSIGINT } from '../close-ora-on-sigint';
 import { serveStaticFile } from './serve-static-file';
-import { getEnvVariablesForPreviewApp } from './get-env-variables-for-preview-app';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
