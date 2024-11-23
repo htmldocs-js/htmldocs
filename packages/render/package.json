@@ -1,6 +1,6 @@
 {
   "name": "@htmldocs/render",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,6 +17,9 @@
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
       }
+    },
+    "./paged.polyfill.js": {
+      "default": "./dist/paged.polyfill.js"
     }
   },
   "peerDependencies": {
@@ -25,7 +28,7 @@
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "build": "pnpm run build:css && ts-node build.ts && tsc",
+    "build": "pnpm run build:css && ts-node build.ts && tsc && cp ./src/paged.polyfill.js ./dist/paged.polyfill.js",
     "build:css": "sass --no-source-map ./src/css/index.scss ./src/css/index.css"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 ---
 title: "Static Content"
-description: "Learn how to use static content in your document templates"
+description: "Learn how to use static content and custom fonts in your document templates"
 icon: "image"
 ---
 
@@ -24,6 +24,34 @@ const content = fs.readFileSync(
   path.join(process.env.DOCUMENTS_DIR_RELATIVE_PATH ?? '', '/static/content.md'),
   'utf-8'
 )
+```
+
+## Example: Local Fonts
+Place your font files anywhere in the `/static` directory and load them using `@font-face`:
+
+```tsx
+import { Document } from "@htmldocs/react"
+
+function MyDocument() {
+  return (
+    <Document>
+      <style>
+        {`
+          @font-face {
+            font-family: 'CustomFont';
+            src: url('/static/fonts/CustomFont.woff2') format('woff2'),
+                 url('/static/fonts/CustomFont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+          }
+        `}
+      </style>
+      <div style={{ fontFamily: 'CustomFont' }}>
+        Text using custom font
+      </div>
+    </Document>
+  )
+}
 ```
 
 ## Example: Loading Markdown Content
