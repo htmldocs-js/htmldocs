@@ -27,10 +27,18 @@ export const publish = async (documentPath: string) => {
     logger.error("No output files found");
     return;
   }
+
+  const baseName = path.basename(documentPath, path.extname(documentPath));
+  const documentBuildDir = path.join(BUILD_DIR, baseName);
+
   logger.debug(`Found ${outputFiles.length} output files`);
   logger.debug("Writing output files...");
+  
+  // Create document-specific directory
+  await fs.mkdir(documentBuildDir, { recursive: true });
+  
   for (const outputFile of outputFiles) {
-    const filePath = path.join(BUILD_DIR, path.basename(outputFile.path));
+    const filePath = path.join(documentBuildDir, path.basename(outputFile.path));
     await fs.writeFile(filePath, outputFile.contents);
     logger.debug(`Wrote file: ${filePath}`);
   }
@@ -39,7 +47,7 @@ export const publish = async (documentPath: string) => {
   const { documentId, defaultProps } = await getDocumentIdAndDefaultProps(documentPath, outputFiles);
   logger.debug(`Document ID: ${documentId}`);
 
-  const zipPath = await zipDocumentFiles();
+  const zipPath = await zipDocumentFiles(documentBuildDir);
   logger.debug(`Zipped document files to: ${zipPath}`);
 
   const { team_id, token_id, token_secret } = await getToken();
@@ -130,16 +138,24 @@ const getDocumentIdAndDefaultProps = async (
   return { documentId, defaultProps: defaultProps };
 };
 
-const zipDocumentFiles = async () => {
+const zipDocumentFiles = async (documentBuildDir: string) => {
   logger.debug("Starting to zip document files");
   const zip = new AdmZip();
 
-  const files = await fs.readdir(BUILD_DIR);
+  // Add files from document-specific directory
+  const files = await fs.readdir(documentBuildDir);
   for (const file of files) {
-    const filePath = path.join(BUILD_DIR, file);
+    const filePath = path.join(documentBuildDir, file);
     logger.debug(`Adding file to zip: ${filePath}`);
     zip.addLocalFile(filePath);
     logger.debug(`File added to zip: ${filePath}`);
+  }
+
+  // Add static.zip if it exists
+  const staticZipPath = path.join(BUILD_DIR, 'static.zip');
+  if (await fs.access(staticZipPath).then(() => true).catch(() => false)) {
+    logger.debug('Adding static.zip to bundle');
+    zip.addLocalFile(staticZipPath);
   }
 
   const tempDir = path.join(tmpdir(), `htmldocs-${Date.now()}`);

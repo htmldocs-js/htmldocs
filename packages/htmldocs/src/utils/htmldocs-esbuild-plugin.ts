@@ -92,10 +92,15 @@ async function generateAndWriteSchema(contents: string, filePath: string): Promi
   if (!fs.existsSync(DOCUMENT_SCHEMAS_DIR)) {
     fs.mkdirSync(DOCUMENT_SCHEMAS_DIR, { recursive: true });
   }
+  const baseName = path.basename(filePath, path.extname(filePath));
   const schemaFilePath = path.join(
     DOCUMENT_SCHEMAS_DIR,
-    `${path.basename(filePath, path.extname(filePath))}.schema.json`
+    baseName,
+    `${baseName}.schema.json`
   );
+
+  // Ensure the directory exists before writing
+  fs.mkdirSync(path.dirname(schemaFilePath), { recursive: true });
   fs.writeFileSync(schemaFilePath, schemaString);
 }
 

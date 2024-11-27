@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import path from 'node:path';
+import fs from 'node:fs';
 import { redirect } from 'next/navigation';
 import { getDocumentPathFromSlug } from '~/actions/get-document-path-from-slug';
 import { getDocumentsDirectoryMetadata } from '~/actions/get-documents-directory-metadata';
@@ -7,6 +8,7 @@ import { renderDocumentByPath } from '~/actions/render-document-by-path';
 import { documentsDirectoryAbsolutePath } from '../../../utils/documents-directory-absolute-path';
 import Home from '../../page';
 import Preview from './preview';
+import { DOCUMENT_SCHEMAS_DIR } from '../../../utils/paths';
 
 export const dynamicParams = true;
 
@@ -44,6 +46,24 @@ This is most likely not an issue with the preview server. Maybe there was a typo
     throw exception;
   }
 
+  // Load schema if it exists
+  const baseName = path.basename(documentPath, path.extname(documentPath));
+  const schemaPath = path.join(
+    DOCUMENT_SCHEMAS_DIR,
+    baseName,
+    `${baseName}.schema.json`
+  );
+  
+  let schema = null;
+  try {
+    if (fs.existsSync(schemaPath)) {
+      const rawSchema = JSON.parse(await fs.promises.readFile(schemaPath, 'utf-8'));
+      schema = rawSchema?.definitions?.ComponentProps || null;
+    }
+  } catch (error) {
+    console.warn('Failed to load schema:', error);
+  }
+
   const documentRenderingResult = await renderDocumentByPath(documentPath);
 
   if (
@@ -65,6 +85,7 @@ This is most likely not an issue with the preview server. Maybe there was a typo
         pathSeparator={path.sep}
         renderingResult={documentRenderingResult}
         slug={slug}
+        schema={schema}
       />
     </Suspense>
   );

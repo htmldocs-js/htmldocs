@@ -3,6 +3,7 @@ import * as React from "react";
 import { Sidebar } from "@phosphor-icons/react";
 import { Button } from "./ui/button";
 import { useDocuments } from "~/contexts/documents";
+import { ContextEditorModal } from "./context-editor";
 
 interface TopbarProps {
   documentPath: string;
@@ -25,6 +26,7 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
 }) => {
   const { renderDocumentToPDF, pageConfigs } = useDocuments();
   const [isDownloading, setIsDownloading] = React.useState(false);
+  const [isContextEditorOpen, setIsContextEditorOpen] = React.useState(false);
 
   const renderAndDownloadPDF = async () => {
     if (!markup) {
@@ -79,13 +81,25 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
         </h2>
       </div>
       <div className="flex items-center gap-2">
-        <Button variant="secondary">
+        <Button 
+          variant="secondary" 
+          onClick={() => setIsContextEditorOpen(true)}
+        >
           Fill & Generate
         </Button>
-        <Button variant="default" onClick={renderAndDownloadPDF} disabled={isDownloading}>
+        <Button 
+          variant="default" 
+          onClick={renderAndDownloadPDF} 
+          disabled={isDownloading}
+        >
           {isDownloading ? "Downloading..." : "Download"}
         </Button>
       </div>
+
+      <ContextEditorModal 
+        isOpen={isContextEditorOpen}
+        onOpenChange={setIsContextEditorOpen}
+      />
     </header>
   );
 };

@@ -8,7 +8,6 @@ import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import { htmldocsPlugin } from "../../utils/htmldocs-esbuild-plugin";
 import { closeOraOnSIGINT } from "../utils/close-ora-on-sigint";
-import { documentsDirectoryAbsolutePath } from "../../utils/documents-directory-absolute-path";
 import AdmZip from "adm-zip";
 
 export const BUILD_DIR = path.join(
@@ -43,7 +42,6 @@ export const build = async (fileName: string, write: boolean = true) => {
     const staticPath = path.join(process.env.DOCUMENTS_DIR_ABSOLUTE_PATH!, 'static');
     
     if (fs.existsSync(staticPath)) {
-      // Create a zip file for static content
       const zip = new AdmZip();
       zip.addLocalFolder(staticPath, 'static');
       zip.writeZip(path.join(BUILD_DIR, 'static.zip'));
@@ -51,6 +49,9 @@ export const build = async (fileName: string, write: boolean = true) => {
     }
 
     spinner.text = `Building ${fileName}...\n`;
+
+    const baseName = path.basename(fileName, path.extname(fileName));
+    const documentBuildDir = path.join(BUILD_DIR, baseName);
 
     try {
       const result = await es.build({
@@ -77,7 +78,7 @@ export const build = async (fileName: string, write: boolean = true) => {
             },
           }),
         ],
-        outdir: BUILD_DIR,
+        outdir: documentBuildDir,
         sourcemap: "external",
       });
       spinner.succeed("Build completed");

@@ -10,12 +10,15 @@ import { useDocuments } from '~/contexts/documents';
 import { useRenderingMetadata } from '~/hooks/use-rendering-metadata';
 import { RenderingError } from './rendering-error';
 import { DocumentSize } from "~/lib/types";
+import { DocumentContextProvider } from '~/contexts/document-context';
+import { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 
 interface PreviewProps {
   slug: string;
   documentPath: string;
   pathSeparator: string;
   renderingResult: DocumentRenderingResult;
+  schema: JSONSchema7Definition | null;
 }
 
 const Preview = ({
@@ -23,6 +26,7 @@ const Preview = ({
   documentPath,
   pathSeparator,
   renderingResult: initialRenderingResult,
+  schema,
 }: PreviewProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -186,32 +190,37 @@ const Preview = ({
   };
 
   return (
-    <Shell
-      documentPath={documentPath}
-      activeView={hasNoErrors ? activeView : undefined}
-      currentDocumentOpenSlug={slug}
-      markup={renderedDocumentMetadata?.markup}
-      pathSeparator={pathSeparator}
-      setActiveView={hasNoErrors ? handleViewChange : undefined}
+    <DocumentContextProvider
+      initialDocumentPreviewProps={{}}
+      initialDocumentSchema={schema as JSONSchema7}
     >
-      <div className="relative h-full">
-        {'error' in renderingResult ? (
-          <RenderingError error={renderingResult.error} />
-        ) : null}
-
-        {hasNoErrors ? (
+      <Shell
+        documentPath={documentPath}
+        activeView={hasNoErrors ? activeView : undefined}
+        currentDocumentOpenSlug={slug}
+        markup={renderedDocumentMetadata?.markup}
+        pathSeparator={pathSeparator}
+        setActiveView={hasNoErrors ? handleViewChange : undefined}
+      >
           <div className="relative h-full">
-            {nextIframeId && (
-              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent animate-loading-bar z-30" />
-            )}
-            {Object.keys(iframes).map((id) =>
-              renderIframe(id, id === activeIframeId)
-            )}
+            {'error' in renderingResult ? (
+              <RenderingError error={renderingResult.error} />
+            ) : null}
+
+            {hasNoErrors ? (
+              <div className="relative h-full">
+                {nextIframeId && (
+                  <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent animate-loading-bar z-30" />
+                )}
+                {Object.keys(iframes).map((id) =>
+                  renderIframe(id, id === activeIframeId)
+                )}
+              </div>
+            ) : null}
+            <Toaster />
           </div>
-        ) : null}
-        <Toaster />
-      </div>
-    </Shell>
+      </Shell>
+    </DocumentContextProvider>
   );
 };
 
