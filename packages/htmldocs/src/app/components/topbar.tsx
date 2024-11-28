@@ -3,7 +3,7 @@ import * as React from "react";
 import { Sidebar } from "@phosphor-icons/react";
 import { Button } from "./ui/button";
 import { useDocuments } from "~/contexts/documents";
-import { ContextEditorModal } from "./context-editor";
+import ContextEditorModal from "./context-editor-modal";
 
 interface TopbarProps {
   documentPath: string;
@@ -97,6 +97,8 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
       </div>
 
       <ContextEditorModal 
+        documentPath={documentPath}
+        documentSlug={currentDocumentOpenSlug}
         isOpen={isContextEditorOpen}
         onOpenChange={setIsContextEditorOpen}
       />

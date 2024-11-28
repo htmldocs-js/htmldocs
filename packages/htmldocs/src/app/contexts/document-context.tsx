@@ -6,6 +6,7 @@ interface DocumentContextValue {
   documentContext: Record<string, any>;
   setDocumentContext: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   updateDocumentContext: (path: string, value: any) => void;
+  resetDocumentContext: () => void;
 }
 
 const DocumentContext = createContext<DocumentContextValue | undefined>(undefined);
@@ -51,11 +52,18 @@ export const DocumentContextProvider: React.FC<DocumentContextProviderProps> = (
     setDocumentContext(subContext);
   };
 
+  const resetDocumentContext = () => {
+    setDocumentContext(() => ({ 
+      document: JSON.parse(JSON.stringify(initialDocumentPreviewProps || {})) 
+    }));
+  };
+
   const value: DocumentContextValue = {
     documentSchema: initialDocumentSchema,
     documentContext,
     setDocumentContext,
     updateDocumentContext,
+    resetDocumentContext,
   };
 
   return <DocumentContext.Provider value={value}>{children}</DocumentContext.Provider>;
