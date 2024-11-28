@@ -23,6 +23,7 @@ export type DocumentRenderingResult =
 
 export const renderDocumentByPath = async (
   documentPath: string,
+  props: Record<string, any> = {}
 ): Promise<DocumentRenderingResult> => {
   console.log(`[render] Starting render for document: ${documentPath}`);
   const startTime = performance.now();
@@ -44,7 +45,7 @@ export const renderDocumentByPath = async (
     sourceMapToOriginalFile,
   } = result;
 
-  const previewProps = Document.PreviewProps || {};
+  const previewProps = Object.keys(props).length !== 0 ? props : Document.PreviewProps || {};
   const DocumentComponent = Document as React.FC;
   
   try {

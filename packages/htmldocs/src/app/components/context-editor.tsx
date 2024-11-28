@@ -295,25 +295,4 @@ const ContextEditor: React.FC = () => {
   );
 };
 
-interface ContextEditorModalProps {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-
-export const ContextEditorModal: React.FC<ContextEditorModalProps> = ({
-  isOpen,
-  onOpenChange,
-}) => {
-  return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Fill Document Variables</DialogTitle>
-        </DialogHeader>
-        <ContextEditor />
-      </DialogContent>
-    </Dialog>
-  );
-};
-
 export default ContextEditor;
