@@ -7,6 +7,7 @@ import { ErrorObject, improveErrorWithSourceMap } from '@htmldocs/render';
 export interface RenderedDocumentMetadata {
   markup: string;
   reactMarkup: string;
+  previewProps: Record<string, any>;
   timing?: {
     total: number;
     componentLoad: number;
@@ -45,13 +46,13 @@ export const renderDocumentByPath = async (
     sourceMapToOriginalFile,
   } = result;
 
-  const previewProps = Object.keys(props).length !== 0 ? props : Document.PreviewProps || {};
+  const renderProps = Object.keys(props).length !== 0 ? props : Document.PreviewProps || {};
   const DocumentComponent = Document as React.FC;
   
   try {
     console.time('rendering');
     const renderStart = performance.now();
-    const markup = await renderAsync(<DocumentComponent {...previewProps} />, documentCss);
+    const markup = await renderAsync(<DocumentComponent {...renderProps} />, documentCss);
     const renderTime = performance.now() - renderStart;
     console.timeEnd('rendering');
 
@@ -67,6 +68,7 @@ export const renderDocumentByPath = async (
     return {
       markup,
       reactMarkup,
+      previewProps: Document.PreviewProps,
       timing: {
         total: totalTime,
         componentLoad: componentLoadTime,

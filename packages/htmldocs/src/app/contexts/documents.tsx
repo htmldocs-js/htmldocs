@@ -6,15 +6,12 @@ import {
 } from "~/actions/get-documents-directory-metadata";
 import { useHotreload } from "~/hooks/use-hot-reload";
 import {
-  documentsDirectoryAbsolutePath,
-} from "../../utils/documents-directory-absolute-path";
-import {
   renderDocumentByPath,
   type DocumentRenderingResult,
 } from "~/actions/render-document-by-path";
 import { getDocumentPathFromSlug } from "~/actions/get-document-path-from-slug";
 import { renderDocumentToPDF, RenderDocumentToPDFProps } from "~/actions/render-document-to-pdf";
-import { DocumentSize, PageConfig } from "~/lib/types";
+import { PageConfig } from "~/lib/types";
 
 const DocumentsContext = createContext<
   | {

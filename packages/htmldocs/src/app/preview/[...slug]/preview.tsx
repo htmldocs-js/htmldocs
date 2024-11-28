@@ -33,7 +33,6 @@ const Preview = ({
   const searchParams = useSearchParams();
 
   const activeView = searchParams.get('view') ?? 'desktop';
-  const activeLang = searchParams.get('lang') ?? 'jsx';
   const { useDocumentRenderingResult, setPageConfig } = useDocuments();
 
   const renderingResult = useDocumentRenderingResult(
@@ -189,9 +188,11 @@ const Preview = ({
     );
   };
 
+  const previewProps = 'previewProps' in renderingResult ? renderingResult.previewProps : {};
+
   return (
     <DocumentContextProvider
-      initialDocumentPreviewProps={{}}
+      initialDocumentPreviewProps={previewProps}
       initialDocumentSchema={schema as JSONSchema7}
     >
       <Shell
