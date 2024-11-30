@@ -101,8 +101,8 @@ const ContextEditorModal: React.FC<ContextEditorModalProps> = ({
     }
   };
 
-  const handleClearFields = useCallback(() => {
-    if (window.confirm('Are you sure you want to clear all fields? This action cannot be undone.')) {
+  const handleResetFields = useCallback(() => {
+    if (window.confirm('Are you sure you want to reset all fields? This action cannot be undone.')) {
       resetDocumentContext();
     }
   }, [resetDocumentContext]);
@@ -130,9 +130,9 @@ const ContextEditorModal: React.FC<ContextEditorModalProps> = ({
           <div className="flex items-center gap-2">
             <Button
               variant="secondary"
-              onClick={handleClearFields}
+              onClick={handleResetFields}
             >
-              Clear
+              Reset
             </Button>
             <Button onClick={onGenerateDocument} disabled={generating || !isFormValid}>
               {generating ? (
