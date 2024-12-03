@@ -26,13 +26,13 @@ export const login = async () => {
       });
       req.on("end", async () => {
         try {
-          const { team_id, token, token_secret } = JSON.parse(body);
+          const { team_id, api_key } = JSON.parse(body);
 
-          if (team_id && token && token_secret) {
-            await storeToken(team_id, token, token_secret);
+          if (team_id && api_key) {
+            await storeToken(team_id, api_key);
             res.writeHead(200, { "Content-Type": "text/plain" });
             res.end("Authentication successful! You can close this window.");
-            console.log(chalk.green("Login successful and tokens stored."));
+            console.log(chalk.green("Login successful and API key stored."));
           } else {
             res.writeHead(400, { "Content-Type": "text/plain" });
             res.end("Invalid data received");
