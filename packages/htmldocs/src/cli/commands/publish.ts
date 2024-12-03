@@ -50,7 +50,7 @@ export const publish = async (documentPath: string) => {
   const zipPath = await zipDocumentFiles(documentBuildDir);
   logger.debug(`Zipped document files to: ${zipPath}`);
 
-  const { team_id, token_id, token_secret } = await getToken();
+  const { team_id, api_key } = await getToken();
   logger.debug(`Retrieved token for team: ${team_id}`);
 
   const formData = new FormData();
@@ -71,8 +71,7 @@ export const publish = async (documentPath: string) => {
     const response = await fetch("http://localhost:3000/api/documents/upload", {
       method: "POST",
       headers: {
-        "X-Htmldocs-Token-Id": token_id,
-        "X-Htmldocs-Token-Secret": token_secret,
+        "Authorization": `Bearer ${api_key}`,
       },
       body: formData,
     });

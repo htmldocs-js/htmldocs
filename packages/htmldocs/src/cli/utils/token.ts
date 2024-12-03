@@ -5,23 +5,17 @@ import { z } from "zod";
 
 const TokenConfigSchema = z.object({
   team_id: z.string(),
-  token_id: z.string(),
-  token_secret: z.string(),
+  api_key: z.string(),
 });
 
 type TokenConfig = z.infer<typeof TokenConfigSchema>;
 
 const configPath = path.join(os.homedir(), ".htmldocs.json");
 
-export async function storeToken(
-  teamId: string,
-  tokenId: string,
-  tokenSecret: string
-) {
+export async function storeToken(teamId: string, apiKey: string) {
   const configData: TokenConfig = {
     team_id: teamId,
-    token_id: tokenId,
-    token_secret: tokenSecret,
+    api_key: apiKey,
   };
   fs.writeFileSync(configPath, JSON.stringify(configData, null, 2));
 }
