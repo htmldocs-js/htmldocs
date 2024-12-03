@@ -2,6 +2,7 @@ import chalk from "chalk";
 import * as http from "http";
 import { AddressInfo } from "net";
 import open from "open";
+import os from 'os';
 
 import { storeToken } from "../utils/token";
 
@@ -62,10 +63,20 @@ export const login = async () => {
       return;
     }
     const url = new URL(`${apiUrl}/authorize`);
-    const encodedCallbackUri = Buffer.from(
-      `http://localhost:${address.port}/callback`
-    ).toString("base64");
-    url.searchParams.set("callback", encodedCallbackUri);
+    
+    const fullHostname = os.hostname();
+    const cleanHostname = fullHostname.split('.')[0];
+    
+    const callbackData = {
+      url: `http://localhost:${address.port}/callback`,
+      hostname: cleanHostname
+    };
+    
+    const encodedData = Buffer.from(
+      JSON.stringify(callbackData)
+    ).toString('base64');
+    
+    url.searchParams.set('callback', encodedData);
     await open(url.toString());
     console.log(
       chalk.blue("Please select a team and complete the authentication in your browser.")
