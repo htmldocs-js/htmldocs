@@ -40,6 +40,12 @@
                     "enum": ["pdf", "base64", "json"],
                     "description": "Response format. `pdf` returns a binary PDF file, `base64` returns the PDF encoded as base64 in JSON, `json` returns a URL to download the PDF. Defaults to `pdf`",
                     "default": "pdf"
+                  },
+                  "size": {
+                    "$ref": "#/components/schemas/DocumentSize"
+                  },
+                  "orientation": {
+                    "$ref": "#/components/schemas/Orientation"
                   }
                 },
                 "minProperties": 1,
@@ -155,6 +161,12 @@
                     "enum": ["pdf", "base64", "json"],
                     "description": "Response format. `pdf` returns a binary PDF file, `base64` returns the PDF encoded as base64 in JSON, `json` returns a URL to download the PDF. Defaults to `pdf`",
                     "default": "pdf"
+                  },
+                  "size": {
+                    "$ref": "#/components/schemas/DocumentSize"
+                  },
+                  "orientation": {
+                    "$ref": "#/components/schemas/Orientation"
                   }
                 }
               }
@@ -236,6 +248,14 @@
   },
   "components": {
     "schemas": {
+      "DocumentSize": {
+        "type": "string",
+        "description": "Page size (A3, A4, A5, letter, legal, or custom size like '8.5in 11in')"
+      },
+      "Orientation": {
+        "type": "string",
+        "enum": ["portrait", "landscape"]
+      },
       "Error": {
         "type": "object",
         "required": ["error"],
