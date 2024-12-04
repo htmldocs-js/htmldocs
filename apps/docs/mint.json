@@ -6,6 +6,7 @@
     "light": "/logo/light.svg"
   },
   "theme": "venus",
+  "layout": "topnav",
   "favicon": "/favicon.svg",
   "colors": {
     "primary": "#0D9373",
@@ -19,12 +20,12 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:hello@htmldocs.com"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://htmldocs.com/dashboard"
   },
   "tabs": [
     {
