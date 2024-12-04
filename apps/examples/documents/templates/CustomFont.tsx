@@ -2,7 +2,7 @@ import { Document, Head } from "@htmldocs/react"
 
 function CustomFont() {
   return (
-    <Document size="A4" orientation="portrait">
+    <Document size="letter" orientation="landscape">
       <Head>
         <style>
             {`
