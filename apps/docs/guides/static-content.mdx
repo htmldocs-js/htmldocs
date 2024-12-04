@@ -13,7 +13,7 @@ Inside HTML/React components, static files are served directly from the `/static
 ```
 
 ## Server-Side Usage 
-When reading files server-side (like in document templates), use `process.env.DOCUMENTS_DIR_RELATIVE_PATH` to get the correct path:
+When reading files server-side (like in document templates), use `process.env.DOCUMENTS_STATIC_PATH` to access files in your static directory:
 
 ```tsx
 import fs from 'node:fs'
@@ -21,7 +21,7 @@ import path from 'path'
 
 // Read static content in server-side components
 const content = fs.readFileSync(
-  path.join(process.env.DOCUMENTS_DIR_RELATIVE_PATH ?? '', '/static/content.md'),
+  path.join(process.env.DOCUMENTS_STATIC_PATH ?? '', 'content.md'),
   'utf-8'
 )
 ```
@@ -64,7 +64,7 @@ import fs from 'node:fs'
 import path from "path"
 
 const content = fs.readFileSync(
-  path.join(process.env.DOCUMENTS_DIR_RELATIVE_PATH ?? '', '/static/content.md'),
+  path.join(process.env.DOCUMENTS_STATIC_PATH ?? '', 'content.md'),
   'utf-8'
 )
 

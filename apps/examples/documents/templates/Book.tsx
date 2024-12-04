@@ -6,7 +6,7 @@ import path from "path"
 import "~/index.css"
 
 const content = fs.readFileSync(
-  path.join(process.env.DOCUMENTS_DIR_RELATIVE_PATH ?? '', '/static/content.md'),
+  path.join(process.env.DOCUMENTS_STATIC_PATH ?? '', 'content.md'),
   'utf-8'
 )
 
