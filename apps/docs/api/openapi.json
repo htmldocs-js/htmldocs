@@ -1,0 +1,258 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "htmldocs API",
+    "description": "API for generating PDF documents from JSX templates",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://htmldocs.com"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/generate": {
+      "post": {
+        "description": "Generates a PDF document from raw HTML content and/or a URL. If both are provided, the HTML content will be injected into the page at the specified URL.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "html": {
+                    "type": "string",
+                    "description": "HTML content to convert to PDF or inject into the page at the specified URL"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL of the webpage to convert to PDF or use as a base for HTML injection"
+                  },
+                  "format": {
+                    "type": "string",
+                    "enum": ["pdf", "base64", "json"],
+                    "description": "Response format. `pdf` returns a binary PDF file, `base64` returns the PDF encoded as base64 in JSON, `json` returns a URL to download the PDF. Defaults to `pdf`",
+                    "default": "pdf"
+                  }
+                },
+                "minProperties": 1,
+                "anyOf": [
+                  { "required": ["html"] },
+                  { "required": ["url"] }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated document in requested format",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "description": "Binary PDF file (when format=pdf)",
+                  "format": "binary"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "description": "Base64 encoded PDF (when format=base64)",
+                      "properties": {
+                        "data": {
+                          "type": "string",
+                          "format": "base64"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "description": "PDF URL (when format=json)",
+                      "properties": {
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Generation limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/documents/{documentId}": {
+      "post": {
+        "description": "Generates a PDF document from a published document template.",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "description": "UUID or custom ID of the document template",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["props"],
+                "properties": {
+                  "props": {
+                    "type": "object",
+                    "description": "Props to pass to the document component",
+                    "additionalProperties": true
+                  },
+                  "format": {
+                    "type": "string",
+                    "enum": ["pdf", "base64", "json"],
+                    "description": "Response format. `pdf` returns a binary PDF file, `base64` returns the PDF encoded as base64 in JSON, `json` returns a URL to download the PDF. Defaults to `pdf`",
+                    "default": "pdf"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated document in requested format",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "description": "Binary PDF file (when format=pdf)",
+                  "format": "binary"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "description": "Base64 encoded PDF (when format=base64)",
+                      "properties": {
+                        "data": {
+                          "type": "string",
+                          "format": "base64"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "description": "PDF URL (when format=json)",
+                      "properties": {
+                        "url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document template not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Generation limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API key or authentication token"
+      }
+    }
+  }
+}
