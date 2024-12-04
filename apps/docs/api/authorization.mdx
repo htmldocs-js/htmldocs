@@ -1,0 +1,24 @@
+---
+title: Authorization
+icon: lock
+---
+
+###  Getting Started
+
+API requests to htmldocs require an API key which can be obtained from the API tokens section in the [Dashboard](https://htmldocs.com/dashboard).
+
+<Note>
+API keys are scoped to your team. Each API key provides access only to documents and resources owned by that team.
+</Note>
+
+### Headers
+
+API keys should be included in the `Authorization` header of your requests using the Bearer token format:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Content Type
+
+All requests should set the `Content-Type` header to `application/json`.
