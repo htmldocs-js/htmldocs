@@ -36,4 +36,7 @@ yarn-error.log*
 # Misc
 .DS_Store
 .ignore
-*.pem
+*.pemapps/app
+
+# Submodules
+apps/app
