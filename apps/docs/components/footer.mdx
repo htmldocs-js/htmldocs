@@ -1,0 +1,104 @@
+---
+title: "Footer"
+description: "Add page numbers and custom footers to your documents"
+icon: "shoe-prints"
+---
+
+The `Footer` component provides an easy way to add page numbers and custom footers to your documents. It's built on top of the [MarginBox](/components/margin-box) component with additional features for page numbering.
+
+## Usage
+
+<CodeGroup>
+
+```jsx Basic Example
+import { Footer } from "@htmldocs/react";
+
+export default function Document() {
+  return (
+    <Footer />  {/* Renders "Page X of Y" by default */}
+  );
+}
+```
+
+</CodeGroup>
+
+## Props
+
+<ResponseField name="children" type="Function | React.ReactNode">
+  Content to render in the footer. Can be either:
+  - A function that receives `{ currentPage, totalPages }` elements
+  - A React node for static content
+  - Omitted to use the default page numbering template
+</ResponseField>
+
+<ResponseField name="position" type="MarginBoxPosition" default="'bottom-center'">
+  Footer position. Inherits all position options from MarginBox component.
+</ResponseField>
+
+<ResponseField name="pageType" type="'all' | 'even' | 'odd' | 'blank'" default="'all'">
+  Controls which pages the footer appears on.
+</ResponseField>
+
+<ResponseField name="className" type="string">
+  Custom CSS classes to apply to the footer.
+</ResponseField>
+
+<ResponseField name="style" type="React.CSSProperties">
+  Custom inline styles for the footer content.
+</ResponseField>
+
+<ResponseField name="marginBoxStyles" type="React.CSSProperties">
+  Custom styles applied to the MarginBox wrapper.
+</ResponseField>
+
+## Examples
+
+### Default Page Numbers
+
+The default template shows "Page X of Y":
+
+<CodeGroup>
+
+```jsx Default
+<Footer />
+```
+
+</CodeGroup>
+
+### Custom Page Number Format
+
+Use the function-as-children pattern to customize the page number display:
+
+<CodeGroup>
+
+```jsx Custom Format
+<Footer>
+  {({ currentPage, totalPages }) => (
+    <div style={{ fontFamily: 'monospace' }}>
+      [{currentPage} / {totalPages}]
+    </div>
+  )}
+</Footer>
+```
+
+</CodeGroup>
+
+### Static Footer Content
+
+Provide static content instead of page numbers:
+
+<CodeGroup>
+
+```jsx Static Content
+<Footer>
+  <div style={{ 
+    display: 'flex', 
+    justifyContent: 'space-between' 
+  }}>
+    <span>© 2024 Company Name</span>
+    <span>Confidential</span>
+  </div>
+</Footer>
+```
+
+</CodeGroup>

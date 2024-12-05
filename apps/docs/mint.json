@@ -71,7 +71,10 @@
         "components/document",
         "components/page",
         "components/head",
-        "components/spacer"
+        "components/spacer",
+        "components/margin-box",
+        "components/footer"
+
       ]
     },
     {
