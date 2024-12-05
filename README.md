@@ -1,81 +1,113 @@
-# Turborepo starter
+![HTMLDocs Cover](https://placehold.co/1200x600/e4e4e7/ffffff?text=HTMLDocs)
 
-This is an official starter Turborepo.
+<div align="center"><strong>HTMLDocs</strong></div>
+<div align="center">The modern approach to documentation generation.<br />High-quality, customizable components for creating beautiful documentation.</div>
+<br />
+<div align="center">
+<a href="https://htmldocs.dev">Website</a> 
+<span> · </span>
+<a href="https://github.com/yourusername/htmldocs">GitHub</a> 
+<span> · </span>
+<a href="https://discord.gg/htmldocs">Discord</a>
+</div>
 
-## Using this example
+## Introduction
 
-Run the following command:
+A powerful monorepo built with Turborepo for creating and managing documentation with React components. It simplifies the process of building beautiful, responsive documentation with modern web technologies and takes care of complex styling and layout concerns.
+
+## Why
+
+Documentation should be as dynamic and modern as the applications we build. HTMLDocs brings documentation into the modern era with component-based architecture, real-time previews, and a developer-first approach. Stop wrestling with static site generators and embrace a more powerful way to create documentation.
+
+## Install
+
+Install HTMLDocs using your preferred package manager.
+
+#### With pnpm
+
+```sh
+pnpm create turbo@latest
+```
+
+#### With yarn
+
+```sh
+yarn create turbo
+```
+
+#### With npm
 
 ```sh
 npx create-turbo@latest
 ```
 
-## What's inside?
+## Getting Started
 
-This Turborepo includes the following packages/apps:
+Create your first documentation page with HTMLDocs:
 
-### Apps and Packages
+```jsx
+import { Document, Section, Code } from "@htmldocs/react";
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@htmldocs/react`: a stub React component library shared by both `web` and `docs` applications
-- `@htmldocs/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@htmldocs/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+const Documentation = () => {
+  return (
+    <Document title="Getting Started">
+      <Section>
+        <h1>Welcome to HTMLDocs</h1>
+        <Code language="typescript">
+          console.log("Hello, Documentation!");
+        </Code>
+      </Section>
+    </Document>
+  );
+};
 ```
 
-### Develop
+## Packages
 
-To develop all apps and packages, run the following command:
+The monorepo includes the following packages:
 
+- `@htmldocs/react`: React component library for documentation
+- `@htmldocs/render`: Documentation rendering engine
+- `@htmldocs/htmldocs`: Core documentation package
+- `@htmldocs/eslint-config`: Shared ESLint configurations
+- `@htmldocs/typescript-config`: Shared TypeScript configurations
+
+## Apps
+
+- `docs`: Documentation site built with Next.js
+- `app`: Main application
+- `examples`: Example implementations and use cases
+
+## Development
+
+#### Install dependencies
+
+```sh
+pnpm install
 ```
-cd my-turborepo
+
+#### Start development environment
+
+```sh
 pnpm dev
 ```
 
-### Remote Caching
+#### Build all packages and apps
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```sh
+pnpm build
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## Tech Stack
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+| <img src="https://nextjs.org/static/favicon/favicon-32x32.png" width="48px" height="48px" alt="Next.js"> | <img src="https://www.typescriptlang.org/favicon-32x32.png" width="48px" height="48px" alt="TypeScript"> | <img src="https://turbo.build/images/favicon-32x32.png" width="48px" height="48px" alt="Turborepo"> | <img src="https://pnpm.io/img/favicon.png" width="48px" height="48px" alt="pnpm"> |
+|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Next.js                                                                                                  | TypeScript                                                                                            | Turborepo                                                                                         | pnpm                                                                             |
 
-```
-npx turbo link
-```
+## Contributing
 
-## Useful Links
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-Learn more about the power of Turborepo:
+## License
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+MIT License
