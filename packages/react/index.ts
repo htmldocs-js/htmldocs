@@ -11,3 +11,6 @@ export function useValue<T extends JSONValue<T>>(name: string): T | undefined {
     return undefined;
 }
 
+export { MarginBox } from './components/MarginBox';
+export type { MarginBoxPosition } from './components/MarginBox';
+

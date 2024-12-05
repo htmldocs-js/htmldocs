@@ -1,6 +1,5 @@
 import React from 'react';
-import clsx from 'clsx';
-import Head from './Head';
+import MarginBox, { MarginBoxPosition } from './MarginBox';
 
 interface FooterProps {
   /**
@@ -17,9 +16,7 @@ interface FooterProps {
   /**
    * Footer position. Defaults to 'bottom-center'
    */
-  position?: 'top-left-corner' | 'top-left' | 'top-center' | 'top-right' | 'top-right-corner' | 
-    'left-top' | 'left-middle' | 'left-bottom' | 'right-top' | 'right-middle' | 'right-bottom' |
-    'bottom-left-corner' | 'bottom-left' | 'bottom-center' | 'bottom-right' | 'bottom-right-corner';
+  position?: MarginBoxPosition;
   
   /**
    * Whether to show footer on even/odd/blank pages
@@ -54,85 +51,39 @@ export const Footer: React.FC<FooterProps> = ({
   style,
   marginBoxStyles,
 }) => {
+  const footerStyles = `
+    ${style ? Object.entries(style).map(([key, value]) => 
+      `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`
+    ).join('\n') : ''}
+    
+    .page-counter::after {
+      content: counter(page);
+    }
+    
+    .pages-counter::after {
+      content: counter(pages);
+    }
+    
+    .page-number {
+      display: ${typeof children === 'function' ? 'inline' : 'none'};
+    }
+  `;
+
   return (
-    <>
-      <Head>
-        <style>
-          {`
-            /* Set up running footer element */
-            .print-footer {
-              position: running(footer);
-            }
-
-            /* Apply footer to specified margin box */
-            @page {
-              @${position} {
-                content: element(footer);
-                ${Object.entries(marginBoxStyles || {}).map(([key, value]) =>
-                  `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`
-                ).join('\n')}
-              }
-            }
-
-            /* Page type specific styles */
-            ${pageType === 'even' ? `
-              @page:odd {
-                @${position} { content: none; }
-              }
-            ` : pageType === 'odd' ? `
-              @page:even {
-                @${position} { content: none; }
-              }
-            ` : pageType === 'blank' ? `
-              @page:blank {
-                @${position} { content: none; }
-              }
-            ` : ''}
-
-            /* Page counter styles */
-            .print-footer .page-counter::after {
-              content: counter(page);
-            }
-            
-            .print-footer .pages-counter::after {
-              content: counter(pages);
-            }
-
-            /* Hide page numbers if not using function children */
-            .print-footer .page-number {
-              display: ${typeof children === 'function' ? 'inline' : 'none'};
-            }
-
-            /* Default margin box alignments based on position */
-            .print-footer {
-              ${position.includes('left') ? 'text-align: left;' : 
-                position.includes('right') ? 'text-align: right;' : 
-                'text-align: center;'}
-              
-              ${position.includes('top') ? 'vertical-align: top;' :
-                position.includes('bottom') ? 'vertical-align: bottom;' :
-                'vertical-align: middle;'}
-            }
-
-            /* Apply custom styles */
-            .print-footer {
-              ${Object.entries(style || {}).map(([key, value]) => 
-                `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value};`
-              ).join('\n')}
-            }
-          `}
-        </style>
-      </Head>
-
-      <div className={clsx('print-footer', className)}>
-        {typeof children === 'function' 
-          ? children({
-              currentPage: <span className="page-counter" />,
-              totalPages: <span className="pages-counter" />
-            })
-          : children}
-      </div>
-    </>
+    <MarginBox
+      position={position}
+      pageType={pageType}
+      className={className}
+      marginBoxStyles={marginBoxStyles}
+      runningName="print-footer"
+    >
+      {typeof children === 'function' 
+        ? children({
+            currentPage: <span className="page-counter" />,
+            totalPages: <span className="pages-counter" />
+          })
+        : children}
+    </MarginBox>
   );
 };
 

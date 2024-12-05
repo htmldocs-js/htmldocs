@@ -1,0 +1,143 @@
+---
+title: "MarginBox"
+description: "Position content in page margins for print layouts"
+icon: "border-all"
+---
+
+The `MarginBox` component allows you to position content in the margins of printed pages. It's particularly useful for adding headers, watermarks, and other content that needs to appear in the margin areas of your printed documents.
+
+<Note>
+For page numbers and footers, we recommend using the [Footer](/components/footer) component which provides built-in page numbering functionality.
+</Note>
+
+## Usage
+
+The `MarginBox` component uses CSS Paged Media specifications to position content in specific margin boxes around your page.
+
+<CodeGroup>
+
+```jsx Example
+import { MarginBox } from "@htmldocs/react";
+
+export default function Document() {
+  return (
+    <MarginBox 
+      position="top-right" 
+      runningName="document-title"
+    >
+      Quarterly Report
+    </MarginBox>
+  );
+}
+```
+
+</CodeGroup>
+
+## Props
+
+<ResponseField name="position" type="string" required>
+  Specifies where the content should appear in the page margins. See [Position Options](#position-options) below for valid values.
+</ResponseField>
+
+<ResponseField name="runningName" type="string" required>
+  A unique identifier for this margin box content. Must be unique across your document.
+</ResponseField>
+
+<ResponseField name="children" type="React.ReactNode" required>
+  The content to display in the margin box.
+</ResponseField>
+
+<ResponseField name="pageType" type="'all' | 'even' | 'odd' | 'blank'" default="'all'">
+  Controls which pages the margin box appears on:
+  - `'all'`: Appears on all pages
+  - `'even'`: Only appears on even-numbered pages
+  - `'odd'`: Only appears on odd-numbered pages
+  - `'blank'`: Only appears on blank pages
+</ResponseField>
+
+<ResponseField name="className" type="string">
+  Additional CSS classes to apply to the margin box.
+</ResponseField>
+
+<ResponseField name="style" type="React.CSSProperties">
+  Custom React CSS styles for the margin box content.
+</ResponseField>
+
+<ResponseField name="marginBoxStyles" type="React.CSSProperties">
+  CSS styles specifically for the margin box container.
+</ResponseField>
+
+## Position Options
+
+The `position` prop accepts the following values:
+
+<CodeGroup>
+
+```text Position Values
+Top Positions:
+- 'top-left-corner'     // Top left corner of the page
+- 'top-left'           // Top left margin
+- 'top-center'         // Top center margin
+- 'top-right'          // Top right margin
+- 'top-right-corner'   // Top right corner of the page
+
+Left/Right Positions:
+- 'left-top'           // Left margin, top aligned
+- 'left-middle'        // Left margin, middle aligned
+- 'left-bottom'        // Left margin, bottom aligned
+- 'right-top'          // Right margin, top aligned
+- 'right-middle'       // Right margin, middle aligned
+- 'right-bottom'       // Right margin, bottom aligned
+
+Bottom Positions:
+- 'bottom-left-corner' // Bottom left corner of the page
+- 'bottom-left'        // Bottom left margin
+- 'bottom-center'      // Bottom center margin
+- 'bottom-right'       // Bottom right margin
+- 'bottom-right-corner'// Bottom right corner of the page
+```
+
+</CodeGroup>
+
+## Examples
+
+### Document Title Header
+
+<CodeGroup>
+
+```jsx Header
+<MarginBox 
+  position="top-right"
+  runningName="document-title"
+  pageType="even"
+  style={{ 
+    fontStyle: 'italic',
+    color: '#666'
+  }}
+>
+  {documentTitle}
+</MarginBox>
+```
+
+</CodeGroup>
+
+### Watermark
+
+<CodeGroup>
+
+```jsx Watermark
+<MarginBox 
+  position="left-middle"
+  runningName="watermark"
+  style={{
+    fontFamily: 'Arial, sans-serif',
+    color: 'rgba(0, 0, 0, 0.1)',
+    fontSize: '24px',
+    transform: 'rotate(-90deg)'
+  }}
+>
+  <div>CONFIDENTIAL</div>
+</MarginBox>
+```
+
+</CodeGroup>
