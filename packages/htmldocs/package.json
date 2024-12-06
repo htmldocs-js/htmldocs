@@ -1,6 +1,6 @@
 {
   "name": "htmldocs",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "bin": {
     "htmldocs": "./dist/cli/index.mjs"
   },
@@ -80,6 +80,7 @@
     "@types/node": "^20",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
+    "@types/json-schema": "^7.0.15",
     "tsup": "^8.0.2",
     "typescript": "^5"
   }

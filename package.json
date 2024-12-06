@@ -6,7 +6,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "release": "turbo run build && changeset version && changeset publish"
+    "release": "turbo run build --filter=./packages/* --filter=!htmldocs-starter && pnpm changeset publish",
+    "version": "changeset version && pnpm install --no-frozen-lockfile"
   },
   "devDependencies": {
     "@htmldocs/eslint-config": "workspace:*",
