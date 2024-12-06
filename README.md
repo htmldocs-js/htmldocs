@@ -1,6 +1,6 @@
 ![HTMLDocs Cover](https://placehold.co/1200x600/e4e4e7/ffffff?text=HTMLDocs)
 
-<div align="center"><strong>HTMLDocs</strong></div>
+<div align="center"><strong>htmldocs</strong></div>
 <div align="center">The modern approach to documentation generation.<br />High-quality, customizable components for creating beautiful documentation.</div>
 <br />
 <div align="center">
@@ -21,25 +21,7 @@ Documentation should be as dynamic and modern as the applications we build. HTML
 
 ## Install
 
-Install HTMLDocs using your preferred package manager.
-
-#### With pnpm
-
-```sh
-pnpm create turbo@latest
-```
-
-#### With yarn
-
-```sh
-yarn create turbo
-```
-
-#### With npm
-
-```sh
-npx create-turbo@latest
-```
+Install htmldocs using your preferred package manager.
 
 ## Getting Started
 

@@ -7,8 +7,8 @@
     "publish": "htmldocs publish"
   },
   "dependencies": {
-    "@htmldocs/react": "workspace:0.1.5",
-    "@htmldocs/render": "workspace:0.1.7",
+    "@htmldocs/react": "workspace:0.1.8",
+    "@htmldocs/render": "workspace:0.1.8",
     "clsx": "^2.1.1",
     "htmldocs": "workspace:0.1.8",
     "react": "^18.2.0",
