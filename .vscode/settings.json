@@ -3,5 +3,18 @@
     {
       "mode": "auto"
     }
-  ]
+  ],
+  "search.useIgnoreFiles": false,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    ".git": true,
+    ".next": true,
+    "out": true,
+    "build": true,
+    "coverage": true,
+    ".turbo": true,
+    "*.tsbuildinfo": true
+  }
 }

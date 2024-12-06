@@ -30,6 +30,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.637.0
         version: 3.637.0
+      '@formatjs/intl':
+        specifier: ^2.10.4
+        version: 2.10.4(typescript@5.4.5)
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.9.0(react-hook-form@7.53.0(react@18.3.1))
@@ -153,15 +156,18 @@ importers:
       esbuild:
         specifier: ^0.21.4
         version: 0.21.4
+      framer-motion:
+        specifier: ^11.2.6
+        version: 11.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       highlight.js:
         specifier: ^11.10.0
         version: 11.10.0
-      htmldocs:
-        specifier: workspace:*
-        version: link:../../packages/htmldocs
       input-otp:
         specifier: ^1.2.4
         version: 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       lucide-react:
         specifier: ^0.416.0
         version: 0.416.0(react@18.3.1)
@@ -528,6 +534,9 @@ importers:
       '@types/babel__core':
         specifier: ^7.20.5
         version: 7.20.5
+      '@types/json-schema':
+        specifier: ^7.0.15
+        version: 7.0.15
       '@types/mime-types':
         specifier: ^2.1.4
         version: 2.1.4
@@ -550,16 +559,16 @@ importers:
   packages/htmldocs/public/template:
     dependencies:
       '@htmldocs/react':
-        specifier: workspace:0.1.5
+        specifier: workspace:0.1.9
         version: link:../../../react
       '@htmldocs/render':
-        specifier: workspace:0.1.7
+        specifier: workspace:0.1.9
         version: link:../../../render
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       htmldocs:
-        specifier: workspace:0.1.8
+        specifier: workspace:0.1.9
         version: link:../..
       react:
         specifier: ^18.2.0
