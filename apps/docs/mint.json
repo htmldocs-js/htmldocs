@@ -75,20 +75,20 @@
     {
       "group": "Using the API",
       "pages": [
-        "api/authorization"
+        "api-reference/authorization"
       ]
     },
     {
       "group": "API Documentation",
       "pages": [
-        "api/generate-document",
-        "api/generate-html"
+        "api-reference/generate-document",
+        "api-reference/generate-html"
       ]
     }
   ],
   "footerSocials": {
     "x": "https://x.com/htmldocs",
-    "github": "https://github.com/htmldocs-js",
+    "github": "https://github.com/htmldocs-js/htmldocs",
     "linkedin": "https://www.linkedin.com/company/htmldocs"
   }
 }
