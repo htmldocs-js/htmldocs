@@ -1,88 +1,85 @@
-![HTMLDocs Cover](https://placehold.co/1200x600/e4e4e7/ffffff?text=HTMLDocs)
+![htmldocs](https://github.com/user-attachments/assets/6f8e8ef2-022d-4418-8e86-c9663587f92f)
 
 <div align="center"><strong>htmldocs</strong></div>
-<div align="center">The modern approach to documentation generation.<br />High-quality, customizable components for creating beautiful documentation.</div>
+<div align="center">Build beautiful, reactive documents with modern web technologies <br /> and generate them at scale. Batteries included.</div>
 <br />
 <div align="center">
-<a href="https://htmldocs.dev">Website</a> 
+<a href="https://htmldocs.com">Website</a> 
 <span> · </span>
-<a href="https://github.com/yourusername/htmldocs">GitHub</a> 
+<a href="https://github.com/htmldocs-js/htmldocs">GitHub</a> 
 <span> · </span>
-<a href="https://discord.gg/htmldocs">Discord</a>
+<a href="https://join.slack.com/t/htmldocs/shared_invite/zt-29hw1bnmu-ShX6Jo1KNc_XeF~gFQJH_Q">Slack</a>
 </div>
 
 ## Introduction
-
-A powerful monorepo built with Turborepo for creating and managing documentation with React components. It simplifies the process of building beautiful, responsive documentation with modern web technologies and takes care of complex styling and layout concerns.
+PDF document creation is stuck in the past - from clunky Word docs to complex LaTeX to outdated tools. htmldocs brings document generation into 2025 with a modern developer experience using the tools you already love: <b>React</b>, <b>TypeScript</b>, and <b>Tailwind</b>.
 
 ## Why
 
-Documentation should be as dynamic and modern as the applications we build. HTMLDocs brings documentation into the modern era with component-based architecture, real-time previews, and a developer-first approach. Stop wrestling with static site generators and embrace a more powerful way to create documentation.
+htmldocs is a modern toolkit for building documents with the web:
+
+- **Styling**: Use modern CSS properties to create visually stunning documents with web-like flexibility.
+
+- **Structure**: Create clean layouts using HTML's powerful tools like flexbox, grid, and tables.
+
+- **External Libraries**: Seamlessly integrate web libraries like FontAwesome, Bootstrap, and KaTeX
+
+- **Templating**: Generate documents programmatically by defining variables that can be populated via API.
+
+- **Version Control**: Track document changes using Git and other version control systems
+
+- **Consistency**: Maintain uniform document styling across your organization through shared stylesheets.
 
 ## Install
 
-Install htmldocs using your preferred package manager.
+To create your first htmldocs project, run the following command:
+
+```sh
+npx htmldocs@latest init
+```
+
+For further instructions or to integrate htmldocs into your existing project, refer to the [Getting Started](https://docs.htmldocs.com/getting-started) guide.
 
 ## Getting Started
 
-Create your first documentation page with HTMLDocs:
+Create your first document with htmldocs:
 
 ```jsx
-import { Document, Section, Code } from "@htmldocs/react";
+import { Document, Page } from "@htmldocs/react";
 
-const Documentation = () => {
+export default function MyDocument() {
   return (
-    <Document title="Getting Started">
-      <Section>
-        <h1>Welcome to HTMLDocs</h1>
-        <Code language="typescript">
-          console.log("Hello, Documentation!");
-        </Code>
-      </Section>
+    <Document size="A4" orientation="portrait" margin="0.5in">
+        <Page style={{ backgroundColor: "#000", color: "#fff" }}>
+            <h1>Hello from the dark side</h1>
+        </Page>
     </Document>
   );
-};
+}
 ```
 
-## Packages
+## Components
 
-The monorepo includes the following packages:
+htmldocs comes with a standard set of components to help you layout and style your documents.
 
-- `@htmldocs/react`: React component library for documentation
-- `@htmldocs/render`: Documentation rendering engine
-- `@htmldocs/htmldocs`: Core documentation package
-- `@htmldocs/eslint-config`: Shared ESLint configurations
-- `@htmldocs/typescript-config`: Shared TypeScript configurations
+- [Document](https://docs.htmldocs.com/components/document)
+- [Head](https://docs.htmldocs.com/components/head)
+- [Page](https://docs.htmldocs.com/components/page)
+- [Footer](https://docs.htmldocs.com/components/footer)
+- [MarginBox](https://docs.htmldocs.com/components/margin-box)
+- [Spacer](https://docs.htmldocs.com/components/spacer)
 
-## Apps
+## How it works
 
-- `docs`: Documentation site built with Next.js
-- `app`: Main application
-- `examples`: Example implementations and use cases
+htmldocs is a modern toolkit for building documents with web technologies. It automatically handles the layout and chunking of your document into pages, templating variables using JSX, and hot-reloading your document.
 
-## Development
+htmldocs is built upon Chromium's rendering engine, which means it can render any HTML, CSS, and JavaScript. This is different from other tools like [wkhtmltopdf](https://wkhtmltopdf.org/), [WeasyPrint](https://weasyprint.org/), and [Prince](https://www.princexml.com/), which only support a subset of HTML and CSS.
 
-#### Install dependencies
-
-```sh
-pnpm install
-```
-
-#### Start development environment
-
-```sh
-pnpm dev
-```
-
-#### Build all packages and apps
-
-```sh
-pnpm build
-```
+htmldocs also uses the [Paged.js library](https://pagedjs.org/) under the hood. Paged.js is used for layout and chunking, as well as more modern features like margin boxes that aren't fully supported by the W3C's CSS standard.
 
 ## Tech Stack
 
-| <img src="https://nextjs.org/static/favicon/favicon-32x32.png" width="48px" height="48px" alt="Next.js"> | <img src="https://www.typescriptlang.org/favicon-32x32.png" width="48px" height="48px" alt="TypeScript"> | <img src="https://turbo.build/images/favicon-32x32.png" width="48px" height="48px" alt="Turborepo"> | <img src="https://pnpm.io/img/favicon.png" width="48px" height="48px" alt="pnpm"> |
+| <img src="https://nextjs.org/static/favicon/favicon-32x32.png" width="48px" height="48px" alt="Next.js"> | <img src="https://www.typescriptlang.org/favicon-32x32.png" width="48px" height="48px" alt="TypeScript"> | <img src="https://user-images.githubusercontent.com/4060187/196936123-f6e1db90-784d-4174-b774-92502b718836.png" width="48px" height="48px" alt="Turborepo"> | <img src="https://pnpm.io/img/favicon.png" width="48px" height="48px" alt="pnpm"> |
 |--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
 | Next.js                                                                                                  | TypeScript                                                                                            | Turborepo                                                                                         | pnpm                                                                             |
 
