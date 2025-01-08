@@ -24,7 +24,24 @@ htmldocs is a modern toolkit for building documents with the web:
 
 - **External Libraries**: Seamlessly integrate web libraries like FontAwesome, Bootstrap, and KaTeX
 
-- **Templating**: Generate documents programmatically by defining variables that can be populated via API.
+- **Dynamic Templates**: Leverage JSX to create reusable document templates with dynamic content:
+  ```jsx
+  function Invoice({ customer, items, total }) {
+    return (
+      <Document>
+        <Page>
+          <h1>Invoice for {customer.name}</h1>
+          {items.map(item => (
+            <LineItem {...item} />
+          ))}
+          <Total amount={total} />
+        </Page>
+      </Document>
+    );
+  }
+  ```
+
+- **Data-Driven Documents**: Generate documents programmatically by passing data through props or fetching from APIs. Perfect for invoices, contracts, and reports that need dynamic content.
 
 - **Version Control**: Track document changes using Git and other version control systems
 
