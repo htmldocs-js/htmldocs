@@ -30,24 +30,19 @@
   "tabs": [
     {
       "name": "API Reference",
-      "url": "api"
+      "url": "api-reference"
     }
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
       "name": "Slack",
       "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "url": "https://join.slack.com/t/htmldocs/shared_invite/zt-29hw1bnmu-ShX6Jo1KNc_XeF~gFQJH_Q"
     },
     {
       "name": "GitHub",
       "icon": "github",
-      "url": "https://github.com/mintlify"
+      "url": "https://github.com/htmldocs-js/htmldocs"
     }
   ],
   "navigation": [
