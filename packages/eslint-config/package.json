@@ -1,7 +1,6 @@
 {
   "name": "@htmldocs/eslint-config",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
   "files": [
     "library.js",
     "next.js",
