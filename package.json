@@ -2,12 +2,12 @@
   "name": "htmldocs",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "turbo run build --filter=./packages/* --filter=!htmldocs-starter",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "release": "turbo run build --filter=./packages/* --filter=!htmldocs-starter && pnpm changeset publish",
-    "version": "changeset version && pnpm install --no-frozen-lockfile"
+    "version": "pnpm run build && changeset && changeset version && pnpm install",
+    "publish": "pnpm publish -r"
   },
   "devDependencies": {
     "@htmldocs/eslint-config": "workspace:*",
