@@ -559,16 +559,16 @@ importers:
   packages/htmldocs/public/template:
     dependencies:
       '@htmldocs/react':
-        specifier: workspace:0.1.14
+        specifier: workspace:0.1.15
         version: link:../../../react
       '@htmldocs/render':
-        specifier: workspace:0.1.14
+        specifier: workspace:0.1.15
         version: link:../../../render
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       htmldocs:
-        specifier: workspace:0.1.14
+        specifier: workspace:0.1.15
         version: link:../..
       react:
         specifier: ^18.2.0
