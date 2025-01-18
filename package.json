@@ -6,8 +6,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "version": "pnpm run build && changeset && changeset version && pnpm install",
-    "publish": "pnpm publish -r"
+    "version": "changeset && changeset version && pnpm install",
+    "publish": "pnpm run build && pnpm publish -r"
   },
   "devDependencies": {
     "@htmldocs/eslint-config": "workspace:*",
