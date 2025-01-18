@@ -307,9 +307,6 @@ importers:
       react-icons:
         specifier: ^5.3.0
         version: 5.4.0(react@18.3.1)
-      ts-json-schema-generator:
-        specifier: ^2.2.0
-        version: 2.3.0
     devDependencies:
       '@types/markdown-it':
         specifier: ^14.1.2
@@ -558,25 +555,43 @@ importers:
 
   packages/htmldocs/public/template:
     dependencies:
+      '@formatjs/intl':
+        specifier: ^2.10.4
+        version: 2.10.15(typescript@5.7.3)
       '@htmldocs/react':
-        specifier: workspace:0.1.15
+        specifier: workspace:*
         version: link:../../../react
       '@htmldocs/render':
-        specifier: workspace:0.1.15
+        specifier: workspace:*
         version: link:../../../render
+      '@react-email/components':
+        specifier: 0.0.18
+        version: 0.0.18(@types/react@18.3.18)(react@18.3.1)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       htmldocs:
-        specifier: workspace:0.1.15
+        specifier: workspace:*
         version: link:../..
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.1.0
       react:
         specifier: ^18.2.0
         version: 18.3.1
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      react-icons:
+        specifier: ^5.3.0
+        version: 5.4.0(react@18.3.1)
     devDependencies:
+      '@types/markdown-it':
+        specifier: ^14.1.2
+        version: 14.1.2
+      '@types/node':
+        specifier: ^22.8.1
+        version: 22.10.7
       '@types/react':
         specifier: ^18.2.61
         version: 18.3.18

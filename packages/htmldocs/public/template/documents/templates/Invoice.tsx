@@ -1,6 +1,17 @@
 import { Document, Head, Page, Spacer } from "@htmldocs/react";
 import clsx from "clsx";
+import { createIntl, createIntlCache } from "@formatjs/intl";
 import "~/index.css";
+
+const cache = createIntlCache();
+
+const intl = createIntl(
+  {
+    locale: "en-US",
+    messages: {},
+  },
+  cache
+);
 
 const tableHeaderStyle =
   "text-sm font-medium text-gray-900 py-2 whitespace-nowrap";
@@ -65,19 +76,6 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
     <Document size="A4" orientation="portrait" margin="0.5in">
       <Head>
         <title>Invoice</title>
-        <link rel="preconnect" href="https://rsms.me/" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-        <style>
-          {`
-            :root {
-              font-family: Inter, sans-serif;
-              font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-            }
-            @supports (font-variation-settings: normal) {
-              :root { font-family: InterVariable, sans-serif; }
-            }
-          `}
-        </style>
       </Head>
       <Page className="flex flex-col justify-between">
         <div id="invoice_body">
@@ -163,8 +161,8 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
                   </tr>
                 </thead>
                 <tbody>
-                  {services.map((service) => (
-                    <TableRow service={service} />
+                  {services.map((service, index) => (
+                    <TableRow key={index} service={service} />
                   ))}
                   <tr className="border-b"></tr>
                   <tr className="h-12">
@@ -174,7 +172,7 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
                     </td>
                     <td className="border-b"></td>
                     <td className="text-right text-sm text-gray-900 whitespace-nowrap border-b">
-                      {subtotal.toLocaleString("en-US", {
+                      {intl.formatNumber(subtotal, {
                         style: "currency",
                         currency: "USD",
                       })}
@@ -187,7 +185,7 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
                     </td>
                     <td className="border-b"></td>
                     <td className="text-right text-sm text-gray-900 whitespace-nowrap border-b">
-                      {tax.toLocaleString("en-US", {
+                      {intl.formatNumber(tax, {
                         style: "currency",
                         currency: "USD",
                       })}
@@ -200,7 +198,7 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
                     </td>
                     <td className="border-b"></td>
                     <td className="text-right text-sm text-gray-900 whitespace-nowrap border-b">
-                      {total.toLocaleString("en-US", {
+                      {intl.formatNumber(total, {
                         style: "currency",
                         currency: "USD",
                       })}
@@ -213,7 +211,7 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
                     </td>
                     <td className="border-y-2 border-purple-700"></td>
                     <td className="text-right font-medium text-sm whitespace-nowrap border-y-2 border-purple-700">
-                      {total.toLocaleString("en-US", {
+                      {intl.formatNumber(total, {
                         style: "currency",
                         currency: "USD",
                       })}
@@ -283,13 +281,13 @@ const TableRow = ({ service }: TableRowProps) => {
         {service.quantity}
       </td>
       <td className={clsx(cellStyle, detailStyle, "text-right")}>
-        {service.rate.toLocaleString("en-US", {
+        {intl.formatNumber(service.rate, {
           style: "currency",
           currency: "USD",
         })}
       </td>
       <td className={clsx(cellStyle, detailStyle, "text-right")}>
-        {total.toLocaleString("en-US", { style: "currency", currency: "USD" })}
+        {intl.formatNumber(total, { style: "currency", currency: "USD" })}
       </td>
     </tr>
   );
@@ -297,7 +295,7 @@ const TableRow = ({ service }: TableRowProps) => {
 
 Invoice.PreviewProps = {
   billedTo: {
-    name: "John Doe",
+    name: "Josiah Zhang",
     address: "123 Elm Street",
     city: "Anytown",
     state: "CA",
@@ -322,7 +320,7 @@ Invoice.PreviewProps = {
       rate: 1000,
     },
     {
-      name: "Development",
+      name: "Consulting",
       description: "Description",
       quantity: 2,
       rate: 1200,
