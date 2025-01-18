@@ -1,19 +1,18 @@
 {
   "name": "htmldocs-starter",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "private": true,
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "dev": "htmldocs dev",
-    "publish": "htmldocs publish"
+    "dev": "htmldocs dev"
   },
   "dependencies": {
     "@formatjs/intl": "^2.10.4",
-    "@htmldocs/react": "workspace:*",
-    "@htmldocs/render": "workspace:*",
+    "@htmldocs/react": "workspace:0.1.17",
+    "@htmldocs/render": "workspace:0.1.17",
     "@react-email/components": "0.0.18",
     "clsx": "^2.1.1",
-    "htmldocs": "workspace:*",
+    "htmldocs": "workspace:0.1.17",
     "markdown-it": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
