@@ -559,10 +559,10 @@ importers:
         specifier: ^2.10.4
         version: 2.10.15(typescript@5.7.3)
       '@htmldocs/react':
-        specifier: workspace:*
+        specifier: workspace:0.1.17
         version: link:../../../react
       '@htmldocs/render':
-        specifier: workspace:*
+        specifier: workspace:0.1.17
         version: link:../../../render
       '@react-email/components':
         specifier: 0.0.18
@@ -571,7 +571,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       htmldocs:
-        specifier: workspace:*
+        specifier: workspace:0.1.17
         version: link:../..
       markdown-it:
         specifier: ^14.1.0
