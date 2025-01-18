@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@3.0.3/schema.json",
   "changelog": false,
   "commit": false,
-  "fixed": [],
+  "fixed": [["htmldocs-starter", "htmldocs", "@htmldocs/react", "@htmldocs/render"]],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
