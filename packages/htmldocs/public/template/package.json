@@ -1,16 +1,16 @@
 {
   "name": "htmldocs-starter",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "private": true,
   "scripts": {
     "dev": "htmldocs dev",
     "publish": "htmldocs publish"
   },
   "dependencies": {
-    "@htmldocs/react": "workspace:0.1.13",
-    "@htmldocs/render": "workspace:0.1.13",
+    "@htmldocs/react": "workspace:0.1.14",
+    "@htmldocs/render": "workspace:0.1.14",
     "clsx": "^2.1.1",
-    "htmldocs": "workspace:0.1.13",
+    "htmldocs": "workspace:0.1.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
