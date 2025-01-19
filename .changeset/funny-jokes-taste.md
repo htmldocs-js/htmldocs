@@ -2,4 +2,4 @@
 "htmldocs": patch
 ---
 
-new version
+changeset add changelogs

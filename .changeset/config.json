@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.3/schema.json",
-  "changelog": false,
+  "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [["htmldocs-starter", "htmldocs", "@htmldocs/react", "@htmldocs/render"]],
   "linked": [],
