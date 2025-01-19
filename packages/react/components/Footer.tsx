@@ -1,5 +1,6 @@
 import React from 'react';
 import MarginBox, { MarginBoxPosition } from './MarginBox';
+import Head from './Head';
 
 interface FooterProps {
   /**
@@ -70,20 +71,27 @@ export const Footer: React.FC<FooterProps> = ({
   `;
 
   return (
-    <MarginBox
-      position={position}
-      pageType={pageType}
-      className={className}
-      marginBoxStyles={marginBoxStyles}
-      runningName="print-footer"
-    >
-      {typeof children === 'function' 
-        ? children({
-            currentPage: <span className="page-counter" />,
-            totalPages: <span className="pages-counter" />
-          })
-        : children}
-    </MarginBox>
+    <>
+      <Head>
+        <style>
+          {footerStyles}
+        </style>
+      </Head>
+      <MarginBox
+        position={position}
+        pageType={pageType}
+        className={className}
+        marginBoxStyles={marginBoxStyles}
+        runningName="print-footer"
+      >
+        {typeof children === 'function' 
+          ? children({
+              currentPage: <span className="page-counter" />,
+              totalPages: <span className="pages-counter" />
+            })
+          : children}
+      </MarginBox>
+    </>
   );
 };
 
