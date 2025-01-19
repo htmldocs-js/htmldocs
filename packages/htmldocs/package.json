@@ -1,6 +1,6 @@
 {
   "name": "htmldocs",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "bin": {
     "htmldocs": "./dist/cli/index.mjs"
   },
@@ -8,6 +8,7 @@
     "init": "npx playwright install",
     "build": "node build-preview-server.mjs && pnpm build-cli",
     "build-cli": "API_URL=https://htmldocs.com tsup-node && pnpm link --global",
+    "build-cli:dev": "API_URL=http://localhost:3000 tsup-node && pnpm link --global",
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
@@ -40,6 +41,7 @@
     "commander": "^12.1.0",
     "cva": "1.0.0-beta.1",
     "debounce": "^2.0.0",
+    "dotenv": "^16.4.7",
     "esbuild": "^0.21.3",
     "esbuild-plugin-tsc": "^0.4.0",
     "esbuild-style-plugin": "^1.6.3",
@@ -76,11 +78,11 @@
   "devDependencies": {
     "@swc/core": "^1.5.7",
     "@types/babel__core": "^7.20.5",
+    "@types/json-schema": "^7.0.15",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^20",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
-    "@types/json-schema": "^7.0.15",
     "tsup": "^8.0.2",
     "typescript": "^5"
   }
