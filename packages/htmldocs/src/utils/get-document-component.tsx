@@ -76,7 +76,14 @@ export const getDocumentComponent = async (
         cause: buildFailure.cause,
       },
     });
-    process.exit(1);
+    return {
+      error: {
+        message: buildFailure.message,
+        stack: buildFailure.stack || new Error().stack,
+        name: buildFailure.name,
+        cause: buildFailure.cause,
+      }
+    };
   }
 
   try {
