@@ -61,7 +61,7 @@ export const init = async (projectName: string) => {
     // Add colorized instructions for the user
     console.log("\n" + chalk.blue(logSymbols.info) + chalk.bold(" To start your project:"));
     console.log(chalk.cyan(`  cd ${projectName}`));
-    console.log(chalk.cyan("  htmldocs dev"));
+    console.log(chalk.cyan("  npm run dev"));
   } catch (error) {
     spinner.fail(chalk.red("Failed to install dependencies"));
     logger.error("Error installing dependencies:", error);
