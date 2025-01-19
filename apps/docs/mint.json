@@ -57,7 +57,9 @@
     {
       "group": "Guides",
       "pages": [
-        "guides/static-content"
+        "guides/static-content",
+        "guides/template-variables",
+        "guides/publishing-to-the-cloud"
       ]
     },
     {

@@ -1,0 +1,139 @@
+---
+title: "Template Variables"
+description: "Learn how to use template variables and preview props in your document templates"
+icon: "brackets-curly"
+---
+
+## Overview
+
+Template variables allow you to create dynamic documents by passing data to your templates. This guide shows you how to define and use template variables in your JSX templates.
+
+## Using Template Variables
+
+Create a template component that accepts props for dynamic content:
+
+```tsx
+import { Document } from "@htmldocs/react";
+
+interface InvoiceProps {
+  customerName: string;
+  items: {
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
+}
+
+function Invoice({ customerName, items }: InvoiceProps) {
+  return (
+    <Document>
+      <h1>Invoice for {customerName}</h1>
+      <div className="items">
+        {items.map((item, index) => (
+          <div key={index} className="item">
+            <span>{item.name}</span>
+            <span>{item.quantity}</span>
+            <span>${item.price}</span>
+          </div>
+        ))}
+      </div>
+    </Document>
+  );
+}
+
+export default Invoice;
+```
+
+## Preview Props
+
+Define preview data for development and testing using `PreviewProps`:
+
+```tsx
+Invoice.PreviewProps = {
+  customerName: "Acme Corporation",
+  items: [
+    {
+      name: "Premium License",
+      quantity: 1,
+      price: 999.00
+    },
+    {
+      name: "Support Package",
+      quantity: 2,
+      price: 299.00
+    }
+  ]
+};
+```
+
+## Complex Objects
+
+You can use nested objects and arrays for more complex templates:
+
+```tsx
+interface CompanyInfo {
+  name: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+  contact: {
+    email: string;
+    phone: string;
+  };
+}
+
+interface ReceiptProps {
+  orderNumber: string;
+  date: string;
+  company: CompanyInfo;
+  items: {
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
+}
+
+Receipt.PreviewProps = {
+  orderNumber: "ORD-123456",
+  date: new Date().toLocaleDateString(),
+  company: {
+    name: "Acme Corp",
+    address: {
+      street: "123 Business Ave",
+      city: "San Francisco",
+      state: "CA",
+      zip: "94105"
+    },
+    contact: {
+      email: "info@acme.com",
+      phone: "(555) 123-4567"
+    }
+  },
+  items: [
+    {
+      name: "Product A",
+      quantity: 1,
+      price: 99.99
+    }
+  ]
+};
+```
+
+## Dynamic Values
+
+You can use JavaScript expressions and functions in your preview props:
+
+```tsx
+Document.PreviewProps = {
+  orderNumber: `ORD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+  date: new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }),
+  total: calculateTotal(items)
+};
+```

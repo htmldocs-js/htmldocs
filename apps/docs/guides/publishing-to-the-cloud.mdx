@@ -1,0 +1,95 @@
+---
+title: "Publishing to the Cloud"
+description: "Publish and generate documents from your document templates using the API"
+icon: "cloud-arrow-up"
+---
+
+## Prerequisites
+
+First, ensure you have the latest version of the htmldocs CLI installed:
+
+```bash
+npm i -g htmldocs@latest
+```
+
+This command installs or updates the CLI globally on your system.
+
+## Authentication
+
+Before publishing, you'll need to authenticate with the htmldocs cloud platform:
+
+```bash
+htmldocs login
+```
+
+This command will open a browser window where you can:
+1. Select your team
+2. Complete the authentication process
+3. Store your credentials securely for future use
+
+## Publishing Templates
+
+Once authenticated, you can publish your document templates using the `publish` command:
+
+```bash
+htmldocs publish ./documents/templates/Invoice.tsx
+```
+
+<Note>
+Make sure your template has a unique `documentId` defined before publishing:
+
+```tsx
+Invoice.documentId = "invoice";
+export default Invoice;
+```
+</Note>
+
+## Generating Documents via API
+
+After publishing, you can generate documents using the REST API. First, obtain an API key from the [Dashboard](https://htmldocs.com/dashboard).
+
+### API Authentication
+
+Include your API key in requests using the Bearer token format:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Note>
+API keys are scoped to your team and provide access only to documents owned by that team.
+</Note>
+
+### Making API Requests
+
+To generate a document, send a POST request to the generation endpoint with your document variables:
+
+```bash
+curl -X POST https://api.htmldocs.com/api/documents/{documentId} \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "variables": {
+      "customerName": "Acme Corp",
+      "items": [
+        {
+          "name": "Premium License",
+          "quantity": 1,
+          "price": 999.00
+        }
+      ]
+    }
+  }'
+```
+
+Replace `{documentId}` with your template's document ID (e.g., "invoice").
+
+## Managing Published Templates
+
+You can view and manage your published templates in the [Dashboard](https://htmldocs.com/dashboard), where you can:
+
+- View all published templates
+- Get document IDs
+- Manage API keys
+- Monitor usage
+- View generation history
