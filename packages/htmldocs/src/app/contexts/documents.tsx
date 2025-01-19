@@ -97,7 +97,7 @@ export const DocumentsProvider = (props: {
           renderingResultPerDocumentPath[pathForChangedDocument];
 
         if (typeof lastResult !== "undefined") {
-          console.log("pathForChangedDocument", pathForChangedDocument);
+          console.debug("pathForChangedDocument", pathForChangedDocument);
           const renderingResult = await renderDocumentByPath(
             pathForChangedDocument
           );

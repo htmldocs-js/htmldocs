@@ -32,7 +32,7 @@ export const DocumentContextProvider: React.FC<DocumentContextProviderProps> = (
 }) => {
   const [documentContext, setDocumentContext] = useState<Record<string, any>>({ document: initialDocumentPreviewProps || {} });
 
-  console.log("Initial document context:", documentContext);
+  console.debug("Initial document context:", documentContext);
 
   const updateDocumentContext = (path: string, newValue: any) => {
     const pathParts = path.split('.');

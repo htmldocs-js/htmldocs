@@ -1,7 +1,7 @@
 {
     "extends": "@htmldocs/typescript-config/react-library.json",
     "compilerOptions": {
-      "lib": ["es2017", "dom"],
+      "lib": ["es2022", "dom"],
       "outDir": "dist",
       "paths": {
         "~/*": [

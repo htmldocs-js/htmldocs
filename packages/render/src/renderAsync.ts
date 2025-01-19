@@ -139,7 +139,7 @@ export const renderAsync = async (
                 const pageWidth = pageElement.offsetWidth + horizontalPadding * 2;
                 const scaleFactor = window.innerWidth / pageWidth;
                 
-                console.log("Scale debug:", {
+                console.debug("Scale debug:", {
                   windowWidth: window.innerWidth,
                   pageWidth: pageElement.offsetWidth,
                   pageWidthWithPadding: pageWidth,
@@ -173,7 +173,7 @@ export const renderAsync = async (
               class MyHandler extends Paged.Handler {
                 afterPageLayout(pageFragment, page) {
                   try {
-                    console.log("afterPageLayout triggered");
+                    console.debug("afterPageLayout triggered");
                     scaleToFit();
                     var scrollpos = localStorage.getItem("scrollpos");
                     if (scrollpos) window.scrollTo(0, parseInt(scrollpos, 10));
@@ -194,7 +194,7 @@ export const renderAsync = async (
                       documentOrientation,
                       timestamp: new Date().toISOString()
                     }, '*');
-                    console.log("layoutComplete message sent", { documentSize });
+                    console.debug("layoutComplete message sent", { documentSize });
                   } catch (err) {
                     console.error("Error in afterPageLayout:", err);
                     // Still show content even if there's an error
@@ -203,7 +203,7 @@ export const renderAsync = async (
                 }
               }
               Paged.registerHandlers(MyHandler);
-              console.log("Paged.js registered handlers");
+              console.debug("Paged.js registered handlers");
             }
           </script>
         </head>
