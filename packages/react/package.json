@@ -1,6 +1,6 @@
 {
   "name": "@htmldocs/react",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
