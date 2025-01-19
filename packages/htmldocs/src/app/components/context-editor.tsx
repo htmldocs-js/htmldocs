@@ -263,7 +263,7 @@ const ContextEditor: React.FC = () => {
   const { documentSchema, documentContext } = useDocumentContext();
 
   const numVars = Object.keys(documentSchema?.properties || {}).length;
-  console.log({ documentSchema, documentContext });
+  console.debug({ documentSchema, documentContext });
 
   return (
     <div className="flex flex-col gap-2 text-card-foreground">

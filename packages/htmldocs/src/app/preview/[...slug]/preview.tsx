@@ -67,7 +67,7 @@ const Preview = ({
   React.useEffect(() => {
     if (!renderedDocumentMetadata?.markup) return;
 
-    console.log("renderedDocumentMetadata.markup changed:", {
+    console.debug("renderedDocumentMetadata.markup changed:", {
       length: renderedDocumentMetadata.markup.length,
       timestamp: new Date().toISOString(),
     });
@@ -131,10 +131,10 @@ const Preview = ({
 
   React.useEffect(() => {
     window.addEventListener('message', handleMessage);
-    console.log("Message event listener added");
+    console.debug("Message event listener added");
     return () => {
       window.removeEventListener('message', handleMessage);
-      console.log("Message event listener removed");
+      console.debug("Message event listener removed");
     };
   }, [handleMessage]);
 

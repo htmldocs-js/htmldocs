@@ -26,13 +26,13 @@ export const renderDocumentByPath = async (
   documentPath: string,
   props: Record<string, any> = {}
 ): Promise<DocumentRenderingResult> => {
-  console.log(`[render] Starting render for document: ${documentPath}`);
+  console.debug(`[render] Starting render for document: ${documentPath}`);
   const startTime = performance.now();
   
-  console.time('componentLoad');
+  console.debug('[render] Loading component...');
   const result = await getDocumentComponent(documentPath);
   const componentLoadTime = performance.now() - startTime;
-  console.timeEnd('componentLoad');
+  console.debug(`[render] Component loaded in ${componentLoadTime.toFixed(2)}ms`);
 
   if ('error' in result) {
     console.error('[render] Error loading component:', result.error);
@@ -50,20 +50,20 @@ export const renderDocumentByPath = async (
   const DocumentComponent = Document as React.FC;
   
   try {
-    console.time('rendering');
+    console.debug('[render] Starting rendering...');
     const renderStart = performance.now();
     const markup = await renderAsync(<DocumentComponent {...renderProps} />, documentCss);
     const renderTime = performance.now() - renderStart;
-    console.timeEnd('rendering');
+    console.debug(`[render] Rendering completed in ${renderTime.toFixed(2)}ms`);
 
-    console.time('fileRead');
+    console.debug('[render] Reading file...');
     const fileReadStart = performance.now();
     const reactMarkup = await fs.promises.readFile(documentPath, 'utf-8');
     const fileReadTime = performance.now() - fileReadStart;
-    console.timeEnd('fileRead');
+    console.debug(`[render] File read in ${fileReadTime.toFixed(2)}ms`);
 
     const totalTime = performance.now() - startTime;
-    console.log(`[render] Completed in ${totalTime.toFixed(2)}ms`);
+    console.debug(`[render] Completed in ${totalTime.toFixed(2)}ms`);
 
     return {
       markup,
