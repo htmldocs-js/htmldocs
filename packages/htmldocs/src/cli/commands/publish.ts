@@ -68,7 +68,7 @@ export const publish = async (documentPath: string) => {
 
   try {
     logger.debug("Sending upload request to server");
-    const response = await fetch("http://localhost:3000/api/documents/upload", {
+    const response = await fetch(`${process.env.API_URL}/api/documents/upload`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${api_key}`,
