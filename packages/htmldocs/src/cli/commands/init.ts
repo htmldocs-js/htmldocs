@@ -56,6 +56,18 @@ export const init = async (projectName: string) => {
       });
     });
 
+    // Install Playwright
+    spinner.text = "Installing Playwright...";
+    await new Promise<void>((resolve, reject) => {
+      exec("npx playwright install", { cwd: resolvedProjectPath }, (error, stdout, stderr) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve();
+        }
+      });
+    });
+
     spinner.succeed(chalk.green(`Created project "${projectName}" and installed dependencies`));
     
     // Add colorized instructions for the user
