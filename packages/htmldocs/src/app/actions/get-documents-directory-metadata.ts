@@ -70,7 +70,8 @@ export const getDocumentsDirectoryMetadata = async (
   });
 
   const documentFilenames = dirents
-    .filter((dirent) =>
+    .filter((dirent) => 
+      !dirent.name.startsWith('.') && 
       isFileADocument(path.join(absolutePathToDocumentsDirectory, dirent.name)),
     )
     .map((dirent) =>
@@ -85,6 +86,7 @@ export const getDocumentsDirectoryMetadata = async (
         (dirent) =>
           dirent.isDirectory() &&
           !dirent.name.startsWith('_') &&
+          !dirent.name.startsWith('.') &&
           dirent.name !== 'static',
       )
       .map((dirent) => {

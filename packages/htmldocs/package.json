@@ -1,12 +1,13 @@
 {
   "name": "htmldocs",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "bin": {
     "htmldocs": "./dist/cli/index.mjs"
   },
   "scripts": {
     "init": "npx playwright install",
     "build": "node build-preview-server.mjs && pnpm build-cli",
+    "build:dev": "node build-preview-server.mjs && pnpm build-cli:dev",
     "build-cli": "API_URL=https://htmldocs.com tsup-node && pnpm link --global",
     "build-cli:dev": "API_URL=http://localhost:3000 tsup-node && pnpm link --global",
     "dev": "next dev",
