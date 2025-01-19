@@ -26,13 +26,14 @@ export const renderDocumentByPath = async (
   documentPath: string,
   props: Record<string, any> = {}
 ): Promise<DocumentRenderingResult> => {
-  console.debug(`[render] Starting render for document: ${documentPath}`);
+  const isDev = process.env.NODE_ENV === 'development';
+  isDev && console.debug(`[render] Starting render for document: ${documentPath}`);
   const startTime = performance.now();
   
-  console.debug('[render] Loading component...');
+  isDev && console.debug('[render] Loading component...');
   const result = await getDocumentComponent(documentPath);
   const componentLoadTime = performance.now() - startTime;
-  console.debug(`[render] Component loaded in ${componentLoadTime.toFixed(2)}ms`);
+  isDev && console.debug(`[render] Component loaded in ${componentLoadTime.toFixed(2)}ms`);
 
   if ('error' in result) {
     console.error('[render] Error loading component:', result.error);
@@ -50,20 +51,20 @@ export const renderDocumentByPath = async (
   const DocumentComponent = Document as React.FC;
   
   try {
-    console.debug('[render] Starting rendering...');
+    isDev && console.debug('[render] Starting rendering...');
     const renderStart = performance.now();
     const markup = await renderAsync(<DocumentComponent {...renderProps} />, documentCss);
     const renderTime = performance.now() - renderStart;
-    console.debug(`[render] Rendering completed in ${renderTime.toFixed(2)}ms`);
+    isDev && console.debug(`[render] Rendering completed in ${renderTime.toFixed(2)}ms`);
 
-    console.debug('[render] Reading file...');
+    isDev && console.debug('[render] Reading file...');
     const fileReadStart = performance.now();
     const reactMarkup = await fs.promises.readFile(documentPath, 'utf-8');
     const fileReadTime = performance.now() - fileReadStart;
-    console.debug(`[render] File read in ${fileReadTime.toFixed(2)}ms`);
+    isDev && console.debug(`[render] File read in ${fileReadTime.toFixed(2)}ms`);
 
     const totalTime = performance.now() - startTime;
-    console.debug(`[render] Completed in ${totalTime.toFixed(2)}ms`);
+    isDev && console.debug(`[render] Completed in ${totalTime.toFixed(2)}ms`);
 
     return {
       markup,
