@@ -18,5 +18,8 @@ export default defineConfig({
     js: "#!/usr/bin/env node",
   },
   publicDir: true,
+  define: {
+    "process.env.API_URL": process.env.API_URL || "https://htmldocs.com",
+  },
 });
 
