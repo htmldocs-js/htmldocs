@@ -6,7 +6,7 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "version": "changeset version && pnpm install",
+    "version": "changeset version && pnpm install --no-frozen-lockfile",
     "publish": "pnpm run build && pnpm publish -r"
   },
   "devDependencies": {
