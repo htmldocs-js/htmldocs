@@ -31,13 +31,15 @@ This command will open a browser window where you can:
 
 Once authenticated, you can publish your document templates using the `publish` command:
 
+<Warning>Be sure to run this from the root of your project.</Warning>
+
 ```bash
 htmldocs publish ./documents/templates/Invoice.tsx
 ```
 
+
 <Note>
 Make sure your template has a unique `documentId` defined before publishing:
-
 ```tsx
 Invoice.documentId = "invoice";
 export default Invoice;
