@@ -36,6 +36,9 @@ jobs:
       - name: create and publish versions
         uses: changesets/action@v1
         with:
+          version: pnpm run version
+          commit: "chore: update to latest version"
+          title: "chore: update to latest version"
           publish: pnpm run publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
