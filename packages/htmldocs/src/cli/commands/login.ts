@@ -6,7 +6,7 @@ import os from 'os';
 
 import { storeToken } from "../utils/token";
 
-const apiUrl = "http://localhost:3000";
+const apiUrl = process.env.API_URL || "http://localhost:3000";
 
 export const login = async () => {
   const server = http.createServer(async (req, res) => {
