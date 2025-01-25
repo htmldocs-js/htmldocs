@@ -1,5 +1,15 @@
 # htmldocs-starter
 
+## 0.2.15
+
+### Patch Changes
+
+- 23ac0f9: reduce bundle size
+- Updated dependencies [23ac0f9]
+  - htmldocs@0.2.15
+  - @htmldocs/react@0.2.15
+  - @htmldocs/render@0.2.15
+
 ## 0.2.14
 
 ### Patch Changes

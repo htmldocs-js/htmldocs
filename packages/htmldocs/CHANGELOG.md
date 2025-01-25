@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.15
+
+### Patch Changes
+
+- 23ac0f9: reduce bundle size
+  - @htmldocs/render@0.2.15
+
 ## 0.2.14
 
 ### Patch Changes
