@@ -1,5 +1,15 @@
 # @htmldocs/examples
 
+## 0.0.30
+
+### Patch Changes
+
+- 191eb52: restore packages
+- Updated dependencies [191eb52]
+  - htmldocs@0.2.17
+  - @htmldocs/render@0.2.17
+  - @htmldocs/react@0.2.17
+
 ## 0.0.29
 
 ### Patch Changes
