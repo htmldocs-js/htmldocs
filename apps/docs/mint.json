@@ -55,11 +55,11 @@
       ]
     },
     {
-      "group": "Guides",
+      "group": "Usage",
       "pages": [
-        "guides/static-content",
-        "guides/template-variables",
-        "guides/publishing-to-the-cloud"
+        "usage/static-content",
+        "usage/template-variables",
+        "usage/publishing-to-the-cloud"
       ]
     },
     {
