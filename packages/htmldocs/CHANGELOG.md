@@ -1,5 +1,13 @@
 # htmldocs
 
+## 0.2.17
+
+### Patch Changes
+
+- 191eb52: restore packages
+- Updated dependencies [191eb52]
+  - @htmldocs/render@0.2.17
+
 ## 0.2.16
 
 ### Patch Changes
