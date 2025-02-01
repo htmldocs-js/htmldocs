@@ -1,0 +1,7 @@
+node_modules
+public/template/node_modules
+.turbo
+dist/preview/.next/cache
+dist/preview/.next/trace
+src/cli
+tsup.config.ts
