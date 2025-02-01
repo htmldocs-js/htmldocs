@@ -1,5 +1,13 @@
 # htmldocs
 
+## 0.2.16
+
+### Patch Changes
+
+- 8787d4b: add .npmignore
+- Updated dependencies [8787d4b]
+  - @htmldocs/render@0.2.16
+
 ## 0.2.15
 
 ### Patch Changes
