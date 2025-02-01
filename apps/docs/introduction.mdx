@@ -2,12 +2,41 @@
 title: htmldocs
 sidebarTitle: Introduction
 icon: "hand-wave"
-description: 'Build and generate PDF documents with React and TypeScript'
 ---
 
-## Why
+htmldocs is a modern typesetting toolkit that lets you build document templates using React and JSX - the same way you build web applications. Create reusable components, use props for dynamic content, and leverage the entire JavaScript ecosystem:
 
-It's 2025 and the process of creating and generating PDF documents is still stuck in the past. Whether you're still manually editing documents in Word, trying to wrangle LaTeX to fit your use-case, or frustrated with outdated tools like `wkhtmltopdf`, it's about time we re-thought how we build documents with modern web technologies.
+```jsx
+function Invoice({ customer, items, total }) {
+  return (
+    <Document size="A4" orientation="portrait" margin="0.75in">
+      <Footer position="bottom-center">
+        Page {currentPage}
+      </Footer>
+
+      <Page style={{ padding: '1rem' }}>
+        <h1>Invoice for {customer.name}</h1>
+        {items.map(item => (
+          <LineItem {...item} />
+        ))}
+        <Total amount={total} />
+      </Page>
+    </Document>
+  );
+}
+```
+
+With htmldocs, you can:
+
+- Build document templates using **React components** and **JSX syntax**
+- Use your favorite JavaScript libraries - from date formatting to charting
+- Style documents with modern CSS and frameworks like **Tailwind**
+- Generate professional-quality PDFs at scale with precise typesetting
+- Preview changes in real-time with hot-reloading as you develop
+- Share components and styles across your documents for consistent branding
+- Version control your templates just like you do with code
+
+Whether you're still manually editing documents in Word, trying to wrangle LaTeX to fit your use-case, or frustrated with outdated tools like `wkhtmltopdf`, htmldocs provides a developer-friendly solution that brings document generation into the modern era.
 
 <CardGroup cols={2}>
   <Card

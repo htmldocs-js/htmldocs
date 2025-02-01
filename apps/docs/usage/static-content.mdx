@@ -15,6 +15,11 @@ Inside HTML/React components, static files are served directly from the `/static
 ## Server-Side Usage 
 When reading files server-side (like in document templates), use `process.env.DOCUMENTS_STATIC_PATH` to access files in your static directory:
 
+<Warning>
+Server-side files only work in local development and are not supported yet using the API. <br />
+If you'd like to see this feature, please leave a comment on the <b>#feature-requests</b> channel in Slack.
+</Warning>
+
 ```tsx
 import fs from 'node:fs'
 import path from 'path'

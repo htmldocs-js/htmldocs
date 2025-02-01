@@ -271,7 +271,8 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "description": "API key or authentication token"
+        "bearerFormat": "API-Key",
+        "description": "API key for authentication. Use format: Bearer <api-key>"
       }
     }
   }

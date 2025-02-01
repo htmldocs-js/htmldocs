@@ -3,7 +3,8 @@ import fs from 'node:fs';
 
 const nextBuildProcess = spawn('next', ['build'], {
   detached: true,
-  stdio: "inherit"
+  stdio: "inherit",
+  env: { ...process.env }
 });
 
 process.on('SIGINT', () => {

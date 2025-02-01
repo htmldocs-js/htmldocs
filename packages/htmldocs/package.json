@@ -20,6 +20,7 @@
     "@babel/parser": "^7.24.5",
     "@babel/preset-typescript": "^7.24.6",
     "@htmldocs/render": "workspace:*",
+    "@next/bundle-analyzer": "^15.1.6",
     "@phosphor-icons/react": "^2.1.5",
     "@tailwindcss/typography": "0.5.9",
     "adm-zip": "^0.5.14",
