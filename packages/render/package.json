@@ -1,6 +1,6 @@
 {
   "name": "@htmldocs/render",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
