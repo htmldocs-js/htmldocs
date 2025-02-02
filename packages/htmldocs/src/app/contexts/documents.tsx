@@ -12,6 +12,7 @@ import {
 import { getDocumentPathFromSlug } from "~/actions/get-document-path-from-slug";
 import { renderDocumentToPDF, RenderDocumentToPDFProps } from "~/actions/render-document-to-pdf";
 import { PageConfig } from "~/lib/types";
+import logger from "~/lib/logger";
 
 const DocumentsContext = createContext<
   | {
@@ -83,6 +84,11 @@ export const DocumentsProvider = (props: {
           return;
         }
 
+        // If the document is being deleted, don't try to render it
+        if (change.event === 'unlink') {
+          continue;
+        }
+
         const slugForChangedDocument =
           // filename ex: documents/apple-receipt.tsx
           // so we need to remove the "documents/" because it isn't used
@@ -97,7 +103,7 @@ export const DocumentsProvider = (props: {
           renderingResultPerDocumentPath[pathForChangedDocument];
 
         if (typeof lastResult !== "undefined") {
-          console.debug("pathForChangedDocument", pathForChangedDocument);
+          logger.debug("pathForChangedDocument", pathForChangedDocument);
           const renderingResult = await renderDocumentByPath(
             pathForChangedDocument
           );

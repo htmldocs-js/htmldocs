@@ -12,6 +12,7 @@ import { RenderingError } from './rendering-error';
 import { DocumentSize } from "~/lib/types";
 import { DocumentContextProvider } from '~/contexts/document-context';
 import { JSONSchema7, JSONSchema7Definition } from 'json-schema';
+import chalk from 'chalk';
 
 interface PreviewProps {
   slug: string;

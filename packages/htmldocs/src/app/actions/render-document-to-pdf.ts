@@ -1,6 +1,7 @@
 "use server"
 
 import { LaunchOptions, chromium } from 'playwright';
+import logger from '~/lib/logger';
 import { PageConfig, isStandardSize, parseCustomSize } from '~/lib/types';
 
 export interface RenderDocumentToPDFProps extends LaunchOptions {
@@ -28,7 +29,7 @@ export const renderDocumentToPDF = async ({
     await page.setContent(html);
     await page.waitForLoadState('networkidle');
 
-    console.debug('pageConfig', pageConfig);
+    logger.debug('pageConfig', pageConfig);
 
     const pdfOptions = {
         printBackground: true,

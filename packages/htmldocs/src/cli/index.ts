@@ -5,7 +5,7 @@ import { build } from './commands/build';
 import { publish } from './commands/publish';
 import { login } from './commands/login';
 import { init } from './commands/init';
-import logger from './utils/log';
+import logger from '~/lib/logger';
 import inquirer from 'inquirer';
 import { getEnvVariablesForPreviewApp } from './utils/preview/get-env-variables-for-preview-app';
 import path from 'path';
@@ -37,7 +37,7 @@ program
   .option('-v, --verbose', 'Enable verbose logging')
   .hook('preAction', (thisCommand) => {
     if (thisCommand.opts().verbose) {
-      logger.level = 'debug';
+      logger.setLevel('debug');
     }
   });
 

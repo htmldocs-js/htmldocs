@@ -9,6 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/component
 import { JSONSchema7 } from 'json-schema';
 import { useDocumentContext } from '~/contexts/document-context';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "~/components/ui/dialog";
+import logger from '~/lib/logger';
 
 type DefaultValues = {
   string: string;
@@ -263,7 +264,7 @@ const ContextEditor: React.FC = () => {
   const { documentSchema, documentContext } = useDocumentContext();
 
   const numVars = Object.keys(documentSchema?.properties || {}).length;
-  console.debug({ documentSchema, documentContext });
+  logger.debug({ documentSchema, documentContext });
 
   return (
     <div className="flex flex-col gap-2 text-card-foreground">

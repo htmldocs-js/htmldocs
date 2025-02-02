@@ -4,7 +4,7 @@ import logSymbols from "log-symbols";
 import ora from "ora";
 import { exec } from "child_process";
 import chalk from "chalk";
-import logger from "../utils/log";
+import logger from "~/lib/logger";
 import { cliPackageLocation } from "../utils";
 
 export const init = async (projectName: string) => {

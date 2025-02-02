@@ -74,7 +74,6 @@
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",
     "ts-json-schema-generator": "^2.2.0",
-    "winston": "^3.14.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
