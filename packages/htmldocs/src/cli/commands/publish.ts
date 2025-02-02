@@ -16,7 +16,7 @@ import {
 } from "@htmldocs/render";
 import ora from "ora";
 import { closeOraOnSIGINT } from "../utils/close-ora-on-sigint";
-import logger from "../utils/log";
+import logger from "~/lib/logger";
 
 export const publish = async (documentPath: string) => {
   logger.debug(`Starting publish process for document: ${documentPath}`);

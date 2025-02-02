@@ -5,7 +5,8 @@ import { watch } from 'chokidar';
 import debounce from 'debounce';
 import type { HotReloadChange } from '../../../../utils/types/hot-reload-change';
 import { createDependencyGraph } from './create-dependency-graph';
-import logger from '../../../utils/log';
+import logger from '~/lib/logger';
+import chalk from 'chalk';
 
 export const setupHotreloading = async (
   devServer: http.Server,
@@ -45,10 +46,24 @@ export const setupHotreloading = async (
   let changes = [] as HotReloadChange[];
 
   const reload = debounce(() => {
-    // we detect these using the useHotreload hook on the Next app
+    // Filter out files starting with . and deduplicate changes based on filename and event type
+    const uniqueChanges = changes
+      .filter(change => !path.basename(change.filename).startsWith('.'))
+      .filter((change, index, self) =>
+        index === self.findIndex((c) => 
+          c.filename === change.filename && c.event === change.event
+        )
+      );
+
+    // Log changes only once, not per client
+    uniqueChanges.forEach(change => {
+      logger.info(`${chalk.yellow('!')} ${chalk.gray(`Changes detected in ${path.basename(change.filename)}, reloading...`)}`);
+    });
+
+    // Send changes to all clients
     clients.forEach((client) => {
       logger.debug(`Emitting reload to ${client.id}`);
-      client.emit('reload', changes);
+      client.emit('reload', uniqueChanges);
     });
 
     changes = [];

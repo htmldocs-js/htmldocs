@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import { startDevServer, setupHotreloading } from '../utils';
-import logger from '../utils/log';
+import logger from '~/lib/logger';
 
 interface Args {
   dir: string;

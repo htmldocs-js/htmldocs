@@ -14,7 +14,7 @@ import {
 import { htmldocsPlugin } from "./htmldocs-esbuild-plugin";
 import postCssPlugin from "esbuild-style-plugin";
 import { RawSourceMap } from "source-map-js";
-import logger from "../cli/utils/log";
+import logger from "~/lib/logger";
 
 export const getDocumentComponent = async (
   documentPath: string

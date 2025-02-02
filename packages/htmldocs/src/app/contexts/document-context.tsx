@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { JSONSchema7 } from 'json-schema';
+import logger from '~/lib/logger';
 
 interface DocumentContextValue {
   documentSchema: JSONSchema7;
@@ -32,7 +33,7 @@ export const DocumentContextProvider: React.FC<DocumentContextProviderProps> = (
 }) => {
   const [documentContext, setDocumentContext] = useState<Record<string, any>>({ document: initialDocumentPreviewProps || {} });
 
-  console.debug("Initial document context:", documentContext);
+  logger.debug("Initial document context:", documentContext);
 
   const updateDocumentContext = (path: string, newValue: any) => {
     const pathParts = path.split('.');
