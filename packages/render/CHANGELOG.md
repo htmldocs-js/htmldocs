@@ -1,5 +1,11 @@
 # @htmldocs/render
 
+## 0.2.18
+
+### Patch Changes
+
+- 60f8e6b: improve logging, dev experience
+
 ## 0.2.17
 
 ### Patch Changes
