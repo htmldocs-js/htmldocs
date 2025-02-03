@@ -1,5 +1,14 @@
 # @htmldocs/examples
 
+## 0.0.32
+
+### Patch Changes
+
+- Updated dependencies [fa33e6f]
+  - htmldocs@0.2.19
+  - @htmldocs/react@0.2.19
+  - @htmldocs/render@0.2.19
+
 ## 0.0.31
 
 ### Patch Changes
