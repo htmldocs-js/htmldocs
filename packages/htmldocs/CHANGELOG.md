@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.19
+
+### Patch Changes
+
+- fa33e6f: Add CTA
+  - @htmldocs/render@0.2.19
+
 ## 0.2.18
 
 ### Patch Changes
