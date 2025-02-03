@@ -114,6 +114,19 @@ const ContextEditorModal: React.FC<ContextEditorModalProps> = ({
           <DialogTitle>Fill Document</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col flex-1 min-h-0 h-full">
+          <div className="flex items-center justify-end bg-muted/50 -mx-6">
+            <div className="px-6 py-2 text-sm text-muted-foreground">
+              Want to generate documents via API?
+              <a 
+                href="https://htmldocs.com/signup" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:underline ml-1"
+              >
+                Sign up for an account
+              </a>
+            </div>
+          </div>
           <div className="h-px bg-secondary w-full" />
           <div className="py-4 overflow-y-auto flex-1 min-h-0 h-full pr-4 w-[calc(100%+1rem)]">
             {documentSchema ? <ContextEditor /> : <p>Loading schema...</p>}
