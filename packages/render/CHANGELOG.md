@@ -1,5 +1,7 @@
 # @htmldocs/render
 
+## 0.2.19
+
 ## 0.2.18
 
 ### Patch Changes
