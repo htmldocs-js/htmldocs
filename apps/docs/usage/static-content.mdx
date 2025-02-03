@@ -4,8 +4,12 @@ description: "Learn how to use static content and custom fonts in your document 
 icon: "image"
 ---
 
+<Note>
+All static files must be placed in the `/documents/static` directory of your project. This is the required location for serving static assets in your document templates.
+</Note>
+
 ## Client-Side Usage
-Inside HTML/React components, static files are served directly from the `/static` directory. Access them using the absolute path:
+Inside HTML/React components, static files are served directly from the `/documents/static` directory. Access them using the absolute path:
 
 ```tsx
 // Access static content on the client-side
@@ -35,22 +39,24 @@ const content = fs.readFileSync(
 Place your font files anywhere in the `/static` directory and load them using `@font-face`:
 
 ```tsx
-import { Document } from "@htmldocs/react"
+import { Document, Head } from "@htmldocs/react"
 
 function MyDocument() {
   return (
     <Document>
-      <style>
-        {`
-          @font-face {
-            font-family: 'CustomFont';
-            src: url('/static/fonts/CustomFont.woff2') format('woff2'),
-                 url('/static/fonts/CustomFont.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-          }
-        `}
-      </style>
+      <Head>
+        <style>
+          {`
+            @font-face {
+              font-family: 'CustomFont';
+              src: url('/static/fonts/CustomFont.woff2') format('woff2'),
+                  url('/static/fonts/CustomFont.woff') format('woff');
+              font-weight: normal;
+              font-style: normal;
+            }
+          `}
+        </style>
+      </Head>
       <div style={{ fontFamily: 'CustomFont' }}>
         Text using custom font
       </div>

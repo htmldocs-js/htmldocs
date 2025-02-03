@@ -71,7 +71,8 @@ curl -X POST https://api.htmldocs.com/api/documents/{documentId} \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "variables": {
+    "format": "json",
+    "props": {
       "customerName": "Acme Corp",
       "items": [
         {
