@@ -121,6 +121,7 @@ export const renderAsync = async (
       <!DOCTYPE html>
       <html>
         <head>
+          <base target="_blank">
           ${documentCss ? `<style>${documentCss}</style>` : ""}
           <style>${cssText}</style>
           ${extractedHeadContents}
