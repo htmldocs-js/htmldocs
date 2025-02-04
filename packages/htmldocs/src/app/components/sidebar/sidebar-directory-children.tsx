@@ -77,7 +77,6 @@ export const SidebarDirectoryChildren = (props: {
 
                     return (
                       <Link
-                        prefetch
                         href={{
                           pathname: `/preview/${documentSlug}`,
                           search: searchParams.toString(),
