@@ -9,7 +9,7 @@
         ]
       }
     },
-    "include": ["src/**/*", "documents/**/*", "index.ts"],
+    "include": ["**/*"],
     "exclude": ["node_modules", "dist"]
   }
   

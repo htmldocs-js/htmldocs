@@ -23,16 +23,25 @@ export const setupHotreloading = async (
     });
   });
 
+  const projectRoot = process.cwd();
   const absolutePathToDocumentsDirectory = path.resolve(
-    process.cwd(),
+    projectRoot,
     emailDirRelativePath,
   );
 
-  logger.info(`Watching ${absolutePathToDocumentsDirectory}`);
+  logger.info(`Watching project root at ${projectRoot}`);
 
-  const watcher = watch('', {
+  const watcher = watch('**/*', {
     ignoreInitial: true,
-    cwd: absolutePathToDocumentsDirectory,
+    cwd: projectRoot,
+    ignored: [
+      '**/node_modules/**',
+      '**/.git/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/.next/**',
+      '**/coverage/**',
+    ],
   });
 
   const exit = () => {
@@ -96,25 +105,34 @@ export const setupHotreloading = async (
 
     logger.debug(`Detected ${event} in ${relativePathToChangeTarget}`);
 
-    const pathToChangeTarget = path.resolve(
-      absolutePathToDocumentsDirectory,
-      relativePathToChangeTarget,
-    );
-    await updateDependencyGraph(event, pathToChangeTarget);
+    // Convert the path to be relative to the documents directory if it's within it
+    const absolutePathToChangeTarget = path.resolve(projectRoot, relativePathToChangeTarget);
+    const isInDocumentsDirectory = absolutePathToChangeTarget.startsWith(absolutePathToDocumentsDirectory);
+    
+    if (isInDocumentsDirectory) {
+      const pathRelativeToDocuments = path.relative(absolutePathToDocumentsDirectory, absolutePathToChangeTarget);
+      
+      await updateDependencyGraph(event, absolutePathToChangeTarget);
 
-    changes.push({
-      event,
-      filename: relativePathToChangeTarget,
-    });
-
-    // These dependents are dependents resolved recursively, so even dependents of dependents
-    // will be notified of this change so that we ensure that things are updated in the preview.
-    for (const dependentPath of resolveDependentsOf(pathToChangeTarget)) {
       changes.push({
-        event: 'change' as const,
-        filename: path.relative(absolutePathToDocumentsDirectory, dependentPath),
+        event,
+        filename: pathRelativeToDocuments,
+      });
+
+      for (const dependentPath of resolveDependentsOf(absolutePathToChangeTarget)) {
+        changes.push({
+          event: 'change' as const,
+          filename: path.relative(absolutePathToDocumentsDirectory, dependentPath),
+        });
+      }
+    } else {
+      // For files outside documents directory, just notify of the change relative to project root
+      changes.push({
+        event,
+        filename: relativePathToChangeTarget,
       });
     }
+    
     reload();
   });
 
