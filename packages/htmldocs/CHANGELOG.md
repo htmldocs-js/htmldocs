@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.21
+
+### Patch Changes
+
+- b0c33de: expand hot refresh to cwd
+  - @htmldocs/render@0.2.21
+
 ## 0.2.20
 
 ### Patch Changes
