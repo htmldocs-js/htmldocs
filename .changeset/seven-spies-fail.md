@@ -1,5 +1,0 @@
----
-"htmldocs": patch
----
-
-add loader

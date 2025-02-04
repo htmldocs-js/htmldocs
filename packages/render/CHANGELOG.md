@@ -1,5 +1,11 @@
 # @htmldocs/render
 
+## 0.2.20
+
+### Patch Changes
+
+- 91e3544: open links in new tab
+
 ## 0.2.19
 
 ## 0.2.18
