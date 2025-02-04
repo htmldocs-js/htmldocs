@@ -1,6 +1,6 @@
 {
   "name": "htmldocs",
-  "version": "0.2.20",
+  "version": "0.2.21",
   "bin": {
     "htmldocs": "./dist/cli/index.mjs"
   },
