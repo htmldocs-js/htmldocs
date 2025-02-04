@@ -1,5 +1,13 @@
 # htmldocs
 
+## 0.2.20
+
+### Patch Changes
+
+- d5f8135: add loader
+- Updated dependencies [91e3544]
+  - @htmldocs/render@0.2.20
+
 ## 0.2.19
 
 ### Patch Changes
