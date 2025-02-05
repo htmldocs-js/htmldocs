@@ -13,6 +13,7 @@ import { DocumentSize } from "~/lib/types";
 import { DocumentContextProvider } from '~/contexts/document-context';
 import { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 import chalk from 'chalk';
+import { MagnifyingGlassPlus, MagnifyingGlassMinus, ArrowClockwise } from '@phosphor-icons/react';
 
 interface PreviewProps {
   slug: string;
@@ -53,6 +54,8 @@ const Preview = ({
   }>({
     iframe1: renderedDocumentMetadata?.markup,
   });
+
+  const [zoomLevel, setZoomLevel] = React.useState(1);
 
   // Utility function to generate a simple hash from the markup
   const generateHash = (str: string) => {
@@ -191,6 +194,46 @@ const Preview = ({
 
   const previewProps = 'previewProps' in renderingResult ? renderingResult.previewProps : {};
 
+  const handleZoom = (newZoom: number) => {
+    setZoomLevel(newZoom);
+    const iframe = document.querySelector(`iframe[title="${slug}-${activeIframeId}"]`);
+    if (iframe) {
+      (iframe as HTMLIFrameElement).contentWindow?.postMessage({
+        type: 'zoom',
+        level: newZoom
+      }, '*');
+    }
+  };
+
+  const ZoomControls = () => (
+    <div className="absolute top-4 right-6 z-30 flex gap-1 bg-background/80 backdrop-blur-sm p-1.5 rounded-lg shadow-md border border-border">
+      <button
+        onClick={() => handleZoom(Math.max(0.75, zoomLevel - 0.25))}
+        className="p-1.5 hover:bg-muted rounded-md transition-colors"
+        title="Zoom Out"
+      >
+        <MagnifyingGlassMinus className="text-foreground" size={16} />
+      </button>
+      <span className="flex items-center min-w-[3.5rem] justify-center text-sm text-foreground">
+        {Math.round(zoomLevel * 100)}%
+      </span>
+      <button
+        onClick={() => handleZoom(Math.min(4, zoomLevel + 0.25))}
+        className="p-1.5 hover:bg-muted rounded-md transition-colors"
+        title="Zoom In"
+      >
+        <MagnifyingGlassPlus className="text-foreground" size={16} />
+      </button>
+      <button
+        onClick={() => handleZoom(1)}
+        className="p-1.5 hover:bg-muted rounded-md transition-colors"
+        title="Reset Zoom"
+      >
+        <ArrowClockwise className="text-foreground" size={16} />
+      </button>
+    </div>
+  );
+
   return (
     <DocumentContextProvider
       initialDocumentPreviewProps={previewProps}
@@ -217,6 +260,7 @@ const Preview = ({
                 {Object.keys(iframes).map((id) =>
                   renderIframe(id, id === activeIframeId)
                 )}
+                <ZoomControls />
               </div>
             ) : null}
             <Toaster />
