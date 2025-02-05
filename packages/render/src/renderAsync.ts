@@ -169,6 +169,31 @@ export const renderAsync = async (
             // Handle window resize
             window.addEventListener("resize", scaleToFit);
             
+            // Handle zoom messages from parent
+            window.addEventListener("message", (event) => {
+              if (event.data.type === "zoom") {
+                const htmlElement = document.querySelector("html");
+                if (htmlElement) {
+                  htmlElement.style.zoom = event.data.level;
+                  // Store zoom level in localStorage
+                  localStorage.setItem("zoomLevel", event.data.level);
+                }
+              }
+            });
+
+            // Apply stored zoom level on load
+            try {
+              const storedZoom = localStorage.getItem("zoomLevel");
+              if (storedZoom) {
+                const htmlElement = document.querySelector("html");
+                if (htmlElement) {
+                  htmlElement.style.zoom = storedZoom;
+                }
+              }
+            } catch (err) {
+              console.error("Error applying stored zoom:", err);
+            }
+            
             // Register Paged.js handler when API is available
             if (typeof Paged !== "undefined") {
               class MyHandler extends Paged.Handler {
