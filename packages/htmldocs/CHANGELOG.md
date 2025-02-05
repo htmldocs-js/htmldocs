@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.22
+
+### Patch Changes
+
+- 7a5492d: fix dependent hot reloading
+  - @htmldocs/render@0.2.22
+
 ## 0.2.21
 
 ### Patch Changes
