@@ -1,5 +1,11 @@
 # @htmldocs/render
 
+## 0.2.23
+
+### Patch Changes
+
+- 7043ac8: add zoom controls
+
 ## 0.2.22
 
 ## 0.2.21
