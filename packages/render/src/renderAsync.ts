@@ -117,6 +117,17 @@ export const renderAsync = async (
     }
   }
 
+  // Add onerror attribute to all <link rel="stylesheet"> tags.
+  // This ensures that if a stylesheet link fails (due to an invalid URL or CORS issues),
+  // it gets removed, so that the iframe content can still load.
+  extractedHeadContents = extractedHeadContents.replace(
+    /<link([^>]*rel=["']stylesheet["'][^>]*)>/gi,
+    (match, p1) => {
+      if (match.includes('onerror=')) return match;
+      return `<link${p1} onerror="console.error('Failed to load stylesheet:', this.href); this.onerror=null;this.remove();">`;
+    }
+  );
+
   const document = dedent(`
       <!DOCTYPE html>
       <html>
@@ -147,11 +158,6 @@ export const renderAsync = async (
                   scaleFactor,
                   timestamp: new Date().toISOString()
                 });
-
-                // const htmlElement = document.querySelector("html");
-                // if (htmlElement) {
-                //   htmlElement.style.transform = "scale(" + scaleFactor + ") translateX(" + horizontalPadding + "px)";
-                // }
               } catch (err) {
                 console.error("Error in scaleToFit:", err);
               }
