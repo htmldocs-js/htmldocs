@@ -1,5 +1,13 @@
 # htmldocs
 
+## 0.2.23
+
+### Patch Changes
+
+- 7043ac8: add zoom controls
+- Updated dependencies [7043ac8]
+  - @htmldocs/render@0.2.23
+
 ## 0.2.22
 
 ### Patch Changes
