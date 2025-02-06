@@ -18,6 +18,13 @@ const noop = () => {};
 // Silence Node.js deprecation warnings
 process.removeAllListeners('warning');
 
+// Monkey patch logger.error to exit with code 1
+const originalError = logger.error;
+logger.error = (...args: any[]) => {
+  originalError.apply(logger, args);
+  process.exit(1);
+};
+
 // these environment variables are used on the next app
 // this is the most reliable way of communicating these paths through
 process.env = {
