@@ -263,7 +263,7 @@ const Preview = ({
                 <ZoomControls />
               </div>
             ) : null}
-            <Toaster />
+            <Toaster richColors />
           </div>
       </Shell>
     </DocumentContextProvider>

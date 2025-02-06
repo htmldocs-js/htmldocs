@@ -4,6 +4,7 @@ import { Sidebar } from "@phosphor-icons/react";
 import { Button } from "./ui/button";
 import { useDocuments } from "~/contexts/documents";
 import ContextEditorModal from "./context-editor-modal";
+import { toast } from "sonner";
 
 interface TopbarProps {
   documentPath: string;
@@ -30,22 +31,23 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
 
   const renderAndDownloadPDF = async () => {
     if (!markup) {
-      console.error("No markup available to generate PDF");
+      toast.error("No markup available to generate PDF");
       return;
     }
 
     setIsDownloading(true);
     
-    const pdfBuffer = await renderDocumentToPDF({ 
-      url: window.location.href,
-      html: markup,
-      pageConfig: pageConfigs[documentPath]
-    });
-    
-    if (pdfBuffer instanceof Error) {
-      console.error("Error downloading document:", pdfBuffer.message);
-      setIsDownloading(false);
-    } else {
+    try {
+      const pdfBuffer = await renderDocumentToPDF({ 
+        url: window.location.href,
+        html: markup,
+        pageConfig: pageConfigs[documentPath]
+      });
+      
+      if (pdfBuffer instanceof Error) {
+        throw pdfBuffer;
+      }
+
       // Ensure the buffer is in the correct type
       const buffer = new Uint8Array(pdfBuffer);
       const blob = new Blob([buffer], { type: "application/pdf" });
@@ -57,6 +59,11 @@ export const Topbar: React.FC<Readonly<TopbarProps>> = ({
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(downloadUrl);
+      toast.success("PDF downloaded successfully");
+    } catch (error) {
+      console.error("Error downloading document:", error);
+      toast.error("Failed to generate PDF. Check the CLI logs for more details.");
+    } finally {
       setIsDownloading(false);
     }
   };

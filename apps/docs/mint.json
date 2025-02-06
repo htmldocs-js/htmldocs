@@ -50,6 +50,7 @@
       "group": "Overview",
       "pages": [
         "introduction",
+        "comparison",
         "getting-started",
         "cli"
       ]
