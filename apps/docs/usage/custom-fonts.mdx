@@ -1,16 +1,11 @@
 ---
 title: "Custom Fonts"
-description: "Learn how to use custom fonts in your document templates, including Google Fonts and local fonts"
 icon: "font"
 ---
 
-# Custom Fonts
-
-You can enhance your document templates with custom fonts, either from Google Fonts or by using local font files. This guide covers both approaches.
-
 ## Using Google Fonts
 
-To use Google Fonts in your documents, import them in your document's `<Head>` component:
+To use [Google Fonts](https://fonts.google.com/) in your documents, import them in your document's `<Head>` component:
 
 ```tsx
 import { Document, Head } from "@htmldocs/react"
@@ -67,62 +62,3 @@ function MyDocument() {
   )
 }
 ```
-
-## Best Practices
-
-1. **Font Loading Performance**
-   - For Google Fonts, use the `&display=swap` parameter to prevent font rendering blocking
-   - For local fonts, use `font-display: swap` in your `@font-face` declaration
-   - Include only the font weights you need to minimize loading time
-
-2. **File Formats**
-   - For maximum browser compatibility, provide both WOFF2 and WOFF formats
-   - WOFF2 offers better compression and should be listed first in the `src` property
-
-3. **Font Fallbacks**
-   - Always include fallback fonts in your `fontFamily` style
-   - Example: `fontFamily: 'CustomFont, system-ui, sans-serif'`
-
-## Example with Multiple Font Weights
-
-Here's an example using a custom font with multiple weights:
-
-```tsx
-import { Document, Head } from "@htmldocs/react"
-
-function MyDocument() {
-  return (
-    <Document>
-      <Head>
-        <style>
-          {`
-            @font-face {
-              font-family: 'CustomFont';
-              src: url('/static/fonts/CustomFont-Regular.woff2') format('woff2');
-              font-weight: 400;
-              font-style: normal;
-              font-display: swap;
-            }
-            
-            @font-face {
-              font-family: 'CustomFont';
-              src: url('/static/fonts/CustomFont-Bold.woff2') format('woff2');
-              font-weight: 700;
-              font-style: normal;
-              font-display: swap;
-            }
-          `}
-        </style>
-      </Head>
-      <div>
-        <p style={{ fontFamily: 'CustomFont', fontWeight: 400 }}>
-          Regular text using custom font
-        </p>
-        <p style={{ fontFamily: 'CustomFont', fontWeight: 700 }}>
-          Bold text using custom font
-        </p>
-      </div>
-    </Document>
-  )
-}
-``` 
