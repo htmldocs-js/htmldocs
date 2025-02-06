@@ -59,6 +59,8 @@
       "pages": [
         "usage/static-content",
         "usage/template-variables",
+        "usage/custom-fonts",
+        "usage/tailwind",
         "usage/publishing-to-the-cloud"
       ]
     },

@@ -1,0 +1,59 @@
+---
+title: 'Using Tailwind CSS'
+description: 'Learn how to use Tailwind CSS in your htmldocs documents'
+icon: 'wind'
+---
+
+htmldocs comes with Tailwind CSS v3.4.3 bundled by default. The `@tailwindcss/typography` plugin (v0.5.9) is included by default. The default examples use Tailwind classes.
+
+## Customizing Tailwind
+
+Your project includes a `tailwind.config.js` file that you can customize. The default configuration is optimized for document generation:
+
+```js
+module.exports = {
+  content: ["./documents/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      fontFamily: {
+        serif: ['Palatino', 'Palatino Linotype', 'serif'],
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            fontSize: '12pt',
+            lineHeight: 1.5,
+            color: '#000000',
+          }
+        }
+      }
+    }
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
+};
+```
+
+## Usage
+
+Use Tailwind classes in your document templates.
+
+```tsx
+import { Document, Page } from 'htmldocs';
+
+export default function Resume() {
+  return (
+    <Document>
+      <Page className="bg-white p-8">
+        <div className="prose">
+          <h1>John Doe</h1>
+          <p>Professional software engineer</p>
+        </div>
+      </Page>
+    </Document>
+  );
+}
+```
+
+The `prose` class from `@tailwindcss/typography` is recommended for content-heavy sections. 
