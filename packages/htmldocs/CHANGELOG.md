@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.24
+
+### Patch Changes
+
+- 9e2b062: hot reload context vars
+  - @htmldocs/render@0.2.24
+
 ## 0.2.23
 
 ### Patch Changes
