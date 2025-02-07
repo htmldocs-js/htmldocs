@@ -13,6 +13,8 @@ import { getDocumentPathFromSlug } from "~/actions/get-document-path-from-slug";
 import { renderDocumentToPDF, RenderDocumentToPDFProps } from "~/actions/render-document-to-pdf";
 import { PageConfig } from "~/lib/types";
 import logger from "~/lib/logger";
+import { JSONSchema7Definition } from "json-schema";
+import { getDocumentSchema } from "~/actions/get-document-schema";
 
 const DocumentsContext = createContext<
   | {
@@ -27,6 +29,7 @@ const DocumentsContext = createContext<
       renderDocumentToPDF: ({ url, ...props }: RenderDocumentToPDFProps) => Promise<Buffer | Error>;
       pageConfigs: Record<string, PageConfig>;
       setPageConfig: (documentPath: string, config: PageConfig) => void;
+      documentSchemas: Record<string, JSONSchema7Definition>;
     }
   | undefined
 >(undefined);
@@ -54,12 +57,27 @@ export const DocumentsProvider = (props: {
     useState<Record<string, DocumentRenderingResult>>({});
 
   const [pageConfigs, setPageConfigs] = useState<Record<string, PageConfig>>({});
+  const [documentSchemas, setDocumentSchemas] = useState<Record<string, JSONSchema7Definition>>({});
 
   const setPageConfig = (documentPath: string, config: PageConfig) => {
     setPageConfigs(prev => ({
       ...prev,
       [documentPath]: config
     }));
+  };
+
+  const loadSchema = async (documentPath: string) => {
+    try {
+      const schema = await getDocumentSchema(documentPath);
+      if (schema) {
+        setDocumentSchemas(prev => ({
+          ...prev,
+          [documentPath]: schema
+        }));
+      }
+    } catch (error) {
+      logger.warn('Failed to load schema:', error);
+    }
   };
 
   if (process.env.NEXT_PUBLIC_IS_BUILDING !== "true") {
@@ -112,6 +130,9 @@ export const DocumentsProvider = (props: {
             ...map,
             [pathForChangedDocument]: renderingResult,
           }));
+
+          // Load or reload schema for the changed document
+          await loadSchema(pathForChangedDocument);
         }
       }
     });
@@ -149,6 +170,7 @@ export const DocumentsProvider = (props: {
         renderDocumentToPDF,
         pageConfigs,
         setPageConfig,
+        documentSchemas,
       }}
     >
       {props.children}

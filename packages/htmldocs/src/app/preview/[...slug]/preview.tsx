@@ -28,19 +28,21 @@ const Preview = ({
   documentPath,
   pathSeparator,
   renderingResult: initialRenderingResult,
-  schema,
+  schema: initialSchema,
 }: PreviewProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const activeView = searchParams.get('view') ?? 'desktop';
-  const { useDocumentRenderingResult, setPageConfig } = useDocuments();
+  const { useDocumentRenderingResult, setPageConfig, documentSchemas } = useDocuments();
 
   const renderingResult = useDocumentRenderingResult(
     documentPath,
     initialRenderingResult,
   );
+
+  const schema = documentSchemas[documentPath] || initialSchema;
 
   const renderedDocumentMetadata = useRenderingMetadata(
     documentPath,
