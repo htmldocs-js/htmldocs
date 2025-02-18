@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.26
+
+### Patch Changes
+
+- 2fc14f7: fix build
+  - @htmldocs/render@0.2.26
+
 ## 0.2.25
 
 ### Patch Changes
