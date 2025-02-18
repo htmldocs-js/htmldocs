@@ -9,8 +9,8 @@ import { Logo } from '../logo';
 import ThemeToggle from '../theme-toggle';
 import { Button } from '../ui/button';
 import { X } from '@phosphor-icons/react';
+import { VERSION } from '~/lib/version';
 
-const VERSION = '0.1.24';
 const VERSION_CHECK_INTERVAL = 1000 * 60 * 60 * 24; // Check once per day
 
 const compareVersions = (v1: string, v2: string): number => {
