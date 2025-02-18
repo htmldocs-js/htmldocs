@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.25
+
+### Patch Changes
+
+- c737b5f: add new version popup
+  - @htmldocs/render@0.2.25
+
 ## 0.2.24
 
 ### Patch Changes
