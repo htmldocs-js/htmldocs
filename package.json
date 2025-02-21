@@ -16,6 +16,9 @@
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.9.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "engines": {
     "node": ">=18"
   },
