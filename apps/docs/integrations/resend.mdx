@@ -1,0 +1,178 @@
+---
+title: "Resend"
+description: "Learn how to generate and send invoice PDFs as email attachments using Resend"
+icon: "envelope"
+---
+
+## Overview
+
+Learn to generate a simple invoice and send it as an email attachment using [Resend](https://resend.com).
+
+## Prerequisites
+
+1. [Publish the invoice template](/usage/publishing-to-the-cloud) to the htmldocs.
+
+2. Install the required dependencies:
+
+<CodeGroup>
+```bash npm
+npm install resend
+```
+
+```bash pnpm
+pnpm install resend
+```
+
+```bash yarn
+yarn install resend
+```
+
+```bash bun
+bun install resend
+```
+</CodeGroup>
+
+3. Set up your Resend API key in your environment:
+
+```bash
+RESEND_API_KEY=your_resend_api_key
+```
+
+## Implementation
+
+```typescript
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+interface BilledTo {
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+}
+
+interface YourCompany {
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  taxId: string;
+  phone: string;
+  email: string;
+}
+
+interface Service {
+  name: string;
+  description?: string;
+  quantity: number;
+  rate: number;
+}
+
+async function sendInvoiceEmail() {
+  try {
+    // 1. Generate the invoice using htmldocs API
+    const response = await fetch('https://api.htmldocs.com/api/documents/invoice', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.HTMLDOCS_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        format: 'pdf',
+        props: {
+          billedTo: {
+            name: "Acme Corp",
+            address: "123 Business Ave",
+            city: "San Francisco",
+            state: "CA",
+            zip: "94107",
+            phone: "555-0123"
+          },
+          yourCompany: {
+            name: "Your Company",
+            address: "456 Banana Rd.",
+            city: "San Francisco",
+            state: "CA",
+            zip: "94107",
+            taxId: "00XXXXX1234X0XX",
+            phone: "123-456-7890",
+            email: "hello@email.com"
+          },
+          services: [
+            {
+              name: "Premium License",
+              description: "Annual subscription",
+              quantity: 1,
+              rate: 999.00
+            }
+          ]
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(
+        `Failed to generate invoice: ${response.status} ${response.statusText}${
+          errorData ? ` - ${JSON.stringify(errorData)}` : ''
+        }`
+      );
+    }
+
+    const documentBuffer = await response.arrayBuffer();
+
+    // 2. Send email with the generated invoice
+    const data = await resend.emails.send({
+      from: 'you@yourdomain.com',
+      to: 'recipient@example.com',
+      subject: 'Invoice for Your Recent Services',
+      attachments: [
+        {
+          content: Buffer.from(documentBuffer),
+          filename: 'invoice.pdf',
+        },
+      ],
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #1a1a1a;">Your Invoice</h2>
+          
+          <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5;">
+            Thank you for your business. Please find your invoice attached to this email.
+          </p>
+          
+          <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5;">
+            Payment is due within 15 days from the invoice date. For your convenience, 
+            payment instructions are included in the invoice.
+          </p>
+          
+          <p style="color: #4a4a4a; font-size: 16px; line-height: 1.5;">
+            If you have any questions about this invoice, please contact our billing department 
+            using the contact information provided in the invoice.
+          </p>
+          
+          <hr style="border: none; border-top: 1px solid #e1e1e1; margin: 30px 0;" />
+          
+          <p style="color: #898989; font-size: 14px;">
+            This is an automated message. Please do not reply to this email.
+          </p>
+        </div>
+      `,
+    });
+
+    console.log('Email sent successfully:', data);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('Error:', error.message);
+    } else {
+      console.error('Unknown error:', error);
+    }
+    throw error; // Re-throw to handle it in the calling code
+  }
+}
+```
+
+For more information about document generation, see our [API Reference](/api-reference/generate-document). 

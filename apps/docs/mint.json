@@ -66,6 +66,12 @@
       ]
     },
     {
+      "group": "Integrations",
+      "pages": [
+        "integrations/resend"
+      ]
+    },
+    {
       "group": "Components",
       "pages": [
         "components/document",
