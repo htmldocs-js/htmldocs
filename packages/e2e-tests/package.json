@@ -1,7 +1,7 @@
 {
   "name": "e2e-tests",
   "version": "1.0.0",
-  "description": "End-to-end tests for HTML Docs",
+  "description": "End-to-end tests for htmldocs",
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test --ui",
