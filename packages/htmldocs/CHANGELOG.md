@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.27
+
+### Patch Changes
+
+- d232426: update README
+  - @htmldocs/render@0.2.27
+
 ## 0.2.26
 
 ### Patch Changes
