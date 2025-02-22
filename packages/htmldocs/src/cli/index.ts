@@ -68,6 +68,7 @@ program
 program
   .command('login')
   .description('Authenticates the CLI with the cloud')
+  .option('--headless', 'Print the authorization URL instead of opening it')
   .action(login);
 
 program
