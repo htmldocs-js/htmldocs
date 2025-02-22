@@ -1,5 +1,6 @@
 {
   "name": "htmldocs",
+  "keywords": ["pdf", "document", "generator", "react", "typescript", "tailwind", "jsx", "template", "invoice", "resume", "report", "contract"],
   "version": "0.2.27",
   "bin": {
     "htmldocs": "./dist/cli/index.mjs"
