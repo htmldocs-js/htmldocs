@@ -77,6 +77,22 @@ htmldocs is built upon Chromium's rendering engine, which means it can render an
 
 htmldocs also uses the [Paged.js library](https://pagedjs.org/) under the hood. Paged.js is used for layout and chunking, as well as more modern features like margin boxes that aren't fully supported by the W3C's CSS standard.
 
+## 📊 Comparison
+
+| Feature | Traditional Documents<br/>(Word, Google Docs) | LaTeX Documents<br/>(Overleaf, TeXStudio) | Freeform Documents<br/>(Figma, Sketch) | Web Documents<br/>(htmldocs) |
+|---------|:-------------------------------------------:|:----------------------------------------:|:-------------------------------------:|:---------------------------:|
+| Content Structure | Semi-Structured | Structured | Freeform | Structured |
+| Learning Curve | ✅ Simple | ❌ Complex | ✅ Simple | ✅ Simple |
+| Template Variables | ❌ Limited | ❌ Limited | ❌ Limited | ✅ Supported |
+| Styling | ✅ Basic | ❌ Complex | ✅ Advanced | ✅ Advanced |
+| Version Control | ❌ Limited | ✅ Supported | ❌ Limited | ✅ Supported |
+| External Libraries | ❌ Limited | ✅ Supported | ❌ Limited | ✅ Supported |
+| Automation / API | ❌ Limited | ❌ Limited | ❌ Limited | ✅ Supported |
+| Live Preview | ✅ Supported | ❌ Limited | ✅ Supported | ✅ Supported |
+| CI/CD Integration | ❌ Limited | ⚠️ Partial | ❌ Limited | ✅ Supported |
+| Type Safety | ❌ Limited | ❌ Limited | ❌ Limited | ✅ Supported |
+| AI | ❌ Limited | ❌ Limited | ❌ Limited | ✅ Supported |
+
 ## 🛠️ Tech Stack
 
 | <img src="https://github.com/user-attachments/assets/df03494d-44a1-4a74-9ae6-1ee9870c2ce2" width="48px" height="48px" alt="Next.js"> | <img src="https://www.typescriptlang.org/favicon-32x32.png" width="48px" height="48px" alt="TypeScript"> | <img src="https://user-images.githubusercontent.com/4060187/196936123-f6e1db90-784d-4174-b774-92502b718836.png" width="48px" height="48px" alt="Turborepo"> | <img src="https://pnpm.io/img/favicon.png" width="48px" height="48px" alt="pnpm"> |
