@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.28
+
+### Patch Changes
+
+- abdcd3a: add npm keywords
+  - @htmldocs/render@0.2.28
+
 ## 0.2.27
 
 ### Patch Changes
