@@ -1,5 +1,14 @@
 # htmldocs-starter
 
+## 0.2.29
+
+### Patch Changes
+
+- Updated dependencies [ddd6fbc]
+  - htmldocs@0.2.29
+  - @htmldocs/react@0.2.29
+  - @htmldocs/render@0.2.29
+
 ## 0.2.28
 
 ### Patch Changes
