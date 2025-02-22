@@ -12,9 +12,27 @@
     "invoice",
     "resume",
     "report",
-    "contract"
+    "contract",
+    "pdf-generator",
+    "pdf-template",
+    "pdf-document",
+    "pdf-editor",
+    "pdf-creator",
+    "latex",
+    "pagedjs",
+    "react-pdf",
+    "typst",
+    "invoice-generator",
+    "resume-generator",
+    "report-generator",
+    "contract-generator"
   ],
   "version": "0.2.28",
+  "homepage": "https://htmldocs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/htmldocs-js/htmldocs"
+  },
   "bin": {
     "htmldocs": "./dist/cli/index.mjs"
   },
