@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.29
+
+### Patch Changes
+
+- ddd6fbc: Add more metadata
+  - @htmldocs/render@0.2.29
+
 ## 0.2.28
 
 ### Patch Changes
