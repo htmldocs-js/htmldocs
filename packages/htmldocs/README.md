@@ -11,7 +11,7 @@
 
 PDF document creation is stuck in the past, from clunky Word docs to complex LaTeX to outdated tools. htmldocs brings document generation into 2025 with a modern developer experience using the tools you already love: **React**, **TypeScript**, and **Tailwind**.
 
-## 🚀 What is htmldocs?
+## What is htmldocs?
 
 htmldocs is a local document editor and preview server to help you _create_ PDFs with React. It provides all the structural benefits of LaTeX with the familiarity of HTML and CSS. With htmldocs, you can use JSX to build document templates (invoices, reports, contracts, etc.) and generate PDFs just by passing data as props. htmldocs has:
 
@@ -22,7 +22,7 @@ htmldocs is a local document editor and preview server to help you _create_ PDFs
 - ⚡ Dynamic data integration through props and APIs
 - 📊 Real-time preview server with hot reloading
 
-## 💡 Example
+## Example
 
 To see the full power of htmldocs, here is how you might build a dynamic invoice document template with JSX template variables:
 
@@ -44,13 +44,13 @@ To change the customer details, all you need to do is render the `Invoice` compo
 />
 ```
 
-## 🎨 Editor
+## Screenshots
 
 ![Resume example](https://github.com/user-attachments/assets/24eabc4a-ec9e-43de-a2a0-00bcde55985a)
 
 ![Variables editor](https://github.com/user-attachments/assets/d16658ea-4d53-4dc2-8c74-696012c4ce9b)
 
-## 📥 Install
+## Install
 
 To create your first htmldocs project, run the following command:
 
@@ -60,7 +60,7 @@ npx htmldocs@latest init
 
 For further instructions or to integrate htmldocs into your existing project, refer to the [Getting Started](https://docs.htmldocs.com/getting-started) guide.
 
-## 🧩 Components
+## Components
 
 htmldocs comes with a standard set of components to help you layout and style your documents.
 
@@ -71,18 +71,34 @@ htmldocs comes with a standard set of components to help you layout and style yo
 - [MarginBox](https://docs.htmldocs.com/components/margin-box)
 - [Spacer](https://docs.htmldocs.com/components/spacer)
 
-## ⚙️ How it works
+## How it works
 
 htmldocs is built upon Chromium's rendering engine, which means it can render any HTML, CSS, and JavaScript. This is different from other tools like [wkhtmltopdf](https://wkhtmltopdf.org/), [WeasyPrint](https://weasyprint.org/), and [Prince](https://www.princexml.com/), which only support a subset of HTML and CSS.
 
 htmldocs also uses the [Paged.js library](https://pagedjs.org/) under the hood. Paged.js is used for layout and chunking, as well as more modern features like margin boxes that aren't fully supported by the W3C's CSS standard.
 
-## 🛠️ Tech Stack
+## Comparison
+
+| Feature | Traditional Documents<br/>(Word, Google Docs) | LaTeX Documents<br/>(Overleaf, TeXStudio) | Freeform Documents<br/>(Figma, Sketch) | Web Documents<br/>(htmldocs) |
+|---------|:-------------------------------------------:|:----------------------------------------:|:-------------------------------------:|:---------------------------:|
+| Content Structure | Semi-Structured | Structured | Freeform | Structured |
+| Learning Curve | ✅ Simple | ❌ Complex | ✅ Simple | ✅ Simple |
+| Template Variables | ❌ Limited | ❌ Limited | ❌ Limited | ✅ Supported |
+| Styling | ✅ Basic | ❌ Complex | ✅ Advanced | ✅ Advanced |
+| Version Control | ❌ Limited | ✅ Supported | ❌ Limited | ✅ Supported |
+| External Libraries | ❌ Limited | ✅ Supported | ❌ Limited | ✅ Supported |
+| Automation / API | ❌ Limited | ❌ Limited | ❌ Limited | ✅ Supported |
+| Live Preview | ✅ Supported | ❌ Limited | ✅ Supported | ✅ Supported |
+| CI/CD Integration | ❌ Limited | ⚠️ Partial | ❌ Limited | ✅ Supported |
+| Type Safety | ❌ Limited | ❌ Limited | ❌ Limited | ✅ Supported |
+| AI | ❌ Limited | ❌ Limited | ❌ Limited | ✅ Supported |
+
+## Tech Stack
 
 | <img src="https://github.com/user-attachments/assets/df03494d-44a1-4a74-9ae6-1ee9870c2ce2" width="48px" height="48px" alt="Next.js"> | <img src="https://www.typescriptlang.org/favicon-32x32.png" width="48px" height="48px" alt="TypeScript"> | <img src="https://user-images.githubusercontent.com/4060187/196936123-f6e1db90-784d-4174-b774-92502b718836.png" width="48px" height="48px" alt="Turborepo"> | <img src="https://pnpm.io/img/favicon.png" width="48px" height="48px" alt="pnpm"> |
 |--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
 | Next.js                                                                                                  | TypeScript                                                                                            | Turborepo                                                                                         | pnpm                                                                             |
 
-## 📄 License
+## License
 
 MIT License
