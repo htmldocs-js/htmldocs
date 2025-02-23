@@ -6,12 +6,6 @@ icon: "cloud-arrow-up"
 
 ## Prerequisites
 
-First, ensure you have the latest version of the htmldocs CLI installed:
-
-```bash
-npm i -g htmldocs@latest
-```
-
 This command installs or updates the CLI globally on your system.
 
 If you haven't already, run the following command to create a new htmldocs project:
@@ -20,14 +14,12 @@ If you haven't already, run the following command to create a new htmldocs proje
 npx htmldocs@latest init
 ```
 
-
-
 ## Authentication
 
 Before publishing, you'll need to authenticate with the htmldocs cloud platform:
 
 ```bash
-htmldocs login
+npx htmldocs@latest login
 ```
 
 This command will open a browser window where you can:
@@ -42,7 +34,7 @@ Once authenticated, you can publish your document templates using the `publish` 
 <Warning>Be sure to run this from the root of your project.</Warning>
 
 ```bash
-htmldocs publish ./documents/templates/Invoice.tsx
+npx htmldocs@latest publish ./documents/templates/Invoice.tsx
 ```
 
 
@@ -75,25 +67,47 @@ API keys are scoped to your team and provide access only to documents owned by t
 To generate a document, send a POST request to the generation endpoint with your document variables:
 
 ```bash
-curl -X POST https://api.htmldocs.com/api/documents/{documentId} \
+curl -X POST https://api.htmldocs.com/api/documents/invoice \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "format": "json",
     "props": {
-      "customerName": "Acme Corp",
-      "items": [
+      "billedTo": {
+        "name": "Josiah Zhang",
+        "address": "123 Elm Street",
+        "city": "Anytown",
+        "state": "CA",
+        "zip": "12345",
+        "phone": "123-456-7890"
+      },
+      "yourCompany": {
+        "name": "Your Company",
+        "address": "456 Banana Rd.",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94107",
+        "taxId": "00XXXXX1234X0XX",
+        "phone": "123-456-7890",
+        "email": "hello@email.com"
+      },
+      "services": [
         {
-          "name": "Premium License",
+          "name": "Design",
+          "description": "Website redesign and branding",
           "quantity": 1,
-          "price": 999.00
+          "rate": 1000
+        },
+        {
+          "name": "Consulting",
+          "description": "Technical architecture review",
+          "quantity": 2,
+          "rate": 1200
         }
       ]
     }
   }'
 ```
-
-Replace `{documentId}` with your template's document ID (e.g., "invoice").
 
 ## Managing Published Templates
 
