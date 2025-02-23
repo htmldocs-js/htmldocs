@@ -37,7 +37,7 @@ export const SidebarDirectoryChildren = (props: {
             initial={{ opacity: 0, height: 0 }}
           >
             {props.isRoot ? null : (
-              <div className="line absolute left-2.5 w-px h-full bg-slate-6" />
+              <div className="line absolute left-2.5 w-px h-full bg-border -z-20" />
             )}
 
             <div className="data-[root=true]:py-2 flex flex-col truncate">
@@ -107,7 +107,7 @@ export const SidebarDirectoryChildren = (props: {
                               initial={{ opacity: 0 }}
                             >
                               {!props.isRoot && (
-                                <div className="rounded-md bg-emerald-400/20 w-px absolute top-1 left-1.5 h-6" />
+                                <div className="rounded-md bg-emerald-400/80 w-px absolute top-1 left-1.5 h-6" />
                               )}
                             </motion.span>
                           ) : null}

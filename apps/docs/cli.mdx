@@ -6,19 +6,27 @@ description: "After installing the htmldocs package, you can start using the com
 icon: "square-terminal"
 ---
 
-## Installation
-
-To install the htmldocs CLI globally, run the following command:
-
-```bash
-npm i -g htmldocs@latest
-```
-
-After installation, you can use the `htmldocs` command from anywhere in your terminal.
-
-## `htmldocs init`
+## `init`
 
 Initializes a new htmldocs project in the current directory.
+
+<CodeGroup>
+```bash npm
+npx htmldocs@latest init
+```
+
+```bash pnpm
+pnpx htmldocs@latest init
+```
+
+```bash yarn
+yarn dlx htmldocs@latest init
+```
+
+```bash bun
+bunx htmldocs@latest init
+```
+</CodeGroup>
 
 {/* **Options**
 
@@ -26,13 +34,49 @@ Initializes a new htmldocs project in the current directory.
   Specify a template to use for the new project. Available templates: default, minimal, advanced.
 </ResponseField> */}
 
-## `htmldocs login`
+## `login`
 
 Authenticates the CLI with the cloud. This allows you to publish your documents to the cloud.
 
-## `htmldocs dev`
+<CodeGroup>
+```bash npm
+npx htmldocs@latest login
+```
+
+```bash pnpm
+pnpx htmldocs@latest login
+```
+
+```bash yarn
+yarn dlx htmldocs@latest login
+```
+
+```bash bun
+bunx htmldocs@latest login
+```
+</CodeGroup>
+
+## `dev`
 
 Starts a local development server that will watch your files and automatically rebuild your document template when you make changes. Login not required.
+
+<CodeGroup>
+```bash npm
+npx htmldocs@latest dev
+```
+
+```bash pnpm
+pnpx htmldocs@latest dev
+```
+
+```bash yarn
+yarn dlx htmldocs@latest dev
+```
+
+```bash bun
+bunx htmldocs@latest dev
+```
+</CodeGroup>
 
 **Options**
 
@@ -43,11 +87,29 @@ Starts a local development server that will watch your files and automatically r
   Port to run dev server on
 </ResponseField>
 
-## `htmldocs publish <file>`
+## `publish <file>`
 
-Publishes the document to the cloud for API use. Must be [authenticated](/cli#htmldocs-login).
+Publishes the document to the cloud for API use. Must be [authenticated](/cli#login).
 
 <Warning>Be sure to run this from the root of your project.</Warning>
+
+<CodeGroup>
+```bash npm
+npx htmldocs@latest publish <file>
+```
+
+```bash pnpm
+pnpx htmldocs@latest publish <file>
+```
+
+```bash yarn
+yarn dlx htmldocs@latest publish <file>
+```
+
+```bash bun
+bunx htmldocs@latest publish <file>
+```
+</CodeGroup>
 
 **Options**
 
@@ -55,9 +117,27 @@ Publishes the document to the cloud for API use. Must be [authenticated](/cli#ht
   The file path of the document to publish.
 </ResponseField>
 
-## `htmldocs --help`
+## `--help`
 
 Shows all available commands and options.
+
+<CodeGroup>
+```bash npm
+npx htmldocs@latest --help
+```
+
+```bash pnpm
+pnpx htmldocs@latest --help
+```
+
+```bash yarn
+yarn dlx htmldocs@latest --help
+```
+
+```bash bun
+bunx htmldocs@latest --help
+```
+</CodeGroup>
 
 **Options**
 
