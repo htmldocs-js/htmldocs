@@ -1,5 +1,12 @@
 # htmldocs
 
+## 0.2.30
+
+### Patch Changes
+
+- c6753c4: Update cli auth
+  - @htmldocs/render@0.2.30
+
 ## 0.2.29
 
 ### Patch Changes
