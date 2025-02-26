@@ -52,6 +52,8 @@ bun dev
 
 This will start a live preview of your documents in your browser.
 
+![Dev server preview](/images/dev-server.png)
+
 ## Manual Setup
 If you prefer to set up htmldocs manually, follow these steps:
 
@@ -88,20 +90,59 @@ bun add htmldocs @htmldocs/react @htmldocs/render
 
 3. Create document template
 
-Create a new folder called `documents` in your project. Then, create a new file called `index.tsx` in the `documents` folder and include the following code:
+Create a new folder called `documents` in your project. Then, create a new file called `Book.tsx` in the `documents` folder and include the following code:
 
 ```tsx
-import { Document, Page } from "@htmldocs/react";
+import { Document, Footer } from "@htmldocs/react"
+import MarkdownIt from 'markdown-it'
 
-export default function MyDocument() {
-    return (
-        <Document size="A4" orientation="portrait" margin="0.5in">
-            <Page style={{ backgroundColor: "#000", color: "#fff" }}>
-                <h1>Hello from the dark side</h1>
-            </Page>
-        </Document>
-    );
+import "~/index.css"
+
+const MARKDOWN_CONTENT = `
+# The Art of Programming
+
+## Chapter 1: Fundamentals
+
+Programming is both a science and an art. It requires logical thinking and creative problem-solving. In this book, we will explore the principles that make software development a fascinating discipline.
+
+### 1.1 The Programming Mindset
+
+To become an effective programmer, one must develop a particular way of thinking. This includes:
+
+- Breaking down complex problems into manageable parts
+- Thinking algorithmically about solutions
+- Understanding data structures and their applications
+- Embracing continuous learning and adaptation
+
+The journey of a programmer is one of constant growth and discovery.
+`
+
+const md = new MarkdownIt({ html: true })
+
+function Book() {
+  const html = md.render(MARKDOWN_CONTENT)
+  
+  return (
+    <Document size="6in 9in" orientation="portrait" margin="0.75in">
+      <article className="prose max-w-none font-serif">
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      </article>
+
+      <Footer 
+        position="bottom-center"
+        className="font-serif text-sm"
+        children={({ currentPage }) => currentPage}
+        marginBoxStyles={{
+          marginBottom: '0.25in',
+        }}
+      />
+    </Document>
+  )
 }
+
+Book.documentId = "book"
+
+export default Book
 ```
 
 4. Run the development server by running:

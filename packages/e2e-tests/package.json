@@ -1,5 +1,6 @@
 {
   "name": "e2e-tests",
+  "private": true,
   "version": "1.0.1",
   "description": "End-to-end tests for htmldocs",
   "scripts": {
