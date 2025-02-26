@@ -1,7 +1,7 @@
 {
   "name": "e2e-tests",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "End-to-end tests for htmldocs",
   "scripts": {
     "test": "playwright test",
