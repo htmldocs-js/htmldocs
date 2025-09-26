@@ -1,0 +1,32 @@
+# Docs
+
+> HTMLDocs is a comprehensive documentation platform that helps developers and teams create, manage, and publish high-quality documentation for their products and services. With a focus on ease of use, customization, and seamless integration, HTMLDocs empowers organizations to deliver engaging and accessible documentation that enhances the user experience and supports their customers throughout the product lifecycle.
+
+## API & Developer
+- [Authorization API](https://docs.htmldocs.com/api-reference/authorization): Learn how to authenticate and authorize access to the HTMLDocs API for your applications.
+- [Generate Document API](https://docs.htmldocs.com/api-reference/generate-document): Discover how to use the HTMLDocs API to programmatically generate and customize documents for your users.
+- [Generate HTML API](https://docs.htmldocs.com/api-reference/generate-html): Explore the HTMLDocs API for generating and customizing HTML content for your documentation.
+- [Command-Line Interface (CLI)](https://docs.htmldocs.com/cli): Learn how to use the HTMLDocs CLI to streamline your documentation workflow and automate common tasks.
+
+## Documentation
+- [Getting Started](https://docs.htmldocs.com/getting-started): A comprehensive guide to setting up and using HTMLDocs for your documentation needs.
+- [Introduction](https://docs.htmldocs.com/introduction): Explore the key features and capabilities of the HTMLDocs platform and how it can benefit your organization.
+- [Using Custom Fonts](https://docs.htmldocs.com/usage/custom-fonts): Learn how to integrate and use custom fonts in your HTMLDocs-powered documentation.
+- [Publishing to the Cloud](https://docs.htmldocs.com/usage/publishing-to-the-cloud): Discover how to seamlessly publish your HTMLDocs documentation to the cloud for easy access and distribution.
+- [Working with Static Content](https://docs.htmldocs.com/usage/static-content): Guidance on incorporating and managing static content within your HTMLDocs documentation.
+- [Integrating Tailwind CSS](https://docs.htmldocs.com/usage/tailwind): Learn how to leverage the Tailwind CSS framework to customize the styling and appearance of your HTMLDocs documentation.
+- [Using Template Variables](https://docs.htmldocs.com/usage/template-variables): Explore the available template variables and how to use them to dynamically generate content in your HTMLDocs documentation.
+
+## Components
+- [Document Component](https://docs.htmldocs.com/components/document): Understand the structure and configuration of the core Document component in HTMLDocs.
+- [Footer Component](https://docs.htmldocs.com/components/footer): Learn how to customize and configure the Footer component in your HTMLDocs documentation.
+- [Head Component](https://docs.htmldocs.com/components/head): Explore the Head component and how to manage the metadata and settings for your HTMLDocs documentation.
+- [Margin Box Component](https://docs.htmldocs.com/components/margin-box): Discover the Margin Box component and how to use it to control the spacing and layout of your HTMLDocs documentation.
+- [Page Component](https://docs.htmldocs.com/components/page): Learn about the Page component and how to structure and organize your HTMLDocs documentation.
+- [Spacer Component](https://docs.htmldocs.com/components/spacer): Understand the Spacer component and how to use it to manage the spacing between elements in your HTMLDocs documentation.
+
+## Integrations
+- [Resend Integration](https://docs.htmldocs.com/integrations/resend): Discover how to integrate HTMLDocs with the Resend email delivery platform to enhance your documentation workflow.
+
+## Comparison
+- [HTMLDocs Comparison](https://docs.htmldocs.com/comparison): Explore how HTMLDocs compares to other documentation platforms and solutions in the market.
