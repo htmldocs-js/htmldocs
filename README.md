@@ -21,6 +21,9 @@ htmldocs is a local document editor and preview server to help you _create_ PDFs
 - 🔗 Full TypeScript support for type safety
 - ⚡ Dynamic data integration through props and APIs
 - 📊 Real-time preview server with hot reloading
+- 🚀 **Zero-build development** - modify templates and see changes instantly
+- 🏗️ **Monorepo architecture** with pnpm workspaces and Turbo
+- 🔄 **Workspace dependencies** - automatic linking between packages
 
 ## Example
 
@@ -60,6 +63,76 @@ npx htmldocs@latest init
 
 For further instructions or to integrate htmldocs into your existing project, refer to the [Getting Started](https://docs.htmldocs.com/getting-started) guide.
 
+## Development Workflow
+
+htmldocs supports a **zero-build development experience** for rapid template iteration. You can modify template files and see changes instantly without any build step.
+
+### One-Click Development
+
+For the fastest setup, use our development script:
+
+```bash
+# Start zero-build development (from project root)
+./dev.sh
+
+# Or using npm/pnpm script
+pnpm dev:zero-build
+```
+
+This script will:
+- ✅ Install tsx if needed
+- ✅ Build core dependencies (one-time)
+- ✅ Start development server with hot reload
+- ✅ Open examples at http://localhost:3000
+
+### Manual Setup
+
+```bash
+# 1. Install dependencies
+pnpm install
+
+# 2. Build core dependencies (one-time only)
+cd packages/react && pnpm build
+cd ../render && pnpm build
+
+# 3. Install TypeScript runner
+npm install -g tsx
+
+# 4. Start zero-build development
+cd packages/htmldocs
+tsx src/cli/index.ts dev --dir ../../apps/examples/documents
+```
+
+### What You Can Edit Without Building
+
+- ✅ **Template files** (`*.tsx` documents) - hot reload enabled
+- ✅ **Next.js app** (`packages/htmldocs/src/app/*`) - hot reload enabled  
+- ✅ **CLI logic** (`packages/htmldocs/src/cli/*`) - restart to see changes
+- ✅ **Styles** (CSS, Tailwind) - hot reload enabled
+
+### What Requires Building
+
+- ⚠️ **React components** (`packages/react/`) - run `pnpm build` after changes
+- ⚠️ **Render engine** (`packages/render/`) - run `pnpm build` after changes
+
+### Development Commands
+
+```bash
+# Start development with hot reload
+tsx src/cli/index.ts dev --dir ../../apps/examples/documents
+
+# Build core packages when needed
+pnpm build
+
+# Run tests
+pnpm test
+
+# Format code
+pnpm format
+```
+
+This workflow enables you to modify templates and see changes instantly in your browser, providing a smooth development experience similar to modern web frameworks.
+
 ## Components
 
 htmldocs comes with a standard set of components to help you layout and style your documents.
@@ -98,6 +171,68 @@ htmldocs also uses the [Paged.js library](https://pagedjs.org/) under the hood. 
 | <img src="https://github.com/user-attachments/assets/df03494d-44a1-4a74-9ae6-1ee9870c2ce2" width="48px" height="48px" alt="Next.js"> | <img src="https://www.typescriptlang.org/favicon-32x32.png" width="48px" height="48px" alt="TypeScript"> | <img src="https://user-images.githubusercontent.com/4060187/196936123-f6e1db90-784d-4174-b774-92502b718836.png" width="48px" height="48px" alt="Turborepo"> | <img src="https://pnpm.io/img/favicon.png" width="48px" height="48px" alt="pnpm"> |
 |--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
 | Next.js                                                                                                  | TypeScript                                                                                            | Turborepo                                                                                         | pnpm                                                                             |
+
+## Monorepo Architecture
+
+This project uses a monorepo structure with pnpm workspaces and Turbo for efficient development:
+
+```
+├── packages/
+│   ├── htmldocs/          # Main CLI and Next.js app
+│   ├── react/             # React components (@htmldocs/react)
+│   ├── render/            # PDF rendering engine (@htmldocs/render)
+│   ├── eslint-config/     # Shared ESLint configuration
+│   └── typescript-config/ # Shared TypeScript configuration
+├── apps/
+│   ├── examples/          # Example templates and documents
+│   └── docs/              # Documentation site
+```
+
+### Package Dependencies
+
+- `htmldocs` → depends on `@htmldocs/render`
+- `examples` → depends on `htmldocs`, `@htmldocs/react`, `@htmldocs/render`
+- All packages → share `@htmldocs/eslint-config` and `@htmldocs/typescript-config`
+
+The monorepo uses `workspace:*` protocol for internal dependencies, enabling seamless development across packages with automatic linking.
+
+## Contributing
+
+We welcome contributions! Here's how to get started:
+
+### Development Environment
+
+1. **Clone and setup**:
+   ```bash
+   git clone https://github.com/htmldocs-js/htmldocs.git
+   cd htmldocs
+   pnpm install
+   ```
+
+2. **Start development**:
+   ```bash
+   ./dev.sh
+   ```
+
+3. **Make changes** to templates in `apps/examples/documents/templates/`
+
+4. **See changes instantly** in your browser with hot reload
+
+### Common Tasks
+
+- **Add new templates**: Create `.tsx` files in `apps/examples/documents/templates/`
+- **Modify components**: Edit `packages/react/components/` (requires `pnpm build`)
+- **Update CLI**: Edit `packages/htmldocs/src/cli/` (restart dev server)
+- **Fix rendering**: Edit `packages/render/src/` (requires `pnpm build`)
+
+### Testing
+
+```bash
+pnpm test          # Run all tests
+pnpm test:coverage # Run tests with coverage
+pnpm lint          # Check code style
+pnpm format        # Format code
+```
 
 ## License
 

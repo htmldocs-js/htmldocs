@@ -84,7 +84,7 @@ function Invoice({ billedTo, yourCompany, services }: InvoiceProps) {
             className="flex flex-row items-center justify-between"
           >
             <div id="header_left" className="flex flex-col">
-              <div className="uppercase text-4xl font-medium mb-1">Invoice</div>
+              <div className="uppercase text-4xl font-medium mb-1 text-blue-600">🚀 开发中 Invoice</div>
               <p className="text-gray-500">#AB2324-01</p>
             </div>
             <div id="header_right">
