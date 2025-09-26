@@ -11,6 +11,7 @@ import chalk from 'chalk';
 export const setupHotreloading = async (
   devServer: http.Server,
   documentsDirRelativePath: string,
+  indexOnlyMode: boolean = false,
 ) => {
   let clients: Socket[] = [];
   const io = new SocketServer(devServer);
@@ -29,7 +30,7 @@ export const setupHotreloading = async (
 
   const reload = debounce(() => {
     // Filter out files starting with . and deduplicate changes based on filename and event type
-    const uniqueChanges = changes
+    let filteredChanges = changes
       .filter(change => !path.basename(change.filename).startsWith('.'))
       .filter((change, index, self) =>
         index === self.findIndex((c) => 
@@ -37,13 +38,22 @@ export const setupHotreloading = async (
         )
       );
 
-    if (uniqueChanges.length > 0) {
+    // 如果是 Index 模式，只处理 Index.tsx 的变化
+    if (indexOnlyMode) {
+      filteredChanges = filteredChanges.filter(change => 
+        change.filename === 'templates/Index.tsx' || 
+        change.filename.endsWith('Index.tsx') ||
+        path.basename(change.filename) === 'Index.tsx'
+      );
+    }
+
+    if (filteredChanges.length > 0) {
       logger.info(`${chalk.yellow('!')} ${chalk.gray(`Changes detected, reloading...`)}`);
       
       // Send changes to all clients
       clients.forEach((client) => {
         logger.debug(`Emitting reload to ${client.id}`);
-        client.emit('reload', uniqueChanges);
+        client.emit('reload', filteredChanges);
       });
     }
 
@@ -84,7 +94,25 @@ export const setupHotreloading = async (
   const watcher = watch('', {
     ignoreInitial: true,
     cwd: absolutePathToDocumentsDirectory,
-    ignored: [
+    ignored: indexOnlyMode ? [
+      // 在 Index 模式下，忽略除了 Index.tsx 之外的所有文件
+      (filepath: string) => {
+        const fileName = path.basename(filepath);
+        const relativePath = path.relative(absolutePathToDocumentsDirectory, filepath);
+        
+        // 只允许 Index.tsx 文件和相关依赖
+        if (fileName === 'Index.tsx' || relativePath === 'templates/Index.tsx') {
+          return false; // 不忽略
+        }
+        return true; // 忽略其他所有文件
+      },
+      '**/node_modules/**',
+      '**/.git/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/.next/**',
+      '**/coverage/**',
+    ] : [
       '**/node_modules/**',
       '**/.git/**',
       '**/dist/**',

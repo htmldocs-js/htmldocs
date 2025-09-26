@@ -35,7 +35,7 @@ export const Shell = ({
       <div className="flex bg-background text-foreground flex-col h-screen overflow-x-hidden print-hide">
         <div className="flex lg:hidden items-center px-6 justify-between h-[70px] border-b border-slate-6">
           <div className="h-[70px] flex items-center">
-            <Logo />
+            <Logo /> 123
           </div>
 
           <Button

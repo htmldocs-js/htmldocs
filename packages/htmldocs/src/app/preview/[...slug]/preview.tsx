@@ -21,6 +21,7 @@ interface PreviewProps {
   pathSeparator: string;
   renderingResult: DocumentRenderingResult;
   schema: JSONSchema7Definition | null;
+  isSimplified?: boolean;
 }
 
 const Preview = ({
@@ -29,6 +30,7 @@ const Preview = ({
   pathSeparator,
   renderingResult: initialRenderingResult,
   schema: initialSchema,
+  isSimplified = false,
 }: PreviewProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -149,13 +151,30 @@ const Preview = ({
     // the rules of hooks
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useHotreload((changes) => {
-      const changeForThisDocument = changes.find((change) =>
-        change.filename.includes(slug),
-      );
+      if (isSimplified) {
+        // 在简化模式下，只监听 Index.tsx 文件的变化
+        const indexChange = changes.find((change) =>
+          change.filename === 'templates/Index.tsx' || 
+          change.filename.endsWith('Index.tsx')
+        );
+        
+        if (indexChange) {
+          if (indexChange.event === 'unlink') {
+            // 如果 Index.tsx 被删除，显示错误信息
+            window.location.reload();
+          }
+          // 对于其他事件（如 change, add），热重载会自动处理
+        }
+      } else {
+        // 原有的热重载逻辑
+        const changeForThisDocument = changes.find((change) =>
+          change.filename.includes(slug),
+        );
 
-      if (typeof changeForThisDocument !== 'undefined') {
-        if (changeForThisDocument.event === 'unlink') {
-          router.push('/');
+        if (typeof changeForThisDocument !== 'undefined') {
+          if (changeForThisDocument.event === 'unlink') {
+            router.push('/');
+          }
         }
       }
     });
@@ -180,13 +199,19 @@ const Preview = ({
     const content = iframes[id];
     if (!content) return null;
 
+    const iframeClass = isSimplified 
+      ? `absolute top-0 left-0 w-full h-screen bg-white ${
+          isActive ? 'z-20 opacity-100' : 'z-10 opacity-0'
+        }`
+      : `absolute top-0 left-0 w-full h-[calc(100vh_-_70px)] print:h-[100vh] bg-white ${
+          isActive ? 'z-20 opacity-100' : 'z-10 opacity-0'
+        } ${activeView === 'mobile' ? 'w-[360px] mx-auto right-0' : ''}`;
+
     return (
       <div key={id} className="relative h-full">
         <iframe
           allow="same-origin"
-          className={`absolute top-0 left-0 w-full h-[calc(100vh_-_70px)] print:h-[100vh] bg-white ${
-            isActive ? 'z-20 opacity-100' : 'z-10 opacity-0'
-          } ${activeView === 'mobile' ? 'w-[360px] mx-auto right-0' : ''}`}
+          className={iframeClass}
           srcDoc={content}
           title={`${slug}-${id}`}
         />
@@ -208,7 +233,7 @@ const Preview = ({
   };
 
   const ZoomControls = () => (
-    <div className="absolute top-4 right-6 z-30 flex gap-1 bg-background/80 backdrop-blur-sm p-1.5 rounded-lg shadow-md border border-border">
+    <div className={`absolute ${isSimplified ? 'top-4 right-4' : 'top-4 right-6'} z-30 flex gap-1 bg-background/80 backdrop-blur-sm p-1.5 rounded-lg shadow-md border border-border`}>
       <button
         onClick={() => handleZoom(Math.max(0.75, zoomLevel - 0.25))}
         className="p-1.5 hover:bg-muted rounded-md transition-colors"
@@ -241,14 +266,9 @@ const Preview = ({
       initialDocumentPreviewProps={previewProps}
       initialDocumentSchema={schema as JSONSchema7}
     >
-      <Shell
-        documentPath={documentPath}
-        activeView={hasNoErrors ? activeView : undefined}
-        currentDocumentOpenSlug={slug}
-        markup={renderedDocumentMetadata?.markup}
-        pathSeparator={pathSeparator}
-        setActiveView={hasNoErrors ? handleViewChange : undefined}
-      >
+      {isSimplified ? (
+        // 简化模式：直接显示内容，不使用Shell组件
+        <div className="h-screen bg-background text-foreground">
           <div className="relative h-full">
             {'error' in renderingResult ? (
               <RenderingError error={renderingResult.error} />
@@ -267,7 +287,37 @@ const Preview = ({
             ) : null}
             <Toaster richColors />
           </div>
-      </Shell>
+        </div>
+      ) : (
+        // 完整模式：使用原有的Shell组件
+        <Shell
+          documentPath={documentPath}
+          activeView={hasNoErrors ? activeView : undefined}
+          currentDocumentOpenSlug={slug}
+          markup={renderedDocumentMetadata?.markup}
+          pathSeparator={pathSeparator}
+          setActiveView={hasNoErrors ? handleViewChange : undefined}
+        >
+            <div className="relative h-full">
+              {'error' in renderingResult ? (
+                <RenderingError error={renderingResult.error} />
+              ) : null}
+
+              {hasNoErrors ? (
+                <div className="relative h-full">
+                  {nextIframeId && (
+                    <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent animate-loading-bar z-30" />
+                  )}
+                  {Object.keys(iframes).map((id) =>
+                    renderIframe(id, id === activeIframeId)
+                  )}
+                  <ZoomControls />
+                </div>
+              ) : null}
+              <Toaster richColors />
+            </div>
+        </Shell>
+      )}
     </DocumentContextProvider>
   );
 };

@@ -30,6 +30,9 @@ export const dev = async ({ dir: documentsDirRelativePath, port }: Args) => {
     // 更新环境变量
     Object.assign(process.env, envVars);
     
+    // 启用Index模式
+    process.env.NEXT_PUBLIC_INDEX_ONLY_MODE = 'true';
+    
     logger.debug(`Documents directory absolute path: ${envVars.DOCUMENTS_DIR_ABSOLUTE_PATH}`);
 
     logger.debug(`Starting dev server for ${documentsDirRelativePath} on port ${port}`);
@@ -39,8 +42,8 @@ export const dev = async ({ dir: documentsDirRelativePath, port }: Args) => {
       parseInt(port),
     );
 
-    logger.debug('Setting up hot reloading');
-    await setupHotreloading(devServer, documentsDirRelativePath);
+    logger.debug('Setting up hot reloading in Index-only mode');
+    await setupHotreloading(devServer, documentsDirRelativePath, true); // 启用Index模式
     logger.debug('Dev server started successfully');
   } catch (error) {
     logger.error('Error starting dev server', { error });
