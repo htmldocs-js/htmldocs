@@ -1,5 +1,7 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { startDevServer, setupHotreloading } from '../utils';
+import { getEnvVariablesForPreviewApp } from '../utils/preview/get-env-variables-for-preview-app';
 import logger from '~/lib/logger';
 
 interface Args {
@@ -8,11 +10,27 @@ interface Args {
 }
 
 export const dev = async ({ dir: documentsDirRelativePath, port }: Args) => {
+
+  console.log("路径地址：", documentsDirRelativePath);
+
   try {
     if (!fs.existsSync(documentsDirRelativePath)) {
       logger.error(`Missing ${documentsDirRelativePath} folder`);
       throw new Error(`Missing ${documentsDirRelativePath} folder`);
     }
+
+    // 动态更新环境变量以使用正确的文档目录路径
+    const documentsDir = path.resolve(documentsDirRelativePath);
+    const envVars = getEnvVariablesForPreviewApp(
+      path.relative(process.cwd(), documentsDir),
+      process.env.NEXT_PUBLIC_CLI_PACKAGE_LOCATION!,
+      process.cwd()
+    );
+    
+    // 更新环境变量
+    Object.assign(process.env, envVars);
+    
+    logger.debug(`Documents directory absolute path: ${envVars.DOCUMENTS_DIR_ABSOLUTE_PATH}`);
 
     logger.debug(`Starting dev server for ${documentsDirRelativePath} on port ${port}`);
     const devServer = await startDevServer(
