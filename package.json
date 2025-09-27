@@ -5,7 +5,8 @@
   "scripts": {
     "build": "turbo run build --filter=./packages/* --filter=!htmldocs-starter",
     "dev": "turbo dev",
-    "div": "./dev.sh",
+    "devsh": "./dev.sh",
+    "prod":"./prod-dev.sh",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "version": "changeset version && pnpm install --no-frozen-lockfile",

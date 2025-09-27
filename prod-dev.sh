@@ -100,7 +100,9 @@ echo
 cd "$HTMLDOCS_PKG_DIR"
 
 # 使用预编译的 JavaScript 版本
-if [[ -f "dist/cli/index.js" ]]; then
+if [[ -f "dist/cli/index.mjs" ]]; then
+    node dist/cli/index.mjs dev --dir "$DOCUMENTS_DIR"
+elif [[ -f "dist/cli/index.js" ]]; then
     node dist/cli/index.js dev --dir "$DOCUMENTS_DIR"
 elif [[ -f "dist/index.js" ]]; then
     node dist/index.js dev --dir "$DOCUMENTS_DIR"
