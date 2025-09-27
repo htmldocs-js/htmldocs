@@ -25,7 +25,11 @@ coverage
 .next/
 out/
 build
-dist
+# dist - Allow prebuilt packages for quick startup
+packages/*/dist/
+!packages/react/dist/
+!packages/render/dist/
+!packages/htmldocs/dist/
 
 # Playwright
 **/playwright-report

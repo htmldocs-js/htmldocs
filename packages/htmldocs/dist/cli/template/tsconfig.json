@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "jsx": "react-jsx",
+      "lib": ["es2022", "dom"],
+      "outDir": "dist",
+      "paths": {
+        "~/*": [
+          "./"
+        ]
+      },
+      "esModuleInterop": true
+    },
+    "include": ["**/*"],
+    "exclude": ["node_modules", "dist"]
+  }

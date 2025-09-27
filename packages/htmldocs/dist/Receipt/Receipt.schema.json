@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/ComponentProps",
+  "definitions": {
+    "ComponentProps": {
+      "type": "object",
+      "properties": {
+        "orderNumber": {
+          "type": "string"
+        },
+        "orderDate": {
+          "type": "string"
+        },
+        "orderTotal": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string"
+        },
+        "billingAddress": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "street": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "zip": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "street",
+            "city",
+            "state",
+            "zip",
+            "country"
+          ],
+          "additionalProperties": false
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "quantity": {
+                "type": "number"
+              },
+              "price": {
+                "type": "string"
+              },
+              "discountedPrice": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "image": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "description",
+              "quantity",
+              "price",
+              "discountedPrice",
+              "image"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "orderNumber",
+        "orderDate",
+        "orderTotal",
+        "customerName",
+        "billingAddress",
+        "items"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

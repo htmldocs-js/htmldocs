@@ -1,0 +1,1 @@
+{"version":3,"file":"improve-error-with-sourcemap.d.ts","sourceRoot":"","sources":["../../src/util/improve-error-with-sourcemap.ts"],"names":[],"mappings":"AAEA,OAAO,EAAqB,KAAK,YAAY,EAAE,MAAM,eAAe,CAAC;AACrE,OAAO,KAAK,EAAE,WAAW,EAAE,MAAM,UAAU,CAAC;AAE5C,eAAO,MAAM,yBAAyB,UAC7B,KAAK,oBACM,MAAM,2BACC,YAAY,KACpC,WAyEF,CAAC"}
