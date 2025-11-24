@@ -6,6 +6,17 @@ import * as tsj from "ts-json-schema-generator";
 import { DOCUMENT_SCHEMAS_DIR } from "./paths";
 
 /**
+ * Escapes special regex characters in a string to make it safe for use in RegExp.
+ * This is necessary for Windows paths that contain backslashes and other special characters.
+ * 
+ * @param s - The string to escape
+ * @returns The escaped string safe for use in RegExp
+ */
+export function escapeForRegExp(s: string): string {
+  return String(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+}
+
+/**
  * Made to export the `renderAsync` function out of the user's email template
  * so that issues like https://github.com/resend/react-email/issues/649 don't
  * happen.
@@ -18,8 +29,10 @@ import { DOCUMENT_SCHEMAS_DIR } from "./paths";
 export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) => ({
   name: "htmldocs-plugin",
   setup: (b: PluginBuild) => {
+    // Escape each path to handle Windows backslashes and other special characters
+    const escapedPaths = documentTemplates.map(escapeForRegExp);
     b.onLoad(
-      { filter: new RegExp(documentTemplates.join("|")) },
+      { filter: new RegExp(escapedPaths.join("|")) },
       async ({ path: pathToFile }) => {
         let contents = await fs.promises.readFile(pathToFile, "utf8");
         await generateAndWriteSchema(contents, pathToFile);
