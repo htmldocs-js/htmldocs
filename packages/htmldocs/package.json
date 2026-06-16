@@ -42,7 +42,7 @@
     "build:dev": "node build-preview-server.mjs && pnpm build-cli:dev",
     "build-cli": "API_URL=https://htmldocs.com tsup-node",
     "build-cli:dev": "API_URL=http://localhost:3000 tsup-node && pnpm link --global",
-    "dev": "next dev",
+    "dev": "node dev-preview.mjs",
     "start": "next start",
     "lint": "next lint",
     "tsc": "tsc",

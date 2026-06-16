@@ -7,10 +7,6 @@ import { login } from './commands/login';
 import { init } from './commands/init';
 import logger from '~/lib/logger';
 import inquirer from 'inquirer';
-import { getEnvVariablesForPreviewApp } from './utils/preview/get-env-variables-for-preview-app';
-import path from 'path';
-import { documentsDirRelativePath } from '../utils/documents-directory-absolute-path';
-import { cliPackageLocation } from './utils';
 
 const PACKAGE_NAME = 'htmldocs';
 const noop = () => {};
@@ -23,18 +19,6 @@ const originalError = logger.error;
 logger.error = (...args: any[]) => {
   originalError.apply(logger, args);
   process.exit(1);
-};
-
-// these environment variables are used on the next app
-// this is the most reliable way of communicating these paths through
-process.env = {
-  ...process.env,
-  ...getEnvVariablesForPreviewApp(
-    // If we don't do normalization here, stuff like https://github.com/resend/react-email/issues/1354 happens.
-    path.normalize(documentsDirRelativePath),
-    cliPackageLocation,
-    process.cwd(),
-  ),
 };
 
 program
