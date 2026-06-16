@@ -29,5 +29,89 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.27.9"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "@phosphor-icons/react": {
+        "peerDependencies": {
+          "@types/react": "*",
+          "@types/react-dom": "*"
+        },
+        "peerDependenciesMeta": {
+          "@types/react": {
+            "optional": true
+          },
+          "@types/react-dom": {
+            "optional": true
+          }
+        }
+      },
+      "@radix-ui/react-icons": {
+        "peerDependencies": {
+          "@types/react": "*"
+        },
+        "peerDependenciesMeta": {
+          "@types/react": {
+            "optional": true
+          }
+        }
+      },
+      "framer-motion": {
+        "peerDependencies": {
+          "@types/react": "*",
+          "@types/react-dom": "*"
+        },
+        "peerDependenciesMeta": {
+          "@types/react": {
+            "optional": true
+          },
+          "@types/react-dom": {
+            "optional": true
+          }
+        }
+      },
+      "next": {
+        "peerDependencies": {
+          "@types/react": "*",
+          "@types/react-dom": "*"
+        },
+        "peerDependenciesMeta": {
+          "@types/react": {
+            "optional": true
+          },
+          "@types/react-dom": {
+            "optional": true
+          }
+        }
+      },
+      "next-themes": {
+        "peerDependencies": {
+          "@types/react": "*",
+          "@types/react-dom": "*"
+        },
+        "peerDependenciesMeta": {
+          "@types/react": {
+            "optional": true
+          },
+          "@types/react-dom": {
+            "optional": true
+          }
+        }
+      },
+      "sonner": {
+        "peerDependencies": {
+          "@types/react": "*",
+          "@types/react-dom": "*"
+        },
+        "peerDependenciesMeta": {
+          "@types/react": {
+            "optional": true
+          },
+          "@types/react-dom": {
+            "optional": true
+          }
+        }
+      }
+    }
   }
 }
