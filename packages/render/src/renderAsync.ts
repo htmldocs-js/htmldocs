@@ -12,7 +12,7 @@ function dedent(str: string) {
 }
 
 const readStream = async (
-  stream: PipeableStream | ReactDOMServerReadableStream
+  stream: PipeableStream | ReactDOMServerReadableStream,
 ) => {
   let result = "";
 
@@ -54,29 +54,35 @@ const readStream = async (
 function decodeHtmlEntities(str: string) {
   return str.replace(/&([^;]+);/g, (match, entity) => {
     const entities: Record<string, string> = {
-      'amp': '&',
-      'apos': "'",
-      '#x27': "'",
-      'quot': '"',
-      'lt': '<',
-      'gt': '>'
+      amp: "&",
+      apos: "'",
+      "#x27": "'",
+      quot: '"',
+      lt: "<",
+      gt: ">",
     };
     return entities[entity] || match;
   });
 }
 
+const sanitizeCssForPagedJs = (css: string) =>
+  css.replace(
+    /:not\(:where\(\[class~=(["']?)not-prose\1\],\s*\[class~=(["']?)not-prose\2\]\s+\*\)\)/g,
+    "",
+  );
+
 export const renderAsync = async (
   component: React.ReactElement,
   documentCss?: string,
-  headContents?: string
+  headContents?: string,
 ) => {
   const reactDOMServer = await import("react-dom/server");
-  
+
   // Then render the main component
   let html!: string;
   if (Object.hasOwn(reactDOMServer, "renderToReadableStream")) {
     html = await readStream(
-      await reactDOMServer.renderToReadableStream(component)
+      await reactDOMServer.renderToReadableStream(component),
     );
   } else {
     await new Promise<void>((resolve, reject) => {
@@ -92,10 +98,10 @@ export const renderAsync = async (
     });
   }
 
-  let extractedHeadContents = '';
+  let extractedHeadContents = "";
   const headMatches = html.matchAll(/<head>(.*?)<\/head>/gs);
   const seenMetaTags = new Set();
-  
+
   for (const match of headMatches) {
     if (match[1]) {
       // Process meta tags to avoid duplicates
@@ -108,12 +114,12 @@ export const renderAsync = async (
           extractedHeadContents += metaTag;
         }
       }
-      
+
       // Add non-meta content
-      extractedHeadContents += content.replace(/<meta[^>]+>/g, '');
-      
+      extractedHeadContents += content.replace(/<meta[^>]+>/g, "");
+
       // Remove the head section from main HTML
-      html = html.replace(match[0], '');
+      html = html.replace(match[0], "");
     }
   }
 
@@ -123,9 +129,9 @@ export const renderAsync = async (
   extractedHeadContents = extractedHeadContents.replace(
     /<link([^>]*rel=["']stylesheet["'][^>]*)>/gi,
     (match, p1) => {
-      if (match.includes('onerror=')) return match;
+      if (match.includes("onerror=")) return match;
       return `<link${p1} onerror="console.error('Failed to load stylesheet:', this.href); this.onerror=null;this.remove();">`;
-    }
+    },
   );
 
   const document = dedent(`
@@ -133,7 +139,7 @@ export const renderAsync = async (
       <html>
         <head>
           <base target="_blank">
-          ${documentCss ? `<style>${documentCss}</style>` : ""}
+          ${documentCss ? `<style>${sanitizeCssForPagedJs(documentCss)}</style>` : ""}
           <style>${cssText}</style>
           ${extractedHeadContents}
           <script src="https://unpkg.com/@htmldocs/render@0.1.7/dist/paged.polyfill.js"></script>
