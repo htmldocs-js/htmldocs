@@ -26,6 +26,7 @@ import cluster from 'node:cluster';
 import childProcess from 'node:child_process';
 import buffer from 'node:buffer';
 import assert from 'node:assert';
+import asyncHooks from 'node:async_hooks';
 
 /**
  * A map of the name of the modules (including `node:` prefixed ones)
@@ -89,4 +90,6 @@ export const staticNodeModulesForVM = {
   'node:buffer': buffer,
   assert,
   'node:assert': assert,
+  'async_hooks': asyncHooks,
+  'node:async_hooks': asyncHooks,
 };

@@ -87,6 +87,7 @@ export const setupHotreloading = async (
     ignored: [
       '**/node_modules/**',
       '**/.git/**',
+      '**/.*',
       '**/dist/**',
       '**/build/**',
       '**/.next/**',

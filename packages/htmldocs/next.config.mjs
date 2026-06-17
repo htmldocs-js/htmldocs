@@ -2,7 +2,18 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 /** @type {import('next').NextConfig} */
-const serverCompilerPackages = ["esbuild", "ts-json-schema-generator"];
+const serverCompilerPackages = [
+  "@babel/core",
+  "autoprefixer",
+  "browserslist",
+  "esbuild",
+  "esbuild-style-plugin",
+  "postcss",
+  "postcss-modules",
+  "react-docgen",
+  "tailwindcss",
+  "ts-json-schema-generator",
+];
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
 const nextConfig = {
