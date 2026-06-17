@@ -7,12 +7,13 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 interface StaticRouteContext {
-  params: {
+  params: Promise<{
     path: string[];
-  };
+  }>;
 }
 
 export async function GET(_request: Request, { params }: StaticRouteContext) {
+  const { path: requestedPath } = await params;
   const staticBaseDir = process.env.DOCUMENTS_STATIC_PATH;
 
   if (!staticBaseDir) {
@@ -22,7 +23,7 @@ export async function GET(_request: Request, { params }: StaticRouteContext) {
   }
 
   const absoluteStaticBaseDir = path.resolve(staticBaseDir);
-  const filePath = path.resolve(absoluteStaticBaseDir, ...params.path);
+  const filePath = path.resolve(absoluteStaticBaseDir, ...requestedPath);
 
   if (
     filePath !== absoluteStaticBaseDir &&

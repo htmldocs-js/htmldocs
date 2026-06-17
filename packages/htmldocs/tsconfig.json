@@ -12,19 +12,27 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "allowJs": true,
     "declaration": false,
     "declarationMap": false,
     "incremental": false,
-    "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "react-jsx",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "noEmit": true,
     "strict": false,
     "target": "es5",
@@ -33,7 +41,16 @@
     "resolveJsonModule": true,
     "outDir": "dist"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "postcss.config.js", "tailwind.config.js", "src/utils/get-document-component.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "postcss.config.js",
+    "tailwind.config.js",
+    "src/utils/get-document-component.tsx",
+    ".next/dev/types/**/*.ts"
+  ],
   "exclude": [
     "tsconfig.export.json",
     ".next",
