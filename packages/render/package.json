@@ -41,13 +41,13 @@
     "esbuild": "^0.21.4",
     "esbuild-plugin-inline-import": "^1.0.4",
     "eslint": "^8.57.0",
-    "sass": "^1.77.4",
+    "sass": "^1.94.0",
     "ts-node": "^10.9.2",
-    "tsup": "^8.0.2",
+    "tsup": "^8.5.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {
     "source-map-js": "^1.2.0",
-    "stacktrace-parser": "^0.1.10"
+    "stacktrace-parser": "^0.1.11"
   }
 }
