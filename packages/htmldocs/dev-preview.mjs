@@ -11,7 +11,7 @@ const documentsDirAbsolutePath = path.join(
   documentsDirRelativePath,
 );
 
-const child = spawn('next', ['dev'], {
+const child = spawn('next', ['dev', '--webpack'], {
   cwd: packageDir,
   env: {
     ...process.env,
