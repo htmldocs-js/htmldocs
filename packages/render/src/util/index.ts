@@ -20,6 +20,7 @@ export function createFakeContext(documentPath: string) {
     TextEncoder,
     TextEncoderStream,
     ReadableStream,
+    WritableStream,
     URL,
     URLSearchParams,
     Headers,
