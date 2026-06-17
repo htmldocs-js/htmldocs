@@ -15,15 +15,15 @@
     "clsx": "^2.1.1",
     "htmldocs": "workspace:*",
     "markdown-it": "^14.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "react-icons": "^5.6.0"
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.10.7",
-    "@types/react": "^18.3.31",
-    "@types/react-dom": "^18.3.7",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3"
   }
