@@ -46,8 +46,8 @@
     "start": "next start",
     "lint": "next lint",
     "tsc": "tsc",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test": "vitest run --config vitest.config.ts --passWithNoTests",
+    "test:coverage": "vitest run --config vitest.config.ts --coverage --passWithNoTests"
   },
   "dependencies": {
     "@babel/core": "^7.24.6",
