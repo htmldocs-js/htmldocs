@@ -15,7 +15,10 @@ import { DOCUMENT_SCHEMAS_DIR } from "./paths";
  *
  * Also, this plugin generates the schema for document components and saves it to .next
  */
-export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) => ({
+export const htmldocsPlugin = (
+  documentTemplates: string[],
+  isBuild: boolean,
+) => ({
   name: "htmldocs-plugin",
   setup: (b: PluginBuild) => {
     b.onLoad(
@@ -25,7 +28,7 @@ export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) =>
         await generateAndWriteSchema(contents, pathToFile);
         if (isBuild) {
           // Replace all occurrences of /static with ./static
-          contents = contents.replace(/\/static/g, './static');
+          contents = contents.replace(/\/static/g, "./static");
         }
         return {
           contents: `${contents};
@@ -33,7 +36,7 @@ export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) =>
         `,
           loader: path.extname(pathToFile).slice(1) as Loader,
         };
-      }
+      },
     );
 
     b.onResolve(
@@ -55,12 +58,15 @@ export const htmldocsPlugin = (documentTemplates: string[], isBuild: boolean) =>
             "Failed trying to import `renderAsync` from `@htmldocs/render` to be able to render your document template.\n Maybe you don't have `@htmldocs/render` installed?";
         }
         return result;
-      }
+      },
     );
   },
 });
 
-async function generateAndWriteSchema(contents: string, filePath: string): Promise<void> {
+async function generateAndWriteSchema(
+  contents: string,
+  filePath: string,
+): Promise<void> {
   const componentProps = await parseFileToProps(contents, filePath);
   const componentInterfaceName = `ComponentProps`;
   let interfaceContent = `export interface ${componentInterfaceName} {\n`;
@@ -77,15 +83,22 @@ async function generateAndWriteSchema(contents: string, filePath: string): Promi
   const fileContents = contents + "\n" + interfaceContent;
   const tempFilePath = createTempFilePath(filePath);
 
-  await fs.writeFileSync(tempFilePath, fileContents);
-  const config = {
-    path: tempFilePath,
-    tsconfig: process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION + "/tsconfig.json",
-    type: componentInterfaceName,
-  };
+  let schema: unknown;
+  fs.writeFileSync(tempFilePath, fileContents);
+  try {
+    const config = {
+      path: tempFilePath,
+      tsconfig:
+        process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION + "/tsconfig.json",
+      type: componentInterfaceName,
+    };
 
-  const schema = tsj.createGenerator(config).createSchema(config.type);
-  fs.unlinkSync(tempFilePath);
+    schema = tsj.createGenerator(config).createSchema(config.type);
+  } finally {
+    if (fs.existsSync(tempFilePath)) {
+      fs.unlinkSync(tempFilePath);
+    }
+  }
 
   const schemaString = JSON.stringify(schema, null, 2);
 
@@ -96,7 +109,7 @@ async function generateAndWriteSchema(contents: string, filePath: string): Promi
   const schemaFilePath = path.join(
     DOCUMENT_SCHEMAS_DIR,
     baseName,
-    `${baseName}.schema.json`
+    `${baseName}.schema.json`,
   );
 
   // Ensure the directory exists before writing
@@ -115,7 +128,7 @@ function createTempFilePath(filePath: string): string {
 
 const parseFileToProps = async (
   contents: string,
-  filePath: string
+  filePath: string,
 ): Promise<Documentation["props"] | undefined> => {
   const componentsInfo = parse(contents, {
     babelOptions: {

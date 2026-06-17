@@ -1,5 +1,6 @@
 import * as es from "esbuild";
 import fs from "node:fs";
+import path from "node:path";
 import { BuildFailure, type OutputFile } from "esbuild";
 
 import {
@@ -16,8 +17,35 @@ import postCssPlugin from "esbuild-style-plugin";
 import { RawSourceMap } from "source-map-js";
 import logger from "~/lib/logger";
 
+const tailwindConfigFiles = [
+  "tailwind.config.js",
+  "tailwind.config.cjs",
+  "tailwind.config.mjs",
+  "tailwind.config.ts",
+  "tailwind.config.cts",
+  "tailwind.config.mts",
+];
+
+const getUserProjectLocation = () =>
+  process.env.USER_PROJECT_LOCATION ??
+  process.env.NEXT_PUBLIC_USER_PROJECT_LOCATION ??
+  process.cwd();
+
+const getTailwindConfigPath = () => {
+  const userProjectLocation = getUserProjectLocation();
+
+  for (const fileName of tailwindConfigFiles) {
+    const configPath = path.join(userProjectLocation, fileName);
+    if (fs.existsSync(configPath)) {
+      return configPath;
+    }
+  }
+
+  return undefined;
+};
+
 export const getDocumentComponent = async (
-  documentPath: string
+  documentPath: string,
 ): Promise<
   | {
       documentComponent: any;
@@ -29,11 +57,20 @@ export const getDocumentComponent = async (
 > => {
   logger.debug(`[getDocumentComponent] Starting build for: ${documentPath}`);
   const startTime = performance.now();
-  
+
   let outputFiles: OutputFile[];
+  const originalCwd = process.cwd();
+  const userProjectLocation = getUserProjectLocation();
+  const tailwindConfigPath = getTailwindConfigPath();
+
   try {
-    logger.debug('Starting esbuild');
+    logger.debug("Starting esbuild");
     const buildStart = performance.now();
+
+    if (fs.existsSync(userProjectLocation)) {
+      process.chdir(userProjectLocation);
+    }
+
     const buildData = await es.build({
       entryPoints: [documentPath],
       platform: "node",
@@ -49,7 +86,12 @@ export const getDocumentComponent = async (
         htmldocsPlugin([documentPath], false),
         postCssPlugin({
           postcss: {
-            plugins: [require("tailwindcss"), require("autoprefixer")],
+            plugins: [
+              require("tailwindcss")(
+                tailwindConfigPath ? { config: tailwindConfigPath } : undefined,
+              ),
+              require("autoprefixer"),
+            ],
           },
         }),
       ],
@@ -62,13 +104,15 @@ export const getDocumentComponent = async (
       sourcemap: "external",
     });
     const buildTime = performance.now() - buildStart;
-    logger.debug('esbuild completed');
-    logger.debug(`[getDocumentComponent] Build completed in ${buildTime.toFixed(2)}ms`);
-    
+    logger.debug("esbuild completed");
+    logger.debug(
+      `[getDocumentComponent] Build completed in ${buildTime.toFixed(2)}ms`,
+    );
+
     outputFiles = buildData.outputFiles;
   } catch (exp) {
     const buildFailure = exp as BuildFailure;
-    logger.error('[getDocumentComponent] Build failed:', {
+    logger.error("[getDocumentComponent] Build failed:", {
       error: {
         message: buildFailure.message,
         stack: buildFailure.stack,
@@ -82,50 +126,61 @@ export const getDocumentComponent = async (
         stack: buildFailure.stack || new Error().stack,
         name: buildFailure.name,
         cause: buildFailure.cause,
-      }
+      },
     };
+  } finally {
+    if (process.cwd() !== originalCwd) {
+      process.chdir(originalCwd);
+    }
   }
 
   try {
-    logger.debug('Starting post-build processing');
+    logger.debug("Starting post-build processing");
     const postBuildStart = performance.now();
-    
-    logger.debug('Extracting files');
+
+    logger.debug("Extracting files");
     const { sourceMapFile, bundledDocumentFile, cssFile } =
       extractOutputFiles(outputFiles);
-    logger.debug('Files extracted');
-    
+    logger.debug("Files extracted");
+
     const builtDocumentCode = bundledDocumentFile.text;
     const documentCss = cssFile?.text;
-    
-    logger.debug('Creating context');
-    const fakeContext = createFakeContext(documentPath);
-    logger.debug('Context created');
-    
-    logger.debug('Configuring source map');
-    const sourceMapToDocument = configureSourceMap(sourceMapFile);
-    logger.debug('Source map configured');
 
-    logger.debug('Executing code');
+    logger.debug("Creating context");
+    const fakeContext = createFakeContext(documentPath);
+    logger.debug("Context created");
+
+    logger.debug("Configuring source map");
+    const sourceMapToDocument = configureSourceMap(sourceMapFile);
+    logger.debug("Source map configured");
+
+    logger.debug("Executing code");
     const executionResult = executeBuiltCode(
       builtDocumentCode,
       fakeContext,
       documentPath,
-      sourceMapToDocument
+      sourceMapToDocument,
     );
-    logger.debug('Code executed');
+    logger.debug("Code executed");
 
     const postBuildTime = performance.now() - postBuildStart;
-    logger.debug('Post-build completed');
-    logger.debug(`[getDocumentComponent] Post-build processing completed in ${postBuildTime.toFixed(2)}ms`);
+    logger.debug("Post-build completed");
+    logger.debug(
+      `[getDocumentComponent] Post-build processing completed in ${postBuildTime.toFixed(2)}ms`,
+    );
 
     if ("error" in executionResult) {
-      logger.error('[getDocumentComponent] Execution failed:', executionResult.error);
+      logger.error(
+        "[getDocumentComponent] Execution failed:",
+        executionResult.error,
+      );
       return { error: executionResult.error };
     }
 
     const totalTime = performance.now() - startTime;
-    logger.debug(`[getDocumentComponent] Total processing completed in ${totalTime.toFixed(2)}ms`);
+    logger.debug(
+      `[getDocumentComponent] Total processing completed in ${totalTime.toFixed(2)}ms`,
+    );
 
     return {
       documentComponent: executionResult.DocumentComponent,
@@ -134,7 +189,7 @@ export const getDocumentComponent = async (
       sourceMapToOriginalFile: sourceMapToDocument,
     };
   } catch (error) {
-    logger.error('[getDocumentComponent] Processing error:', error);
+    logger.error("[getDocumentComponent] Processing error:", error);
     return {
       error: {
         message: error.message,
@@ -158,7 +213,7 @@ export type DocumentRenderingResult =
     };
 
 export const renderDocumentByPath = async (
-  documentPath: string
+  documentPath: string,
 ): Promise<DocumentRenderingResult> => {
   const result = await getDocumentComponent(documentPath);
 
@@ -175,7 +230,10 @@ export const renderDocumentByPath = async (
   const previewProps = Document.PreviewProps || {};
   const DocumentComponent = Document as React.FC;
   try {
-    const markup = await renderAsync(<DocumentComponent {...previewProps} />);
+    const markup = await renderAsync(
+      <DocumentComponent {...previewProps} />,
+      result.documentCss,
+    );
 
     const reactMarkup = await fs.promises.readFile(documentPath, "utf-8");
 
@@ -190,7 +248,7 @@ export const renderDocumentByPath = async (
       error: improveErrorWithSourceMap(
         error,
         documentPath,
-        sourceMapToOriginalFile
+        sourceMapToOriginalFile,
       ),
     };
   }

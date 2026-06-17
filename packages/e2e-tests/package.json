@@ -14,8 +14,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.50.1",
-    "@types/node-fetch": "^2.6.12",
+    "@playwright/test": "^1.61.0",
+    "@types/node-fetch": "^2.6.13",
     "dotenv": "^16.4.7",
     "expect": "^29.7.0",
     "node-fetch": "^2.7.0"
