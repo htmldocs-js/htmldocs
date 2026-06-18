@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 
-const nextBuildProcess = spawn('next', ['build'], {
+const nextBuildProcess = spawn('next', ['build', '--webpack'], {
   detached: true,
   stdio: "inherit",
   env: { ...process.env }

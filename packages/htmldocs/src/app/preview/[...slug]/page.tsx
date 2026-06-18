@@ -15,13 +15,18 @@ export interface PreviewParams {
   slug: string[];
 }
 
+interface PreviewPageProps {
+  params: Promise<PreviewParams>;
+}
+
 // Force this to be server-side rendered and not statically generated
 export const dynamic = "force-dynamic";
 
-const Page = async ({ params }: { params: PreviewParams }) => {
+const Page = async ({ params }: PreviewPageProps) => {
+  const { slug: slugSegments } = await params;
   // will come in here as segments of a relative path to the document
   // ex: ['authentication', 'verify-password.tsx']
-  const slug = params.slug.join('/');
+  const slug = slugSegments.join('/');
   const documentsDirMetadata = await getDocumentsDirectoryMetadata(
     documentsDirectoryAbsolutePath,
   );
@@ -73,8 +78,9 @@ This is most likely not an issue with the preview server. Maybe there was a typo
   );
 };
 
-export function generateMetadata({ params }: { params: PreviewParams }) {
-  return { title: `${path.basename(params.slug.join('/'))} — htmldocs` };
+export async function generateMetadata({ params }: PreviewPageProps) {
+  const { slug } = await params;
+  return { title: `${path.basename(slug.join('/'))} — htmldocs` };
 }
 
 export default Page;
