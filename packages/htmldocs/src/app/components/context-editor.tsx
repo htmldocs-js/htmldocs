@@ -60,6 +60,8 @@ const ContextVariableInput: React.FC<ContextVariableInputProps> = ({
 }) => {
   const { documentContext, updateDocumentContext } = useDocumentContext();
   const [isOpen, setIsOpen] = React.useState(true);
+  const inputId = React.useId();
+  const isScalar = !['object', 'array'].includes(schema.type as string);
 
   const updateValue = (newValue: any) => {
     updateDocumentContext(path, newValue);
@@ -72,8 +74,9 @@ const ContextVariableInput: React.FC<ContextVariableInputProps> = ({
       case "string":
         return (
           <Input
+            id={inputId}
             type="text"
-            value={value || ""}
+            value={value ?? ""}
             onChange={(e) => updateValue(e.target.value)}
             className="h-8 w-full"
           />
@@ -82,8 +85,9 @@ const ContextVariableInput: React.FC<ContextVariableInputProps> = ({
       case "integer":
         return (
           <Input
+            id={inputId}
             type="number"
-            value={value || 0}
+            value={value ?? 0}
             onChange={(e) => updateValue(Number(e.target.value))}
             className="h-8 w-full"
           />
@@ -91,7 +95,8 @@ const ContextVariableInput: React.FC<ContextVariableInputProps> = ({
       case "boolean":
         return (
           <Switch
-            checked={value || false}
+            id={inputId}
+            checked={Boolean(value)}
             onCheckedChange={(checked) => updateValue(checked)}
           />
         );
@@ -227,7 +232,10 @@ const ContextVariableInput: React.FC<ContextVariableInputProps> = ({
                 </Button>
               </CollapsibleTrigger>
             )}
-            <Label className="text-sm font-medium">
+            <Label
+              htmlFor={isScalar ? inputId : undefined}
+              className="text-sm font-medium"
+            >
               {path.split('.').pop()}
               {isRequired && (
                 <sup>
